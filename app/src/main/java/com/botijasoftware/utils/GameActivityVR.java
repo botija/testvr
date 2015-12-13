@@ -22,7 +22,7 @@ public class GameActivityVR extends CardboardActivity{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
 		SharedPreferences mSharedPreferences = getPreferences(0);
-		mResourceManager = new ResourceManager( getApplicationContext() );
+		mResourceManager = new ResourceManager( this );
         
         mScreenManager = new ScreenManagerVR( this, mResourceManager, mSharedPreferences );
 

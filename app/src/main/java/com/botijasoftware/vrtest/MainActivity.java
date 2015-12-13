@@ -11,7 +11,7 @@ public class MainActivity extends GameActivityVR {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mScreenManager.addScreen(null);
+        mScreenManager.addScreen(new MainScreen(mScreenManager));
 
     }
 

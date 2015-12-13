@@ -445,6 +445,61 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 
 	@Override
 	public void onNewFrame(HeadTransform headTransform) {
+
+        if (mActivity.isFinishing())
+            return;
+
+        Time = SystemClock.uptimeMillis();
+        if (oldTime == 0L)
+            oldTime = Time;
+        Update((Time - oldTime) / 1000.0f); //Convert elapsed milliseconds to seconds
+
+        if (hasFinished()) {
+            //Thread.currentThread().destroy();
+            mActivity.finish();
+            return;
+            //this.finish();
+        }
+
+        oldTime = Time;
+
+        /*if (glNeedsReload) {
+            Clear(glContext);
+
+            mResourceManager.reloadAllTextures(glContext);
+            mResourceManager.reloadAllShaders(glContext);
+
+            int size = Screens.size();
+            for (int i = 0; i < size; i++) {
+                ScreenVR scr = Screens.get(i);
+                scr.reloadContent(glContext);
+            }
+
+            glNeedsReload = false;
+        }*/
+
+
+        long ms = SystemClock.uptimeMillis();
+        long t = lastUpdateTime + minFrameTime - ms;
+
+        if (t > 1) {
+            try {
+
+                Thread.sleep(t);
+                //wait(lastUpdateTime + minFrameTime - ms);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                //e.printStackTrace();
+            }
+        }
+
+        ms = SystemClock.uptimeMillis();
+        float tframe = (ms - lastUpdateTime)/1000.0f;
+        mFPS = 1.0f/tframe;
+
+        lastUpdateTime = ms;
+
+
         int size = Screens.size();
         for (int i = 0; i < size; i++) {
             ScreenVR scr = Screens.get(i);
@@ -481,7 +536,26 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 
 	@Override
 	public void onSurfaceCreated(EGLConfig eglConfig) {
-        int size = Screens.size();
+
+		glContext = null;
+		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+		GLES20.glDisable(GLES20.GL_DITHER);
+		GLES20.glEnable(GLES20.GL_CULL_FACE);
+
+		GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+		GLES20.glEnable(GLES20.GL_BLEND);
+		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
+		GLES20.glClearColor( 0.3921f, 0.5843f, 0.9294f, 1.0f ); //CornFlowerBlue
+
+		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+
+		lastUpdateTime = 0;
+
+		Time = SystemClock.uptimeMillis();
+		oldTime = 0L;
+
+		int size = Screens.size();
         for (int i = 0; i < size; i++) {
             ScreenVR scr = Screens.get(i);
             scr.onSurfaceCreated(eglConfig);
