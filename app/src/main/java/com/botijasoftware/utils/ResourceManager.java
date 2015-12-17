@@ -40,17 +40,17 @@ public class ResourceManager {
 		//mSoundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
 
         // API 21
-		//if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
 			AudioAttributes audioAttributesBuilder = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
 			SoundPool.Builder builder = new SoundPool.Builder();
 			builder.setMaxStreams(4);
 			builder.setAudioAttributes(audioAttributesBuilder);
 			mSoundPool = builder.build();
-		//}
-		//else {
-		//	mSoundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
-		//}
+		}
+		else {
+			mSoundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
+		}
 
 
 		mAudioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);

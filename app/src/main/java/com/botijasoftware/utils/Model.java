@@ -226,7 +226,7 @@ public class Model {
 		int size = mMesh.size();
 		for (int i = 0; i < size; i++) {
 			Mesh m = mMesh.get(i);
-			if (Objects.equals(m.mName, name)) {
+			if (m.mName.equals(name)) {
 				return m;
 			}
 		}
