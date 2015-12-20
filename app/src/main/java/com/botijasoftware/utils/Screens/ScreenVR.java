@@ -1,7 +1,6 @@
 package com.botijasoftware.utils.Screens;
 
 import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLES20;
 import android.view.KeyEvent;
@@ -56,7 +55,7 @@ public class ScreenVR {
 		}
 	}
 
-	public void onSurfaceChanged(GL10 gl, int width, int height) {
+	public void onSurfaceChanged(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
@@ -77,19 +76,19 @@ public class ScreenVR {
 		state = ScreenState.ENDED;
 	}
 	
-	public void Draw(GL10 gl) {
+	public void Draw() {
 		
 	}
 
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 	
 	}
 
-	public void reloadContent(GL10 gl) {
+	public void reloadContent() {
 		
 	}
 
-    public void freeContent(GL10 gl, ResourceManager resources) {
+    public void freeContent(ResourceManager resources) {
 
     }
 	
@@ -134,7 +133,7 @@ public class ScreenVR {
 		return alpha;
 	}
 	
-	public void Clear(GL10 gl) {
+	public void Clear() {
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 	}
 
@@ -204,9 +203,6 @@ public class ScreenVR {
 
 	}
 
-	public void onSurfaceChanged(int width, int height) {
-
-	}
 
 	public void onSurfaceCreated(EGLConfig eglConfig) {
 

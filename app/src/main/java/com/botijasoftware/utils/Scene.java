@@ -15,10 +15,6 @@ import com.botijasoftware.utils.materials.MaterialManager;
 import com.botijasoftware.utils.renderer.Renderer;
 
 
-import javax.microedition.khronos.opengles.GL10;
-
-
-
 public class Scene {
 
 	class Transform {
@@ -48,7 +44,7 @@ public class Scene {
 	private float[] matrix;
 
 	
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 		
         try {
 
@@ -95,7 +91,7 @@ public class Scene {
                         String file = entity.getAttribute("meshFile").trim();
                      
                         Model m = new Model(file);
-                        m.LoadContent(gl, resources);
+                        m.LoadContent(resources);
                         mModels.add(m);
                         Transform t = new Transform();
                         t.mPosition = new Vector3(x, y, z);
@@ -120,7 +116,7 @@ public class Scene {
 	}
 	
 	
-	public void Draw(GL10 gl) {
+	public void Draw() {
 		for (int i = 0; i < mModels.size(); i++) {
 			Transform t = mTransform.get(i);
             Renderer.pushModelViewMatrix();//  GLES20.glPushMatrix();
@@ -138,7 +134,7 @@ public class Scene {
             Renderer.modelview.scale(t.mScale.X, t.mScale.Y, t.mScale.Z);//GLES20.glScalef(t.mScale.X, t.mScale.Y, t.mScale.Z);
 			
 					
-			mModels.get(i).Draw(gl);
+			mModels.get(i).Draw();
 			Renderer.popModelViewMatrix();  //GLES20.glPopMatrix();
 		}
 	}

@@ -1,6 +1,5 @@
 package com.botijasoftware.utils;
 
-import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLES20;
 import android.util.Log;
 
@@ -15,7 +14,7 @@ public class RenderTargetFBO extends RenderTarget {
 		super(width, height);
 	}
 
-	public void init(GL10 gl) {
+	public void init() {
 
 
 		// Create a framebuffer
@@ -74,7 +73,7 @@ public class RenderTargetFBO extends RenderTarget {
 
 
         GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER,
-                GLES20.GL_COLOR_ATTACHMENT0, GL10.GL_TEXTURE_2D,
+                GLES20.GL_COLOR_ATTACHMENT0, GLES20.GL_TEXTURE_2D,
                 color_texture[0], 0);
 		
 
@@ -104,26 +103,26 @@ public class RenderTargetFBO extends RenderTarget {
 	}
 
 	@Override
-	public void setTarget(GL10 gl) {
+	public void setTarget() {
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER,
 				frame_buffer[0]);
 
 	}
 
 	@Override
-	public void clear(GL10 gl) {
+	public void clear() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void initRender(GL10 gl) {
+	public void initRender() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void endRender(GL10 gl) {
+	public void endRender() {
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
 
 	}

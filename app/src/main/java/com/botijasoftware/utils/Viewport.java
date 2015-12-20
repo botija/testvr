@@ -1,6 +1,5 @@
 package com.botijasoftware.utils;
 
-import javax.microedition.khronos.opengles.GL10;
 import com.botijasoftware.utils.renderer.Renderer;
 
 import android.opengl.GLES20;
@@ -15,7 +14,7 @@ public class Viewport {
 		height = h;
 	}
 	
-	public void enable(GL10 gl) {
+	public void enable() {
 		GLES20.glViewport(X, Y, width, height);
 		//GLES20.glLoadIdentity();
 		Renderer.modelview.loadIdentity();

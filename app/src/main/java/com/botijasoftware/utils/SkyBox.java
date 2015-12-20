@@ -86,7 +86,7 @@ public class SkyBox implements Renderable {
 
 	}
 
-	public void Draw(GL10 gl) {
+	public void Draw() {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexture.getID());
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
         GLES20.glDisable(GLES20.GL_CULL_FACE);
@@ -96,7 +96,7 @@ public class SkyBox implements Renderable {
 		Renderer.pushModelViewMatrix();		
 		Renderer.modelview.translate(position.X, position.Y, position.Z);
 		Renderer.loadModelViewMatrix();
-		mVertexBuffer.Draw(gl, mIndexBuffer);
+		mVertexBuffer.Draw(mIndexBuffer);
 		//GLES10.glPopMatrix();
 		Renderer.popModelViewMatrix();
 		Renderer.loadModelViewMatrix();
@@ -109,7 +109,7 @@ public class SkyBox implements Renderable {
 
 	}
 
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 
 	}
 
@@ -117,7 +117,7 @@ public class SkyBox implements Renderable {
 
 	public void scale(float x, float y) {}
 
-	public void freeContent(GL10 gl, ResourceManager resources) {
+	public void freeContent(ResourceManager resources) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,6 +1,5 @@
 package com.botijasoftware.utils.ui;
 
-import javax.microedition.khronos.opengles.GL10;
 import com.botijasoftware.utils.Rectanglef;
 import com.botijasoftware.utils.ResourceManager;
 import com.botijasoftware.utils.SpriteBatch;
@@ -39,25 +38,25 @@ public class Message {
 		}
 	}
 	
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 		sprite = new Sprite( mRectanglef, mTexture);
         spritebatch = new SpriteBatch(2);
 	}
 	
-	public void reloadContent(GL10 gl) {
+	public void reloadContent() {
 	}
 	
 	public void changeTexture(Texture texture) {
 		mTexture = texture;
 	}
 	
-	public void Draw(GL10 gl) {
+	public void Draw() {
 		
 		if (isVisible()) {
 			//GLES10.glColor4f(1.0f, 1.0f, 1.0f, alpha );
-            spritebatch.begin(gl);
-            spritebatch.DrawSprite(gl, sprite);
-            spritebatch.end(gl);
+            spritebatch.begin();
+            spritebatch.DrawSprite(sprite);
+            spritebatch.end();
 		}	
 	}
 	

@@ -1,6 +1,5 @@
 package com.botijasoftware.utils;
 
-import javax.microedition.khronos.opengles.GL10;
 
 public class Font {
 
@@ -13,8 +12,8 @@ public class Font {
 		atlas = null;
 	}
 	
-	public void LoadContent(GL10 gl, ResourceManager resources) {
-		font = resources.loadTexture( gl, fontTextureID );
+	public void LoadContent(ResourceManager resources) {
+		font = resources.loadTexture( fontTextureID );
 		atlas = new SimpleTextureAtlas( font, 16, 16, 256 );
 	}
 	

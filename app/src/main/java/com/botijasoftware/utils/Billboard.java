@@ -51,12 +51,12 @@ public class Billboard implements Renderable {
 		
 	}
 
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	public void freeContent(GL10 gl, ResourceManager resources) {
+	public void freeContent(ResourceManager resources) {
 		Renderer.vbManager.freeVB(mVertexBuffer);
 		Renderer.ibManager.freeIB(mIndexBuffer);
 	}
@@ -72,19 +72,19 @@ public class Billboard implements Renderable {
 	}
 
 
-	public void Draw(GL10 gl) {
+	public void Draw() {
 		
 		//GLES10.glPushMatrix();
 		Renderer.pushModelViewMatrix();
 		
 		Transform();
 		
-		GLES10.glBindTexture(GLES10.GL_TEXTURE_2D, mTexture.getID() );
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexture.getID() );
 		
 		Renderer.loadModelViewMatrix();
-		GLES10.glColor4f(1.0f, 1.0f, 1.0f, alpha);
-		mVertexBuffer.Draw(gl, mIndexBuffer);
-		GLES10.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		//GLES20.glColor4f(1.0f, 1.0f, 1.0f, alpha);
+		mVertexBuffer.Draw(mIndexBuffer);
+		//GLES20.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		Renderer.popModelViewMatrix();
 		Renderer.loadModelViewMatrix();
 		//GLES10.glPopMatrix();

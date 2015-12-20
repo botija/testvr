@@ -1,7 +1,5 @@
 package com.botijasoftware.utils.ui;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import com.botijasoftware.utils.Rectanglef;
 import com.botijasoftware.utils.ResourceManager;
 import com.botijasoftware.utils.SpriteBatch;
@@ -26,20 +24,20 @@ public class TickButton {
 	}
 	
 
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
         spritebatch = new SpriteBatch(2);
 	}
 	
-	public void Draw(GL10 gl) {		
+	public void Draw() {
 
-        spritebatch.begin(gl);
+        spritebatch.begin();
 		if (value) {
-            spritebatch.DrawSprite(gl, tickedSprite);
+            spritebatch.DrawSprite(tickedSprite);
 		}
 		else {
-            spritebatch.DrawSprite(gl, untickedSprite);
+            spritebatch.DrawSprite(untickedSprite);
 		}
-        spritebatch.end(gl);
+        spritebatch.end();
 	}
 	
 

@@ -1,6 +1,5 @@
 package com.botijasoftware.utils;
 
-import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLES20;
 import com.botijasoftware.utils.renderer.Renderer;
 
@@ -50,7 +49,7 @@ public class SpriteBatch implements Renderable {
 
 	}
 	
-	public void DrawSprite(GL10 gl, Sprite sprite) {
+	public void DrawSprite(Sprite sprite) {
 		Texture t = sprite.mTexture;
 
         if (mTexture == null) {
@@ -61,19 +60,19 @@ public class SpriteBatch implements Renderable {
 		if (mTexture.mID == t.mID) {
 			putSpriteOnVB(sprite);
 			if (count >= maxsprites) {
-				drawVB(gl);
+				drawVB();
 				count = 0;
 			}
 		}
 		else { //diferent texture --> draw vb, and push new sprite to empty vb
-			drawVB(gl);
+			drawVB();
 			count = 0;
             mTexture = t;
 			putSpriteOnVB(sprite);
 		}
 	}
 
-    public void DrawSprite(GL10 gl, Sprite sprite, ColorRGBAb color) {
+    public void DrawSprite(Sprite sprite, ColorRGBAb color) {
         Texture t = sprite.mTexture;
 
         if (mTexture == null) {
@@ -84,12 +83,12 @@ public class SpriteBatch implements Renderable {
         if (mTexture.mID == t.mID) {
             putSpriteOnVB(sprite, color);
             if (count >= maxsprites) {
-                drawVB(gl);
+                drawVB();
                 count = 0;
             }
         }
         else { //diferent texture --> draw vb, and push new sprite to empty vb
-            drawVB(gl);
+            drawVB();
             count = 0;
             mTexture = t;
             putSpriteOnVB(sprite, color);
@@ -171,7 +170,7 @@ public class SpriteBatch implements Renderable {
         count++;
 	}
 	
-	private void drawVB(GL10 gl) {
+	private void drawVB() {
 		//GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexture.getID() );
         //Renderer.BindTexture(Renderer.TEXTURE0, mTexture.getID());
         Renderer.BindTexture(Renderer.TEXTURE0, mTexture.getID());
@@ -181,7 +180,7 @@ public class SpriteBatch implements Renderable {
 		
 		Renderer.loadModelViewMatrix();
 		mIndexBuffer.setSize(count*6); // two triangles per sprite
-		mVertexBuffer.Draw(gl, mIndexBuffer);
+		mVertexBuffer.Draw(mIndexBuffer);
 
 		Renderer.popModelViewMatrix();
 		//Renderer.modelview.loadMatrix();
@@ -198,23 +197,23 @@ public class SpriteBatch implements Renderable {
     }
 
     @Override
-    public void LoadContent(GL10 gl, ResourceManager resources) {
+    public void LoadContent(ResourceManager resources) {
 
     }
 
-    public void Draw(GL10 gl) {
+    public void Draw() {
 
         if (count > 0) {
-            drawVB(gl);
+            drawVB();
 
         }
 		
 	}
 	
-	public void end(GL10 gl) {
+	public void end() {
 
         if (count > 0) {
-            drawVB(gl);
+            drawVB();
             count = 0;
             mTexture = null;
         }
@@ -222,7 +221,7 @@ public class SpriteBatch implements Renderable {
 		//clean vb
 	}
 	
-	public void begin(GL10 gl) {
+	public void begin() {
         count = 0;
         mTexture = null;
 
@@ -234,15 +233,15 @@ public class SpriteBatch implements Renderable {
 	}
 
 
-    public void flush(GL10 gl) {
+    public void flush() {
         if (count > 0) {
-            drawVB(gl);
+            drawVB();
             count = 0;
             mTexture = null;
         }
     }
 
-    public void freeContent(GL10 gl, ResourceManager resources) {
+    public void freeContent(ResourceManager resources) {
         Renderer.vbManager.freeVB(mVertexBuffer);
         Renderer.ibManager.freeIB(mIndexBuffer);
     }
@@ -252,11 +251,11 @@ public class SpriteBatch implements Renderable {
     public void scale(float x, float y) {}
 
 
-    public void DrawText(GL10 gl, Font font, String text, float x, float y) {
-        DrawText(gl, font, text, x, y, null);
+    public void DrawText(Font font, String text, float x, float y) {
+        DrawText(font, text, x, y, null);
     }
 
-    public void DrawText(GL10 gl, Font font, String text, float x, float y, ColorRGBAb color) {
+    public void DrawText(Font font, String text, float x, float y, ColorRGBAb color) {
         float fontsize = (float) font.getFontSize();
         float fontsizesep = fontsize * 3/7;
 
@@ -276,14 +275,14 @@ public class SpriteBatch implements Renderable {
         else
             tmpSprite.setColor(ColorRGBAb.WHITE);
 
-        int ascii = 0;
+        int ascii;
 
         for (int i = 0; i< textLen; i++) {
 
             ascii = text.codePointAt(i);
             tmpSprite.setTexture(font.getTexture(ascii));
             tmpSprite.getRectangle().setPosition(x+ i*fontsizesep , y);
-            DrawSprite(gl, tmpSprite);
+            DrawSprite(tmpSprite);
 
         }
     }

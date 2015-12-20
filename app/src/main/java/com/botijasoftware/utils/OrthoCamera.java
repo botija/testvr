@@ -2,8 +2,6 @@ package com.botijasoftware.utils;
 
 import java.util.ArrayList;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import com.botijasoftware.utils.renderer.Renderer;
 
 public class OrthoCamera {
@@ -65,7 +63,7 @@ public class OrthoCamera {
 		mTarget = null;
 	}
 	
-	public void Set(GL10 gl) {
+	public void Set() {
 		//GLES10.glPushMatrix();
 		//GLES10.glLoadIdentity();
 		//GLES10.glScalef(mZoom, mZoom, 0.0f);
@@ -77,7 +75,7 @@ public class OrthoCamera {
         Renderer.modelview.translate(-mViewRect.X-mLookAt.X+mHalfWidth, -mViewRect.Y-mLookAt.Y+mHalfHeight, 0.0f);
     }
 	
-	public void UnSet(GL10 gl) {
+	public void UnSet() {
 
         Renderer.popModelViewMatrix();
         //GLES10.glPopMatrix();

@@ -1,11 +1,6 @@
 package com.botijasoftware.utils;
 
-import javax.microedition.khronos.opengles.GL10;
-
-
 import android.opengl.GLES20;
-
-import com.botijasoftware.utils.ResourceManager;
 import com.botijasoftware.utils.materials.Material;
 
 public class Mesh {
@@ -17,11 +12,11 @@ public class Mesh {
 		mTexture = texture;
 	}
 
-	public void LoadContent(GL10 gl, ResourceManager resources) {}
+	public void LoadContent(ResourceManager resources) {}
 
-	public void Draw(GL10 gl) {
+	public void Draw() {
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexture.getID());
-		mVertexBuffer.Draw(gl, mIndexBuffer);
+		mVertexBuffer.Draw(mIndexBuffer);
 	}
 	
 		

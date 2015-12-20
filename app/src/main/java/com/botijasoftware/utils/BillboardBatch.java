@@ -5,8 +5,6 @@ import android.opengl.GLES20;
 
 import com.botijasoftware.utils.renderer.Renderer;
 
-import javax.microedition.khronos.opengles.GL10;
-
 public class BillboardBatch {
 
     protected VertexBuffer mVertexBuffer;
@@ -46,7 +44,7 @@ public class BillboardBatch {
     }
 
 
-    private void drawVB(GL10 gl) {
+    private void drawVB() {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexture.getID() );
 
         Renderer.pushModelViewMatrix();
@@ -54,7 +52,7 @@ public class BillboardBatch {
 
         //Renderer.loadModelViewMatrix();
         mIndexBuffer.setSize(count*6); // two triangles per sprite
-        mVertexBuffer.Draw(gl, mIndexBuffer);
+        mVertexBuffer.Draw( mIndexBuffer);
 
         Renderer.popModelViewMatrix();
         //Renderer.modelview.loadMatrix();
@@ -72,15 +70,15 @@ public class BillboardBatch {
 
     }
 
-    public void Draw(GL10 gl) {
+    public void Draw() {
 
 
     }
 
-    public void end(GL10 gl) {
+    public void end() {
 
         if (count > 0) {
-            drawVB(gl);
+            drawVB();
             count = 0;
             mTexture = null;
         }
@@ -88,7 +86,7 @@ public class BillboardBatch {
         //clean vb
     }
 
-    public void begin(GL10 gl) {
+    public void begin() {
         count = 0;
         mTexture = null;
         //enable sprite shader

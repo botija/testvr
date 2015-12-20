@@ -1,14 +1,12 @@
 package com.botijasoftware.utils;
 
-import javax.microedition.khronos.opengles.GL10;
-
 public class Atlas {
 
 	public Atlas(Texture texture) {
 		mTexture = texture;
 	}
 	
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 	}
 	
 	public int getTextureID() {

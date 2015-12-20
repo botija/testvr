@@ -1,6 +1,6 @@
 package com.botijasoftware.utils.materials;
 
-public abstract interface PassCondition {
+public interface PassCondition {
 
-	abstract public boolean check(Material material);
+	boolean check(Material material);
 }

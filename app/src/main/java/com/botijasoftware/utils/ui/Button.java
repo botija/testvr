@@ -19,16 +19,16 @@ public class Button {
 	
 	
 	
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
         spritebatch = new SpriteBatch(2);
 	}
 	
-	public void Draw(GL10 gl) {
+	public void Draw() {
 		
 		if (mVisible) {
-            spritebatch.begin(gl);
-			spritebatch.DrawSprite(gl, mSprite);
-            spritebatch.end(gl);
+            spritebatch.begin();
+			spritebatch.DrawSprite(mSprite);
+            spritebatch.end();
         }
 	}
 	

@@ -38,18 +38,18 @@ public class Layout {
 	}
 	
 	public float getHorizontal(float percent) {
-		return (float) (percent * wratio);
+		return percent * wratio;
 	}
 	
 	public float getHorizontal(float percent, float minimum) {
-		float weq = (float) (percent * wratio);
+		float weq = percent * wratio;
 		if (weq < minimum)
 			weq = minimum;
 		return weq;
 	}
 	
 	public float getHorizontal(float percent, float minimum, float maximum) {
-		float weq = (float) (percent * wratio);
+		float weq = percent * wratio;
 		if (weq < minimum)
 			weq = minimum;
 		if (weq > maximum)
@@ -79,18 +79,18 @@ public class Layout {
 	}
 	
 	public float getVertical(float percent) {
-		return (float) (percent * hratio);
+		return percent * hratio;
 	}
 	
 	public float getVertical(float percent, float minimum) {
-		float heq = (float) (percent * hratio);
+		float heq = percent * hratio;
 		if (heq < minimum)
 			heq = minimum;
 		return heq;
 	}
 	
 	public float getVertical(float percent, float minimum, float maximum) {
-		float heq = (float) (percent * hratio);
+		float heq = percent * hratio;
 		if (heq < minimum)
 			heq = minimum;
 		if (heq > maximum)

@@ -31,7 +31,7 @@ public class Ribbon implements Renderable {
 
 	}
 
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 		VertexBufferDeclaration vbd = new VertexBufferDeclaration();
 		vbd.add(new VertexBufferDefinition(VertexBufferDefinition.FLOAT,
 				VertexBufferDefinition.DEF_VERTEX, 3,
@@ -79,7 +79,7 @@ public class Ribbon implements Renderable {
 		
 	}
 	
-	public void freeContent(GL10 gl, ResourceManager resources) {
+	public void freeContent(ResourceManager resources) {
 		Renderer.vbManager.freeVB(mVertexBuffer);
 		Renderer.ibManager.freeIB(mIndexBuffer);
 	}
@@ -110,10 +110,10 @@ public class Ribbon implements Renderable {
 
 	}
 
-	public void Draw(GL10 gl) {
+	public void Draw() {
 
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.getID());
-		mVertexBuffer.Draw(gl, mIndexBuffer);
+		mVertexBuffer.Draw(mIndexBuffer);
 
 	}
 	

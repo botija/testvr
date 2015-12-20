@@ -1,6 +1,5 @@
 package com.botijasoftware.utils;
 
-import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLU;
 import com.botijasoftware.utils.collision.Ray;
 import com.botijasoftware.utils.interpolator.*;
@@ -68,7 +67,7 @@ public class Camera {
 		this.mUp = up;
 	}
 
-	public void setOrtho(GL10 gl, int width, int height) {
+	public void setOrtho(int width, int height) {
 		// GLES10.glOrthof(left, right, bottom, top, zNear, zFar)
 		// GLU.gluOrtho2D(gl, 0, width, 0, height);
         // [ 0 4 8 12 ]
@@ -100,17 +99,17 @@ public class Camera {
 	
 
 
-	public void set(GL10 gl) {
+	public void set() {
 		// GLES10.glMatrixMode(GLES10.GL_MODELVIEW);
 		// GLU.gluLookAt(gl, mEye.X, mEye.Y, mEye.Z, mLookAt.X, mLookAt.Y,
 		// mLookAt.Z, mUp.X, mUp.Y, mUp.Z);
 		Renderer.modelview.setLookAt(mEye.X, mEye.Y, mEye.Z, mLookAt.X,
 				mLookAt.Y, mLookAt.Z, mUp.X, mUp.Y, mUp.Z);
 		// MaterialRenderer.loadModelViewMatrix();
-		getMatrixFromStack(gl);
+		getMatrixFromStack();
 	}
 
-	private void getMatrixFromStack(GL10 gl) {
+	private void getMatrixFromStack() {
 		// GLES11.glGetFloatv(GLES11.GL_MODELVIEW_MATRIX, mvMatrix, 0);
 		// GLES11.glGetFloatv(GLES11.GL_PROJECTION_MATRIX, pMatrix, 0);
 		// GLES11.glGetIntegerv(GLES11.GL_VIEWPORT, viewport, 0);
@@ -119,7 +118,7 @@ public class Camera {
 		mViewport.getAsArray(viewport);
 	}
 
-	public Vector3 unproject(GL10 gl, float x, float y, float z) {
+	public Vector3 unproject(float x, float y, float z) {
 
 		GLU.gluUnProject(x, y, 0, mvMatrix.matrix, 0, pMatrix.matrix, 0,
 				viewport, 0, znear, 0);
@@ -146,7 +145,7 @@ public class Camera {
 		return new Vector3(x, y, z);
 	}
 
-	public Ray getUnprojectRay(GL10 gl, float x, float y) {
+	public Ray getUnprojectRay(float x, float y) {
 
 		GLU.gluUnProject(x, y, 0, mvMatrix.matrix, 0, pMatrix.matrix, 0,
 				viewport, 0, znear, 0);

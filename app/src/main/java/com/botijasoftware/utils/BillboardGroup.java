@@ -3,8 +3,6 @@ package com.botijasoftware.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import javax.microedition.khronos.opengles.GL10;
 import com.botijasoftware.utils.renderer.Renderer;
 import android.opengl.GLES20;
 
@@ -29,12 +27,12 @@ public class BillboardGroup implements Renderable {
 			sort(camera.getEye());
 	}
 
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	public void freeContent(GL10 gl, ResourceManager resources) {
+	public void freeContent(ResourceManager resources) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -50,14 +48,14 @@ public class BillboardGroup implements Renderable {
 	}
 
 
-	public void Draw(GL10 gl) {
+	public void Draw() {
 		
-		int textureid = -1;
+		int textureid;
 		int size = billboards.size();
 		if (size > 0) {
 			Billboard b = billboards.get(0); 
 			textureid = b.mTexture.getID();
-			b.mVertexBuffer.enableState(gl);
+			b.mVertexBuffer.enableState();
 			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureid );
 		}
 		else
@@ -76,13 +74,13 @@ public class BillboardGroup implements Renderable {
 			b.Transform();
 		
 			Renderer.loadModelViewMatrix();
-			b.mVertexBuffer.fastDraw(gl, b.mIndexBuffer);
+			b.mVertexBuffer.fastDraw(b.mIndexBuffer);
 			//GLES20.glPopMatrix();
 			Renderer.popModelViewMatrix();
 			Renderer.loadModelViewMatrix();
 		}
 		if (size > 0)
-			billboards.get(0).mVertexBuffer.disableState(gl);
+			billboards.get(0).mVertexBuffer.disableState();
 		
 	}
 	

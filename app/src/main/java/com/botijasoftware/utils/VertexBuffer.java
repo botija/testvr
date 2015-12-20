@@ -55,11 +55,11 @@ public class VertexBuffer {
 		Draw(gl, 0);
 	}*/
 	
-	public void Draw(GL10 gl, IndexBuffer ib) {
+	public void Draw(IndexBuffer ib) {
 		
-		enableState(gl);
-		fastDraw(gl, ib);
-		disableState(gl);		
+		enableState();
+		fastDraw(ib);
+		disableState();
 		
 	}
 	
@@ -67,7 +67,7 @@ public class VertexBuffer {
 		fastDraw(gl, 0);
 	}*/
 	
-	public void fastDraw(GL10 gl, IndexBuffer ib) {
+	public void fastDraw(IndexBuffer ib) {
 		
 		if (useVBO) {
 		 
@@ -106,7 +106,7 @@ public class VertexBuffer {
 			
 	}
 
-	public void enableState(GL10 gl) {
+	public void enableState() {
 		
 		for (int i=0;i<declaration.getCount();i++) {
             VertexBufferDefinition vbd = declaration.getDefinition(i);
@@ -114,7 +114,7 @@ public class VertexBuffer {
 		}
 	}
 	
-	public void disableState(GL10 gl) {
+	public void disableState() {
 
 		for (int i=0;i<declaration.getCount();i++) {
             VertexBufferDefinition vbd = declaration.getDefinition(i);
@@ -122,7 +122,7 @@ public class VertexBuffer {
         }
 	}
 	
-	public void makeVBO(GL10 gl) {
+	public void makeVBO() {
 				
 		int count = declaration.getCount();
         int[] idbuffer = new int[count];
@@ -146,7 +146,7 @@ public class VertexBuffer {
 	}
 	
 	
-	public void free(GL10 gl) {
+	public void free() {
 		
 		//TODO: free FloatBuffers if possible
 		
@@ -164,9 +164,9 @@ public class VertexBuffer {
 	}
 
 
-    public void reload(GL10 gl) {
+    public void reload() {
         if (useVBO) {
-            makeVBO(gl);
+            makeVBO();
         }
     }
 	

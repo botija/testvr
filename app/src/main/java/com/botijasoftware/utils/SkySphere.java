@@ -447,7 +447,7 @@ public class SkySphere implements Renderable {
 		mTexture = texture;
 	}
 
-	public void Draw(GL10 gl) {
+	public void Draw() {
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexture.getID());
 		GLES20.glDisable(GLES20.GL_DEPTH_TEST);
 		//GLES20.glDisable(GLES20.GL_CULL_FACE);
@@ -460,7 +460,7 @@ public class SkySphere implements Renderable {
 		Renderer.modelview.scale(scale, scale, scale);
 		Renderer.loadModelViewMatrix();
 		
-		mVertexBuffer.Draw(gl, mIndexBuffer);
+		mVertexBuffer.Draw(mIndexBuffer);
 		//GLES20.glPopMatrix();
 		Renderer.popModelViewMatrix();
 		Renderer.loadModelViewMatrix();
@@ -473,11 +473,11 @@ public class SkySphere implements Renderable {
 
 	}
 
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 
 	}
 	
-	public void freeContent(GL10 gl, ResourceManager resources) {
+	public void freeContent(ResourceManager resources) {
 		// TODO Auto-generated method stub
 		
 	}

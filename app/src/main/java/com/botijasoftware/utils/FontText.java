@@ -1,7 +1,5 @@
 package com.botijasoftware.utils;
 
-import javax.microedition.khronos.opengles.GL10;
-
 public class FontText {
 
     private int textLen;
@@ -23,7 +21,7 @@ public class FontText {
 
 	}
 	
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 	
 		float x = 0.0f;
 		float y = 0.0f;
@@ -34,19 +32,19 @@ public class FontText {
         tmpSprite = new Sprite(new Rectanglef(0,0,fontsize,fontsize), mFont.getTexture());
 	}
 
-    public void Draw(GL10 gl, float x, float y, String text) {
-        Draw(gl, x, y, text, null);
+    public void Draw(float x, float y, String text) {
+        Draw(x, y, text, null);
     }
 
 	
-	public void Draw(GL10 gl, float x, float y, String text, ColorRGBAb color) {
+	public void Draw(float x, float y, String text, ColorRGBAb color) {
 
-		spritebatch.begin(gl);
+		spritebatch.begin();
 
 
         textLen = text.length();
 
-        spritebatch.begin(gl);
+        spritebatch.begin();
 
         if (textLen > MAX_CHARS)
             textLen = MAX_CHARS;
@@ -61,10 +59,10 @@ public class FontText {
             ascii = text.codePointAt(i);
             tmpSprite.setTexture(mFont.getTexture(ascii));
             tmpSprite.getRectangle().setPosition(x+ i*fontsizesep , y);
-            spritebatch.DrawSprite(gl, tmpSprite);
+            spritebatch.DrawSprite(tmpSprite);
 
         }
-        spritebatch.end(gl);
+        spritebatch.end();
 
 	}
 

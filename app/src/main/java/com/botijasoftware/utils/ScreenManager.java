@@ -30,7 +30,6 @@ public class ScreenManager extends GLSurfaceView implements GLSurfaceView.Render
 	public static SoundSystem mSoundSystem;
 	protected Layout mLayout;
 	public GlobalOptions mGlobalOptions;
-	protected GL10 glContext = null;
 	public int mWidth;
 	public int mHeight;
 	protected boolean isRunning = false;
@@ -79,9 +78,8 @@ public class ScreenManager extends GLSurfaceView implements GLSurfaceView.Render
 	}
 	
 
-	public void onSurfaceCreated(GL10 gl, EGLConfig config) 
+	public void onSurfaceCreated(GL10 gl, EGLConfig config)
 	{
-		glContext = gl;
 		//GLES20.glHint(GLES20.GL_PERSPECTIVE_CORRECTION_HINT, GLES20.GL_FASTEST);
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 		GLES20.glDisable(GLES20.GL_DITHER);
@@ -108,7 +106,6 @@ public class ScreenManager extends GLSurfaceView implements GLSurfaceView.Render
 
 	public void onSurfaceChanged(GL10 gl, int width, int height)
 	{
-		glContext = gl;
 		setSize(width, height);
 		GLES20.glViewport(0, 0, width, height);
 		//GLES20.glMatrixMode(GLES20.GL_PROJECTION);
@@ -124,7 +121,7 @@ public class ScreenManager extends GLSurfaceView implements GLSurfaceView.Render
 		int size = Screens.size();
 		for (int i = 0; i < size; i++) {
 			Screen scr = Screens.get(i);
-			scr.onSurfaceChanged(gl, width, height);
+			scr.onSurfaceChanged(width, height);
 		}
 		
 		if (!isRunning) {
@@ -156,15 +153,14 @@ public class ScreenManager extends GLSurfaceView implements GLSurfaceView.Render
 		oldTime = Time;
 		
 		if (glNeedsReload) {
-			Clear(gl);
-			glContext = gl;
-			mResourceManager.reloadAllTextures(glContext);
-            mResourceManager.reloadAllShaders(gl);
+			Clear();
+			mResourceManager.reloadAllTextures();
+            mResourceManager.reloadAllShaders();
 			
 			int size = Screens.size();
 			for (int i = 0; i < size; i++) {
 				Screen scr = Screens.get(i);
-				scr.reloadContent(gl);
+				scr.reloadContent();
 			}
 			
 			glNeedsReload = false;
@@ -190,16 +186,16 @@ public class ScreenManager extends GLSurfaceView implements GLSurfaceView.Render
 			mFPS = 1.0f/tframe;
 			
 			lastUpdateTime = ms;
-			Clear(gl);
+			Clear();
 
             if (main != null) {
-                main.Draw(gl);
+                main.Draw();
             }
             else {
                 int size = Screens.size() - 1;
                 for (int i = size; i >= 0; i--) {
                     Screen scr = Screens.get(i);
-                    scr.Draw(gl);
+                    scr.Draw();
                 }
             }
 		
@@ -236,7 +232,7 @@ public class ScreenManager extends GLSurfaceView implements GLSurfaceView.Render
 			scr.onDestroy();
 		}
 
-		mResourceManager.unloadAllContent(glContext);
+		mResourceManager.unloadAllContent();
 		oldTime = 0L;
 	}
 	
@@ -258,19 +254,19 @@ public class ScreenManager extends GLSurfaceView implements GLSurfaceView.Render
 	}
 	
 	public void addScreenOnTop(Screen newScreen) {
-		newScreen.LoadContent(glContext, mResourceManager);
+		newScreen.LoadContent(mResourceManager);
 		Screens.add(0,newScreen);
 		//System.gc();
 	}
 
 	public void addScreen(Screen newScreen) {
-		newScreen.LoadContent(glContext, mResourceManager);
+		newScreen.LoadContent(mResourceManager);
 		Screens.add(newScreen);
 		//System.gc();
 	}
 
 	public void removeScreen(Screen screen) {
-		screen.freeContent(glContext, mResourceManager);
+		screen.freeContent(mResourceManager);
 		Screens.remove(screen);
 		System.gc();
 	}
@@ -321,7 +317,7 @@ public class ScreenManager extends GLSurfaceView implements GLSurfaceView.Render
 				
 	}
 	
-	public void Clear(GL10 gl) {
+	public void Clear() {
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 		//GLES20.glMatrixMode(GLES20.GL_MODELVIEW);
 		//GLES20.glPushMatrix();

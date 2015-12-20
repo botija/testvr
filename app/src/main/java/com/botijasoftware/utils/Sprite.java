@@ -72,10 +72,10 @@ public class Sprite {
 	
 	public void setRectangle(Rectanglef rectangle) {
 	
-		mRectangle = rectangle;
-		
-		float w = mRectangle.width * mScale.X;
-		float h = mRectangle.height * mScale.Y;
+		mRectangle.X = rectangle.X;
+		mRectangle.Y = rectangle.Y;
+		mRectangle.width = rectangle.width * mScale.X;
+		mRectangle.height = rectangle.height * mScale.Y;
 
 	}
 	

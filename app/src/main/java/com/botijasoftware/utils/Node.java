@@ -3,7 +3,6 @@ package com.botijasoftware.utils;
 
 import java.util.ArrayList;
 
-import javax.microedition.khronos.opengles.GL10;
 
 public class Node implements Renderable{
 
@@ -17,19 +16,19 @@ public class Node implements Renderable{
     }
 
     @Override
-    public void LoadContent(GL10 gl, ResourceManager resources) {
+    public void LoadContent(ResourceManager resources) {
 
     }
 
     @Override
-    public void Draw(GL10 gl) {
+    public void Draw() {
 
     }
 
     @Override
-    public void freeContent(GL10 gl, ResourceManager resources) {
+    public void freeContent(ResourceManager resources) {
         for (int i =0; i< children.size(); i++) {
-            children.get(i).freeContent(gl, resources);
+            children.get(i).freeContent(resources);
         }
     }
 

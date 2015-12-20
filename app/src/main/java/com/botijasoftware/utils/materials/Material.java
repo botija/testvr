@@ -1,9 +1,6 @@
 package com.botijasoftware.utils.materials;
 
 import java.util.ArrayList;
-
-import javax.microedition.khronos.opengles.GL10;
-
 import com.botijasoftware.utils.ColorRGB;
 import com.botijasoftware.utils.ColorRGBA;
 import com.botijasoftware.utils.ResourceManager;
@@ -80,9 +77,9 @@ public class Material {
 		mEmissionColor = new ColorRGB(1,1,1);
 	}
 	
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 		for (int i = 0; i< mPass.size();i++)
-			mPass.get(i).LoadContent(gl, resources);
+			mPass.get(i).LoadContent(resources);
 		
 		loaded = true;
 	}
@@ -116,7 +113,7 @@ public class Material {
 	}
 	
 	
-	public void set(GL10 gl) {
+	public void set() {
 		
 		if ((mask & MAT_FLAT) != 0 ) GLES10.glShadeModel(GLES10.GL_FLAT);
 		if ((mask & MAT_TWOSIDED) != 0 ) GLES10.glDisable(GLES10.GL_CULL_FACE);
@@ -160,7 +157,7 @@ public class Material {
 		
 	}
 	
-	public void unSet(GL10 gl) {
+	public void unSet() {
 		
 		if ((mask & MAT_FLAT) != 0 ) GLES10.glShadeModel(GLES10.GL_SMOOTH);
 		if ((mask & MAT_TWOSIDED) != 0 )GLES10.glEnable(GLES10.GL_CULL_FACE);

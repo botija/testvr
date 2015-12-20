@@ -120,7 +120,7 @@ public class Renderer {
 		}*/
 	}
 	
-	public static void render(GL10 gl) {
+	public static void render() {
 		int size = solid.size();
 		
 		pushModelViewMatrix();
@@ -132,7 +132,7 @@ public class Renderer {
 				for (int ii=0; ii < items.size(); i++) {
 					RenderItem ri = items.get(ii);
 					mvpmatrix.save(ri.mvmatrix);
-					MaterialRenderer.renderVertexBuffer(gl, ri.material, ri.vb, ri.ib);		
+					MaterialRenderer.renderVertexBuffer(ri.material, ri.vb, ri.ib);
 				}
 			}
 			

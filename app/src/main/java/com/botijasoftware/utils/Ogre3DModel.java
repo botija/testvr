@@ -4,11 +4,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Objects;
 
-import com.botijasoftware.utils.Mesh;
-import javax.microedition.khronos.opengles.GL10;
-import com.botijasoftware.utils.ResourceManager;
 import com.botijasoftware.utils.animation.Skeleton;
 import com.botijasoftware.utils.materials.Material;
 
@@ -117,9 +113,9 @@ public class Ogre3DModel {
 		mAlpha = alpha;
 	}
 
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 
-		if (mModelID == 0 && !Objects.equals(mName, "")) {
+		if (mModelID == 0 && !mName.equals("")) {
 			String packageName = resources.getContext().getApplicationContext()
 					.getPackageName();
 
@@ -128,7 +124,7 @@ public class Ogre3DModel {
 		}
 
 		if (mModelID != 0)
-			readRAW(gl, resources, mModelID);
+			readRAW(resources, mModelID);
 	}
 
 	private String readString(DataInputStream dis) throws IOException {
@@ -381,7 +377,7 @@ public class Ogre3DModel {
 		return chunkid;
 	}
 
-	private boolean readRAW(GL10 gl, ResourceManager resources, int fileid) {
+	private boolean readRAW(ResourceManager resources, int fileid) {
 
 		try {
 
@@ -406,7 +402,7 @@ public class Ogre3DModel {
 		return true;
 	}
 
-	public void Draw(GL10 gl) {
+	public void Draw() {
 
 		/*int size = mMesh.size();
 		for (int i = 0; i < size; i++) {
@@ -427,7 +423,7 @@ public class Ogre3DModel {
 		return null;
 	}
 
-	public void unload(GL10 gl) {
+	public void unload() {
 		/*for (int i = 0; i < mMesh.size(); i++) {
 			mMesh.get(i).mVertexBuffer.free(gl);
 		}*/

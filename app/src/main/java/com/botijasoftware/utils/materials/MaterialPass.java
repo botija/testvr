@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLES10;
+import android.opengl.GLES20;
 
 import com.botijasoftware.utils.ColorRGB;
 import com.botijasoftware.utils.ResourceManager;
@@ -36,8 +37,8 @@ public class MaterialPass {
 	
 	public int srcblend, dstblend;
 	
-	public void LoadContent(GL10 gl, ResourceManager resources) {
-		mTexture = resources.loadTexture(gl, textureid, textureoptions);
+	public void LoadContent(ResourceManager resources) {
+		mTexture = resources.loadTexture(textureid, textureoptions);
 	}
 
 	public MaterialPass(Material material, int textureid) {
@@ -55,12 +56,12 @@ public class MaterialPass {
 	public void setBlendMode(int mode) {
 		mBlendMode = mode;
 		switch (mode) {
-		case BLEND_NONE:srcblend = GLES10.GL_ZERO; dstblend = GLES10.GL_ONE; break;
-		case BLEND_ADD:srcblend = GLES10.GL_ONE; dstblend = GLES10.GL_ONE; break;
-		case BLEND_BLEND:srcblend = GLES10.GL_SRC_ALPHA; dstblend = GLES10.GL_ONE_MINUS_SRC_ALPHA; break;
-		case BLEND_MODULATE:srcblend = GLES10.GL_DST_COLOR; dstblend = GLES10.GL_ZERO; break;
-		case BLEND_FILTER:srcblend = GLES10.GL_DST_COLOR; dstblend = GLES10.GL_ZERO; break;
-		default:srcblend = GLES10.GL_ONE; dstblend = GLES10.GL_ONE; break;
+		case BLEND_NONE:srcblend = GLES20.GL_ZERO; dstblend = GLES20.GL_ONE; break;
+		case BLEND_ADD:srcblend = GLES20.GL_ONE; dstblend = GLES20.GL_ONE; break;
+		case BLEND_BLEND:srcblend = GLES20.GL_SRC_ALPHA; dstblend = GLES20.GL_ONE_MINUS_SRC_ALPHA; break;
+		case BLEND_MODULATE:srcblend = GLES20.GL_DST_COLOR; dstblend = GLES20.GL_ZERO; break;
+		case BLEND_FILTER:srcblend = GLES20.GL_DST_COLOR; dstblend = GLES20.GL_ZERO; break;
+		default:srcblend = GLES20.GL_ONE; dstblend = GLES20.GL_ONE; break;
 		}
 	}
 	
@@ -91,19 +92,19 @@ public class MaterialPass {
 			return false;
 		
 		int size = options.size();
-		GLES10.glBindTexture(GLES10.GL_TEXTURE_2D, mTexture.getID());
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexture.getID());
 		if (mBlendMode == BLEND_NOBLEND) {
-			GLES10.glDisable(GLES10.GL_BLEND);
+			GLES20.glDisable(GLES20.GL_BLEND);
 		}
 		else {
-			GLES10.glEnable(GLES10.GL_BLEND);
-			GLES10.glBlendFunc(dstblend, srcblend);
+			GLES20.glEnable(GLES20.GL_BLEND);
+			GLES20.glBlendFunc(dstblend, srcblend);
 		}
 		for (int i = 0; i< size; i++) {
 			options.get(i).set(material);
 		}
 		
-		GLES10.glColor4f(mColor.R, mColor.G, mColor.B, mAlpha);
+		//GLES20.glColor4f(mColor.R, mColor.G, mColor.B, mAlpha);
 		
 		return true;
 	}
@@ -111,14 +112,14 @@ public class MaterialPass {
 	public void unSet() {
 		if (!lastCheck)
 			return;
-		GLES10.glDisable(GLES10.GL_BLEND);
-		GLES10.glBlendFunc(GLES10.GL_SRC_ALPHA, GLES10.GL_ONE_MINUS_SRC_ALPHA);
+		GLES20.glDisable(GLES20.GL_BLEND);
+		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		int size = options.size()-1;
 		for (int i = size; i >=0; i--)
 		{
 			options.get(i).unSet();
 		}
-		GLES10.glColor4f(1, 1, 1, 1);
+		//GLES20.glColor4f(1, 1, 1, 1);
 	}
 	
 

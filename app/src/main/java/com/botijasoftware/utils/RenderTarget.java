@@ -13,20 +13,20 @@ public abstract class RenderTarget {
 		this.height = height;
 	}
 	
-	public abstract void init(GL10 gl);
-	public abstract void setTarget(GL10 gl);
-	public abstract void clear(GL10 gl);
-	public abstract void initRender(GL10 gl);
-	public abstract void endRender(GL10 gl);
+	public abstract void init();
+	public abstract void setTarget();
+	public abstract void clear();
+	public abstract void initRender();
+	public abstract void endRender();
 	public Texture getTexture() {
 		return null;
 	}
 	
-	public static boolean checkFBO(GL10 gl) {
-		return checkExtension(gl,"GL_OES_framebuffer_object");
+	public static boolean checkFBO() {
+		return checkExtension("GL_OES_framebuffer_object");
 	}
 	
-    private static boolean checkExtension(GL10 gl, String extension) {
+    private static boolean checkExtension(String extension) {
         String extensions = " " + GLES20.glGetString(GLES20.GL_EXTENSIONS) + " ";
         return extensions.contains(" " + extension + " ");
     }

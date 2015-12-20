@@ -12,59 +12,59 @@ import com.botijasoftware.utils.renderer.RenderItem;
 
 public class MaterialRenderer {
 	
-	static public void renderVertexBuffer(GL10 gl, Material material, VertexBuffer vb, IndexBuffer ib) {
+	static public void renderVertexBuffer(Material material, VertexBuffer vb, IndexBuffer ib) {
 		if (material == null || !material.isLoaded())
 			return;
 		
-		material.set(gl);
+		material.set();
 		for (int i = 0; i < material.passCount(); i++) {
 			MaterialPass pass = material.mPass.get(i);
 			if (pass != null && pass.set()) {
-				vb.Draw(gl,ib);
+				vb.Draw(ib);
 				pass.unSet();
 			}
 		}
-		material.unSet(gl);
+		material.unSet();
 	}
 
-	static public void renderModel(GL10 gl, Model model) {
-
-		int size = model.mMesh.size();
-		for (int i = 0; i < size; i++) {
-			Mesh m = model.mMesh.get(i);
-			renderVertexBuffer(gl, m.mMaterial, m.mVertexBuffer, m.mIndexBuffer);
-			//Renderer.toRender(m.mVertexBuffer, m.mIndexBuffer, Renderer.modelview, m.mMaterial);
-		}
-	}
-	
-	static public void renderModel(GL10 gl, Model model, Material material) {
+	static public void renderModel(Model model) {
 
 		int size = model.mMesh.size();
 		for (int i = 0; i < size; i++) {
 			Mesh m = model.mMesh.get(i);
-			renderVertexBuffer(gl, material, m.mVertexBuffer, m.mIndexBuffer);
+			renderVertexBuffer(m.mMaterial, m.mVertexBuffer, m.mIndexBuffer);
+			//Renderer.toRender(m.mVertexBuffer, m.mIndexBuffer, Renderer.modelview, m.mMaterial);
+		}
+	}
+	
+	static public void renderModel(Model model, Material material) {
+
+		int size = model.mMesh.size();
+		for (int i = 0; i < size; i++) {
+			Mesh m = model.mMesh.get(i);
+			renderVertexBuffer(material, m.mVertexBuffer, m.mIndexBuffer);
 			//Renderer.toRender(m.mVertexBuffer, m.mIndexBuffer, Renderer.modelview, m.mMaterial);
 		}
 	}
 	
 	
-	static public void renderList(GL10 gl, Material material, ArrayList<RenderItem> list) {
+	static public void renderList(Material material, ArrayList<RenderItem> list) {
 		if (material == null || !material.isLoaded())
 			return;
 		
-		material.set(gl);
+		material.set();
 		int size = list.size();
 		for (int i = 0; i < material.passCount(); i++) {
 			MaterialPass pass = material.mPass.get(i);
 			if (pass != null && pass.set()) {
 				for (int j=0;j<size;j++) {
 					RenderItem ri = list.get(j);
-					ri.vb.Draw(gl,ri.ib);
+					ri.vb.Draw(ri.ib);
 				}
 				pass.unSet();
 			}
 		}
-		material.unSet(gl);
+		material.unSet();
 	}
 
 

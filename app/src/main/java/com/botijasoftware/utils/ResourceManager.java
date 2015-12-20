@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import com.botijasoftware.utils.materials.Material;
 import com.botijasoftware.utils.materials.MaterialManager;
 import com.botijasoftware.utils.shaders.Shader;
@@ -70,18 +68,18 @@ public class ResourceManager {
 		textures.put(textureName, texture);
 	}
 	
-	public Texture loadTexture(GL10 gl, int textureName) {
-		return loadTexture(gl, textureName, TextureOptions.default_options);
+	public Texture loadTexture(int textureName) {
+		return loadTexture(textureName, TextureOptions.default_options);
 	}
 	
-	public Texture loadTexture(GL10 gl, int textureName, TextureOptions options) {
+	public Texture loadTexture(int textureName, TextureOptions options) {
 		Texture t = getTexture(textureName);
 		if (t != null) {
             t.addReference();
             return t;
         }
 		else {
-			t = loadTextureFromFile(gl, textureName, options);
+			t = loadTextureFromFile(textureName, options);
             t.addReference();
 			if (t != null)
 				addTexture(textureName, t);
@@ -90,13 +88,13 @@ public class ResourceManager {
 		}
 	}
 
-	public void preloadTexture(GL10 gl, int textureName, TextureOptions options) {
-		Texture t = loadTexture(gl, textureName, options);
+	public void preloadTexture(int textureName, TextureOptions options) {
+		Texture t = loadTexture(textureName, options);
         t.removeReference();
 	}
 	
-	public void preloadTexture(GL10 gl, int textureName) {
-		preloadTexture(gl, textureName, TextureOptions.default_options);
+	public void preloadTexture(int textureName) {
+		preloadTexture(textureName, TextureOptions.default_options);
 	}
 
 	public Texture loadTextureFromCache(int textureName) {
@@ -108,12 +106,12 @@ public class ResourceManager {
 	}
 
 
-	public Texture loadTextureFromFile(GL10 gl, int textureName) {
-		return loadTextureFromFile(gl, textureName, TextureOptions.default_options);
+	public Texture loadTextureFromFile(int textureName) {
+		return loadTextureFromFile(textureName, TextureOptions.default_options);
 	}
 	
 	
-	public Texture loadTextureFromFile(GL10 gl, int textureName, TextureOptions options)
+	public Texture loadTextureFromFile(int textureName, TextureOptions options)
 	{
 
 		GLES20.glGenTextures(1, glTextureID, 0);
@@ -140,7 +138,7 @@ public class ResourceManager {
 	    int width = bmp.getWidth();
 	    int height = bmp.getHeight();
 	    // Set all of our texture parameters:
-	    options.apply(gl);
+	    options.apply();
 	    //GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, options.minFilter);//_MIPMAP_NEAREST);
 	    //GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, options.maxFilter);//_MIPMAP_NEAREST);
 	    //GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, options.wraps); //GL_REPEAT
@@ -178,7 +176,7 @@ public class ResourceManager {
 		return new Texture(id, width, height);
 	}
 
-	public Texture loadTextureFromBitmap(GL10 gl, Bitmap bmp, TextureOptions options) {
+	public Texture loadTextureFromBitmap(Bitmap bmp, TextureOptions options) {
 		
 		GLES20.glGenTextures(1, glTextureID, 0);
 	    int id = glTextureID[0];  
@@ -188,7 +186,7 @@ public class ResourceManager {
 	    int width = bmp.getWidth();
 	    int height = bmp.getHeight();
 
-	    options.apply(gl);
+	    options.apply();
 	    GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0);
 	    
 	    if (options.mipmap) {
@@ -224,7 +222,7 @@ public class ResourceManager {
 	}
 	
 	
-	public CubeMapTexture  loadCubeMapTexure(GL10 gl, String basename ) {
+	public CubeMapTexture  loadCubeMapTexure(String basename ) {
 		
 		GLES20.glGenTextures(1, glTextureID, 0);
 	    int id = glTextureID[0];  
@@ -288,26 +286,26 @@ public class ResourceManager {
 		return bmp;
 	}
 	
-	public void unloadTexture(GL10 gl, int textureName) {
+	public void unloadTexture(int textureName) {
         Texture t = getTexture(textureName);
         if (t != null) {
             t.removeReference();
             if (!t.isReferenced()) {
-                forceUnloadTexture(gl, textureName);
+                forceUnloadTexture(textureName);
 
             }
         }
 
 	}
 	
-	/*public void forceUnloadTexture(GL10 gl, Texture texture) {
+	/*public void forceUnloadTexture(Texture texture) {
 			glTextureID[0] = texture.getID();
 			GLES20.glDeleteTextures(1, glTextureID,0);
 	}*/
 	
 	
 	
-	public void forceUnloadTexture(GL10 gl, int textureName) {
+	public void forceUnloadTexture(int textureName) {
 	
 		if (textures.containsKey(textureName)) {
 			glTextureID[0] = textures.get(textureName).getID(); 
@@ -319,7 +317,7 @@ public class ResourceManager {
 	}
 	
 	//TODO: optimize with glTextureID and remove IntBuffer
-	public void unloadAllTextures(GL10 gl) {
+	public void unloadAllTextures() {
 		Object[] tex = textures.values().toArray();
 		int size = tex.length;
 		IntBuffer textureid = ByteBuffer.allocateDirect( 4 * size ).order(ByteOrder.nativeOrder()).asIntBuffer();
@@ -332,14 +330,14 @@ public class ResourceManager {
 		textures.clear();
 	}
 
-	public void reloadAllTextures(GL10 gl) {
+	public void reloadAllTextures() {
 		
 		Set<Entry<Integer, Texture>> set = textures.entrySet();
 
 		for (Entry<Integer, Texture> me : set) {
 			Texture oldtexture = me.getValue();
 			int id = me.getKey();
-			Texture newtexture = loadTextureFromFile(gl, id);
+			Texture newtexture = loadTextureFromFile(id);
 			oldtexture.mID = newtexture.getID();
 
 		}
@@ -348,8 +346,7 @@ public class ResourceManager {
 	
 	
 	private Sound loadSoundFromFile(int soundName, boolean loop) {
-		Sound sound = new Sound( mSoundPool.load( mContext, soundName, 1), loop);
-		return sound;
+		return new Sound( mSoundPool.load( mContext, soundName, 1), loop);
 	}
 	
 	public Sound loadSound(int soundName, boolean loop) {
@@ -386,37 +383,37 @@ public class ResourceManager {
 		sounds.clear(); //remove all Sounds from sounds hashmap
 	}
 
-	public void unloadAllModels(GL10 gl) {
+	public void unloadAllModels() {
 		Collection<Model> set = models.values();
 
 		for (Model m : set) {
-			m.unload(gl);
+			m.unload();
 		}
 	    
 	    models.clear();
 	}
 	
-	public void unloadAllContent(GL10 gl) {
-		unloadAllTextures(gl);
+	public void unloadAllContent() {
+		unloadAllTextures();
 		unloadAllSounds();
-		unloadAllModels(gl);
+		unloadAllModels();
 	}
 
 
-	public Model loadModel(GL10 gl, int modelid) {
+	public Model loadModel(int modelid) {
 		if (models.containsKey(modelid)) {
 			return models.get(modelid);
 		}
 		else {
 			Model m = new Model(modelid);
-			m.LoadContent(gl, this);
+			m.LoadContent(this);
 			models.put(modelid, m);
 			return m;
 		}
 	}
 	
-	public void preloadModel(GL10 gl, int modelid) {
-		loadModel(gl, modelid);
+	public void preloadModel(int modelid) {
+		loadModel(modelid);
 	}
 	
 	public Context getContext() {
@@ -435,10 +432,10 @@ public class ResourceManager {
 		return mMaterialManager;
 	}
 	
-	public Material loadMaterial(GL10 gl, String name) {
+	public Material loadMaterial(String name) {
 		Material m = mMaterialManager.getMaterial(name);
 		if (m!= null && !m.isLoaded())
-			m.LoadContent(gl, this);
+			m.LoadContent(this);
 		
 		return m;
 	}
@@ -467,12 +464,12 @@ public class ResourceManager {
         return null;
     }
 
-    public void reloadAllShaders(GL10 gl) {
+    public void reloadAllShaders() {
         Set<Entry<String, Shader>> set = shaders.entrySet();
 
 		for (Entry<String, Shader> me : set) {
 			Shader sp = me.getValue();
-			sp.reload(gl, this);
+			sp.reload(this);
 		}
     }
 

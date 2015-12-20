@@ -3,13 +3,7 @@ package com.botijasoftware.utils;
 import java.io.DataInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Objects;
-
 import android.opengl.GLES20;
-
-import com.botijasoftware.utils.Mesh;
-import javax.microedition.khronos.opengles.GL10;
-import com.botijasoftware.utils.ResourceManager;
 import com.botijasoftware.utils.animation.Skeleton;
 import com.botijasoftware.utils.materials.Material;
 import com.botijasoftware.utils.materials.MaterialPass;
@@ -42,7 +36,7 @@ public class Model {
 		mAlpha = alpha;
 	}
 	
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 		
 		if (mModelID == 0 && !mName.equals("")) {
 			String packageName = resources.getContext().getApplicationContext().getPackageName();
@@ -51,11 +45,11 @@ public class Model {
 		}
 		
 		if (mModelID != 0)
-			readRAW(gl, resources, mModelID);
+			readRAW(resources, mModelID);
 	}	
 	
 	
-	private boolean readRAW(GL10 gl, ResourceManager resources, int fileid) {
+	private boolean readRAW(ResourceManager resources, int fileid) {
 		
 		try {
 			
@@ -107,7 +101,7 @@ public class Model {
 				if (drawableid == 0)
 					return false;
 			
-				Texture texture = resources.loadTexture(gl, drawableid, TextureOptions.linear_repeat);
+				Texture texture = resources.loadTexture(drawableid, TextureOptions.linear_repeat);
 			
 			
 				if (nvertex > 0 && nvertex < 65536 && nindex > 0 && nindex < 65536) {
@@ -125,11 +119,11 @@ public class Model {
 					
 					Mesh newmesh = new Mesh(name, texture, vb, ib);
 
-					Material mat = resources.loadMaterial(gl, texturename);
+					Material mat = resources.loadMaterial( texturename);
 					if (mat == null) { //create a simple material if nothing is found
 						mat = new Material();
 						mat.addPass(new MaterialPass(mat, drawableid));
-						mat.LoadContent(gl, resources);
+						mat.LoadContent(resources);
 						resources.registerMaterial(texturename, mat);
 					}
 					newmesh.mMaterial = mat;
@@ -201,14 +195,14 @@ public class Model {
 		}
 		
 		for (int i = 0; i< mMesh.size(); i++)
-			mMesh.get(i).mVertexBuffer.makeVBO(gl);
+			mMesh.get(i).mVertexBuffer.makeVBO();
 
 	return true;
 	}
 
 	
-	public void Draw(GL10 gl) {
-		MaterialRenderer.renderModel(gl, this);
+	public void Draw() {
+		MaterialRenderer.renderModel(this);
 		
 		/*int size = mMesh.size();
 		for (int i = 0; i < size; i++) {
@@ -218,8 +212,8 @@ public class Model {
 		}*/
 	}
 
-	public void Draw(GL10 gl, Material material) {
-		MaterialRenderer.renderModel(gl, this, material);
+	public void Draw(Material material) {
+		MaterialRenderer.renderModel(this, material);
 	}
 	
 	public Mesh getMesh(String name) {
@@ -233,9 +227,9 @@ public class Model {
 		return null;
 	}
 	
-	public void unload(GL10 gl) {
+	public void unload() {
 		for (int i = 0; i < mMesh.size(); i++) {
-			mMesh.get(i).mVertexBuffer.free(gl);
+			mMesh.get(i).mVertexBuffer.free();
 		}
 	}
 

@@ -87,7 +87,7 @@ public class Quaternion
         if (w < 0.0f)
                 W = w;
         else
-                W = (float)-(float)Math.sqrt(w);
+                W = -(float)Math.sqrt(w);
 
 	}
 
@@ -444,8 +444,7 @@ public Quaternion rotateZ(float radians) {
 		float w4_recip = 1.0f / (4.0f * w);
 		
 		//Quaternion ret = new Quaternion((forward.Y - updir.Z) * w4_recip, (right.Z - forward.X) * w4_recip,(updir.X - right.Y) * w4_recip,  w);  
-		Quaternion ret = new Quaternion((updir.Z - forward.Y) * w4_recip, (forward.X - right.Z) * w4_recip,(right.Y - updir.X) * w4_recip,  w);
-		return ret;
+		return new Quaternion((updir.Z - forward.Y) * w4_recip, (forward.X - right.Z) * w4_recip,(right.Y - updir.X) * w4_recip,  w);
 	}
 
 

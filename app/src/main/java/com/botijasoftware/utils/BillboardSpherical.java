@@ -1,6 +1,5 @@
 package com.botijasoftware.utils;
 
-import javax.microedition.khronos.opengles.GL10;
 import com.botijasoftware.utils.renderer.Renderer;
 
 public class BillboardSpherical extends Billboard{
@@ -20,7 +19,7 @@ public class BillboardSpherical extends Billboard{
 	}
 
 	@Override
-	public void LoadContent(GL10 gl, ResourceManager resources) {
+	public void LoadContent(ResourceManager resources) {
 		// TODO Auto-generated method stub
 		
 	}

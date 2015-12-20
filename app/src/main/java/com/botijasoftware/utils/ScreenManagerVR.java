@@ -33,7 +33,6 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 	public static SoundSystem mSoundSystem;
 	protected Layout mLayout;
 	public GlobalOptions mGlobalOptions;
-	protected GL10 glContext = null;
 	public int mWidth;
 	public int mHeight;
 	protected boolean isRunning = false;
@@ -85,7 +84,6 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) 
 	{
-		glContext = gl;
 		//GLES20.glHint(GLES20.GL_PERSPECTIVE_CORRECTION_HINT, GLES20.GL_FASTEST);
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 		GLES20.glDisable(GLES20.GL_DITHER);
@@ -112,7 +110,6 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 
 	public void onSurfaceChanged(GL10 gl, int width, int height)
 	{
-		glContext = gl;
 		setSize(width, height);
 		GLES20.glViewport(0, 0, width, height);
 		//GLES20.glMatrixMode(GLES20.GL_PROJECTION);
@@ -128,7 +125,7 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 		int size = Screens.size();
 		for (int i = 0; i < size; i++) {
 			ScreenVR scr = Screens.get(i);
-			scr.onSurfaceChanged(gl, width, height);
+			scr.onSurfaceChanged(width, height);
 		}
 		
 		if (!isRunning) {
@@ -160,15 +157,14 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 		oldTime = Time;
 		
 		if (glNeedsReload) {
-			Clear(gl);
-			glContext = gl;
-			mResourceManager.reloadAllTextures(glContext);
-            mResourceManager.reloadAllShaders(gl);
+			Clear();
+			mResourceManager.reloadAllTextures();
+            mResourceManager.reloadAllShaders();
 			
 			int size = Screens.size();
 			for (int i = 0; i < size; i++) {
 				ScreenVR scr = Screens.get(i);
-				scr.reloadContent(gl);
+				scr.reloadContent();
 			}
 			
 			glNeedsReload = false;
@@ -194,16 +190,16 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 			mFPS = 1.0f/tframe;
 			
 			lastUpdateTime = ms;
-			Clear(gl);
+			Clear();
 
             if (main != null) {
-                main.Draw(gl);
+                main.Draw();
             }
             else {
                 int size = Screens.size() - 1;
                 for (int i = size; i >= 0; i--) {
                     ScreenVR scr = Screens.get(i);
-                    scr.Draw(gl);
+                    scr.Draw();
                 }
             }
 		
@@ -240,7 +236,7 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 			scr.onDestroy();
 		}
 
-		mResourceManager.unloadAllContent(glContext);
+		mResourceManager.unloadAllContent();
 		oldTime = 0L;
 	}
 	
@@ -262,19 +258,19 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 	}
 	
 	public void addScreenOnTop(ScreenVR newScreen) {
-		newScreen.LoadContent(glContext, mResourceManager);
+		newScreen.LoadContent(mResourceManager);
 		Screens.add(0,newScreen);
 		//System.gc();
 	}
 
 	public void addScreen(ScreenVR newScreen) {
-		newScreen.LoadContent(glContext, mResourceManager);
+		newScreen.LoadContent(mResourceManager);
 		Screens.add(newScreen);
 		//System.gc();
 	}
 
 	public void removeScreen(ScreenVR screen) {
-		screen.freeContent(glContext, mResourceManager);
+		screen.freeContent(mResourceManager);
 		Screens.remove(screen);
 		System.gc();
 	}
@@ -325,7 +321,7 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 				
 	}
 	
-	public void Clear(GL10 gl) {
+	public void Clear() {
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 	}
 
@@ -463,20 +459,20 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 
         oldTime = Time;
 
-        /*if (glNeedsReload) {
-            Clear(glContext);
+        if (glNeedsReload) {
+            Clear();
 
-            mResourceManager.reloadAllTextures(glContext);
-            mResourceManager.reloadAllShaders(glContext);
+            mResourceManager.reloadAllTextures();
+            mResourceManager.reloadAllShaders();
 
             int size = Screens.size();
             for (int i = 0; i < size; i++) {
                 ScreenVR scr = Screens.get(i);
-                scr.reloadContent(glContext);
+                scr.reloadContent();
             }
 
             glNeedsReload = false;
-        }*/
+        }
 
 
         long ms = SystemClock.uptimeMillis();
@@ -537,7 +533,6 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 	@Override
 	public void onSurfaceCreated(EGLConfig eglConfig) {
 
-		glContext = null;
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 		GLES20.glDisable(GLES20.GL_DITHER);
 		GLES20.glEnable(GLES20.GL_CULL_FACE);
