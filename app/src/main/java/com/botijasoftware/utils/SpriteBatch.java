@@ -109,8 +109,8 @@ public class SpriteBatch implements Renderable {
 
 		Rectanglef rect = sprite.mRectangle;
 
-		float ohw = (rect.width/2.0f);
-		float ohh = (rect.height/2.0f);
+		float ohw = rect.width * sprite.mAchor.X;
+		float ohh = rect.height * sprite.mAnchor.Y;
 		float x = rect.X + ohw;
 		float y = rect.Y + ohh;
 

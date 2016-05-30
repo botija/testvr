@@ -6,6 +6,7 @@ public class Sprite {
 	protected Texture mTexture;
 	protected boolean mFlip;
 	protected Vector2 mScale = new Vector2(1.0f, 1.0f);
+	protected Vector2 mAnchor = new Vector2(0.5f, 0.5f);
 	protected float mRotation = 0.0f;
 	protected ColorRGBAb mColor;
 	protected boolean mVisible = true;
@@ -183,6 +184,19 @@ public class Sprite {
 		mScale.X *= x;
 		mScale.Y *= y;
 	}
-
+	
+	public void setAnchor( float x, float y) {
+		mAnchor.X = x;
+		mAnchor.Y = y;
+	}
+	
+	public void setAnchor( Vector2 anchor) {
+		mAnchor.X = anchor.X;
+		mAnchor.Y = anchor.Y;
+	}
+	
+	public Vector2 getAnchor() {
+		return mAnchor;
+	}
 
 }
