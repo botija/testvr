@@ -2,7 +2,9 @@ package com.botijasoftware.utils;
 
 public class Vector2i {
 	
-	public Vector2i() {}
+	public Vector2i() {
+		X = Y = 0;
+	}
 
 	public Vector2i(int val) {
 		X = val;
@@ -169,11 +171,11 @@ public class Vector2i {
 		return new Vector2i(x,y);
 	}
 	
-	public int X = 0;
-	public int Y = 0;
+	public int X;
+	public int Y;
 	public static final Vector2i ZERO = new Vector2i(0, 0);
-        public static final Vector2i ONE = new Vector2i(1, 1);
-        public static final Vector2i RIGHT = new Vector2i(1, 0);
-        public static final Vector2i UP = new Vector2i(0, 1);
+    public static final Vector2i ONE = new Vector2i(1, 1);
+    public static final Vector2i RIGHT = new Vector2i(1, 0);
+    public static final Vector2i UP = new Vector2i(0, 1);
 
 }

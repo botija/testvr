@@ -8,7 +8,6 @@ import javax.microedition.khronos.opengles.GL10;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.opengl.GLES20;
-import android.opengl.GLSurfaceView;
 import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.MotionEvent;

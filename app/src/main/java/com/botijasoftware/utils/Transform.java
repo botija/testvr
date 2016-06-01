@@ -24,9 +24,9 @@ public class Transform {
 	}
 	
 	public Transform() {
-		this.translation = Vector3.ZERO.clone();
-		this.rotation = Quaternion.ZERO.clone();
-		this.scale = Vector3.ZERO.clone();
+		this.translation = new Vector3();
+		this.rotation = new Quaternion();
+		this.scale = new Vector3();
 	}
 	
 	public Transform clone() {

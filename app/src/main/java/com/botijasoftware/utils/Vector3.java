@@ -2,7 +2,9 @@ package com.botijasoftware.utils;
 
 public class Vector3 {
 	
-	public Vector3() {}
+	public Vector3() {
+		X = Y = Z = 0.0f;
+	}
 
 	public Vector3(float val) {
 		X = val;
@@ -214,13 +216,13 @@ public class Vector3 {
 		return new Vector3(x,y,z);
 	}
 	
-	public float X = 0.0f;
-	public float Y = 0.0f;
-	public float Z = 0.0f;
+	public float X;
+	public float Y;
+	public float Z;
 	private final static float SIGMA = 0.000001f;
 	public static final Vector3 ZERO = new Vector3(0.0f, 0.0f, 0.0f);
 	public static final Vector3 ONE = new Vector3(1.0f, 1.0f, 1.0f);
-        public static final Vector3 RIGHT = new Vector3(1.0f, 0.0f, 0.0f);
-        public static final Vector3 UP = new Vector3(0.0f, 1.0f, 0.0f);
-        public static final Vector3 FORWARD = new Vector3(0.0f, 0.0f, 1.0f);
+    public static final Vector3 RIGHT = new Vector3(1.0f, 0.0f, 0.0f);
+    public static final Vector3 UP = new Vector3(0.0f, 1.0f, 0.0f);
+    public static final Vector3 FORWARD = new Vector3(0.0f, 0.0f, 1.0f);
 }

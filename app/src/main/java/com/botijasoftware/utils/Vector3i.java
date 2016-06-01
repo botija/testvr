@@ -2,7 +2,9 @@ package com.botijasoftware.utils;
 
 public class Vector3i {
 	
-	public Vector3i() {}
+	public Vector3i() {
+		X = Y = Z = 0;
+	}
 
 	public Vector3i(int val) {
 		X = val;
@@ -211,13 +213,13 @@ public class Vector3i {
 		return new Vector3i(x,y,z);
 	}
 	
-	public int X = 0;
-	public int Y = 0;
-	public int Z = 0;
+	public int X;
+	public int Y;
+	public int Z;
 	public static final Vector3i ZERO = new Vector3i(0, 0, 0);
-        public static final Vector3i ONE = new Vector3i(1, 1, 1);
-        public static final Vector3i RIGHT = new Vector3i(1, 0, 0);
-        public static final Vector3i UP = new Vector3i(0, 1, 0);
-        public static final Vector3i FORWARD = new Vector3i(0, 0, 1);
+    public static final Vector3i ONE = new Vector3i(1, 1, 1);
+    public static final Vector3i RIGHT = new Vector3i(1, 0, 0);
+    public static final Vector3i UP = new Vector3i(0, 1, 0);
+    public static final Vector3i FORWARD = new Vector3i(0, 0, 1);
 
 }

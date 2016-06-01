@@ -2,7 +2,9 @@ package com.botijasoftware.utils;
 
 public class Vector2 {
 	
-	public Vector2() {}
+	public Vector2() {
+		X = Y = 0.0f;
+	}
 
 	public Vector2(float val) {
 		X = val;
@@ -170,12 +172,12 @@ public class Vector2 {
 		return new Vector2(x,y);
 	}
 	
-	public float X = 0.0f;
-	public float Y = 0.0f;
+	public float X;
+	public float Y;
 	private final static float SIGMA = 0.000001f;
 	public static final Vector2 ZERO = new Vector2(0.0f, 0.0f);
-        public static final Vector2 ONE = new Vector2(1.0f, 1.0f);
-        public static final Vector2 RIGHT = new Vector2(1.0f, 0.0f);
-        public static final Vector2 UP = new Vector2(0.0f, 1.0f);
+    public static final Vector2 ONE = new Vector2(1.0f, 1.0f);
+    public static final Vector2 RIGHT = new Vector2(1.0f, 0.0f);
+    public static final Vector2 UP = new Vector2(0.0f, 1.0f);
 
 }

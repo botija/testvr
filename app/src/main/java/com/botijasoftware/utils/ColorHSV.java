@@ -75,7 +75,16 @@ public class ColorHSV {
             rgb.B = x;
         }
 
+        rgb.R += m;
+        rgb.G += m;
+        rgb.B += m;
+
         return rgb;
+    }
+
+    public ColorRGBb toRGBb() {
+        ColorRGB rgb = toRGB();
+        return new ColorRGBb( (byte) (rgb.R * 255), (byte) (rgb.B * 255), (byte) (rgb.B * 255));
     }
 
     public float H;

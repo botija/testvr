@@ -6,7 +6,6 @@ import android.opengl.GLES20;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.botijasoftware.utils.ScreenManager;
 import com.botijasoftware.utils.ResourceManager;
 import com.botijasoftware.utils.ScreenManagerVR;
 import com.botijasoftware.utils.Timer;

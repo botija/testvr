@@ -2,8 +2,6 @@ package com.botijasoftware.utils.materials;
 
 import java.util.ArrayList;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import com.botijasoftware.utils.IndexBuffer;
 import com.botijasoftware.utils.Mesh;
 import com.botijasoftware.utils.Model;

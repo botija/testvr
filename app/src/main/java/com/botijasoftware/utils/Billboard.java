@@ -1,8 +1,7 @@
 package com.botijasoftware.utils;
 
-import javax.microedition.khronos.opengles.GL10;
 import com.botijasoftware.utils.renderer.Renderer;
-import android.opengl.GLES10;
+
 import android.opengl.GLES20;
 
 public class Billboard implements Renderable {

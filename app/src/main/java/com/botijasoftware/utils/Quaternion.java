@@ -2,7 +2,9 @@ package com.botijasoftware.utils;
 
 public class Quaternion
 {
-	//public Quaternion () {};
+	public Quaternion () {
+		X = Y = Z = W = 0.0f;
+	}
 
 	public Quaternion (float _x, float _y, float _z ) {
   		X = _x;

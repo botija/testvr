@@ -46,9 +46,7 @@ public class Timer {
         public void run() {
             try {
                 method.invoke(object, args);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }

@@ -81,8 +81,8 @@ public class ResourceManager {
 		else {
 			t = loadTextureFromFile(textureName, options);
             t.addReference();
-			if (t != null)
-				addTexture(textureName, t);
+			//if (t != null)
+			addTexture(textureName, t);
 			
 			return t;
 		}
@@ -223,44 +223,65 @@ public class ResourceManager {
 	
 	
 	public CubeMapTexture  loadCubeMapTexure(String basename ) {
-		
-		GLES20.glGenTextures(1, glTextureID, 0);
-	    int id = glTextureID[0];  
-	    
-	    GLES20.glBindTexture(GLES20.GL_TEXTURE_CUBE_MAP, id);
-	    
-	    Bitmap bmp = getBitmap(basename+"_px");
 
-	    int width = bmp.getWidth();
-	    int height = bmp.getHeight();		
-		
-	    GLES20.glTexParameterf(GLES20.GL_TEXTURE_CUBE_MAP,
-	    		GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-	    GLES20.glTexParameterf(GLES20.GL_TEXTURE_CUBE_MAP,
-	    		GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-        
+        GLES20.glGenTextures(1, glTextureID, 0);
+        int id = glTextureID[0];
+
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_CUBE_MAP, id);
+
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_CUBE_MAP,
+                GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_CUBE_MAP,
+                GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+
         //GLES20.glTexGeni(GLES20.GL_TEXTURE_GEN_STR, GLES20.GL_TEXTURE_GEN_MODE, GLES20.GL_REFLECTION_MAP);
         //GLES20.glEnable(GLES20.GL_TEXTURE_GEN_STR);
-        
-        loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X, bmp);
-        bmp.recycle();
-        bmp = getBitmap(basename+"_py");
-        loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_Y, bmp);
-        bmp.recycle();
-        bmp = getBitmap(basename+"_pz");
-        loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_Z, bmp);
-        bmp.recycle();
-        bmp = getBitmap(basename+"_nx");
-        loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_X, bmp);
-        bmp.recycle();
-        bmp = getBitmap(basename+"_ny");
-        loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, bmp);
-        bmp.recycle();
-        bmp = getBitmap(basename+"_nz");
-        loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, bmp);
-        bmp.recycle();
-        
-	    return new CubeMapTexture(id, width, height);
+
+        int width = 0;
+        int height = 0;
+
+        Bitmap bmp = getBitmap(basename + "_px");
+        if (bmp != null) {
+
+            width = bmp.getWidth();
+            height = bmp.getHeight();
+
+            loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X, bmp);
+            bmp.recycle();
+        } else return null;
+
+        bmp = getBitmap(basename + "_py");
+        if (bmp != null) {
+            loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_Y, bmp);
+            bmp.recycle();
+        } else return null;
+
+        bmp = getBitmap(basename + "_pz");
+        if (bmp != null) {
+            loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_Z, bmp);
+            bmp.recycle();
+        } else return null;
+
+        bmp = getBitmap(basename + "_nx");
+        if (bmp != null) {
+            loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_X, bmp);
+            bmp.recycle();
+        } else return null;
+
+        bmp = getBitmap(basename + "_ny");
+        if (bmp != null ){
+			loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, bmp);
+			bmp.recycle();
+        } else return null;
+
+        bmp = getBitmap(basename + "_nz");
+        if (bmp != null) {
+			loadCubeMapFace(GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, bmp);
+			bmp.recycle();
+        } else return null;
+
+		return new CubeMapTexture(id, width, height);
+
 	}
 	
 	private void loadCubeMapFace(int face, Bitmap bmp) {

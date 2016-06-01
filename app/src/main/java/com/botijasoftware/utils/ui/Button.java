@@ -1,7 +1,5 @@
 package com.botijasoftware.utils.ui;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import com.botijasoftware.utils.*;
 
 

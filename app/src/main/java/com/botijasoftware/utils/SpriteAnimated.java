@@ -26,7 +26,7 @@ public class SpriteAnimated extends Sprite{
 			mCurrentFrame = frame;
 			TextureCoords coords = mAtlas.getTextureCoords(mCurrentFrame);
 			
-			float st [] = { coords.s0, coords.t0, coords.s1, coords.t0, coords.s0, coords.t1, coords.s1, coords.t1 };
+			//float st [] = { coords.s0, coords.t0, coords.s1, coords.t0, coords.s0, coords.t1, coords.s1, coords.t1 };
 			//mVertexBuffer.getBuffer(1).put(st);
 		}
 		

@@ -2,9 +2,6 @@ package com.botijasoftware.utils.materials;
 
 import java.util.ArrayList;
 
-import javax.microedition.khronos.opengles.GL10;
-
-import android.opengl.GLES10;
 import android.opengl.GLES20;
 
 import com.botijasoftware.utils.ColorRGB;

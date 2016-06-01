@@ -69,6 +69,7 @@ public class ColorRGB {
 			s = delta / max;
 		}
 
+		hsv.H = h;
 		hsv.S = s;
 		hsv.V = max;
 		return hsv;

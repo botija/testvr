@@ -1,6 +1,14 @@
 package com.botijasoftware.utils;
 
 public class Rectangle {
+
+	public Rectangle() {
+
+		X = 0;
+		Y = 0;
+		width = 0;
+		height = 0;
+	}
 	
 	public Rectangle(int px, int py, int w, int h) {
 
@@ -103,12 +111,12 @@ public class Rectangle {
 	}
 
     public Rectangle clone() {
-        return new Rectangle(X,Y,width,height);
+        return new Rectangle(X, Y, width, height);
     }
 	
-	public int X = 0; //top left
-	public int Y = 0;  
-	public int width = 0;
-	public int height = 0;
+	public int X; //top left
+	public int Y;
+	public int width;
+	public int height;
 
 }

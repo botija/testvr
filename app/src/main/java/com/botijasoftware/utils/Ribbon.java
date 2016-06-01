@@ -1,7 +1,7 @@
 package com.botijasoftware.utils;
 
 import java.util.ArrayList;
-import javax.microedition.khronos.opengles.GL10;
+
 import com.botijasoftware.utils.renderer.Renderer;
 import android.opengl.GLES20;
 

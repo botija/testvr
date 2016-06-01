@@ -1,6 +1,5 @@
 package com.botijasoftware.utils;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.botijasoftware.utils.ResourceManager;
-import com.botijasoftware.utils.ScreenManager;
 import com.google.vrtoolkit.cardboard.CardboardActivity;
 
 

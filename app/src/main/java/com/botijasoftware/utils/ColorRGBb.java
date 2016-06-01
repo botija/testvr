@@ -34,13 +34,13 @@ public class ColorRGBb {
 	}
 	
 	public void saturate() {
-		float m = (R + G + B / 3.0f);
+		/*float m = (R + G + B / 3.0f);
 		if (m != 0.0f) {
 			m = 1.0f/m;
 			R = (byte) (R * m);
 			G = (byte) (G * m);
 			B = (byte) (B * m);
-		}
+		}*/
 	}
 	
 	public byte R;

@@ -1,14 +1,9 @@
 package com.botijasoftware.vrtest;
 
 import android.opengl.GLES20;
-import android.opengl.Matrix;
 
-import com.botijasoftware.utils.ColorHSV;
-import com.botijasoftware.utils.ColorRGB;
 import com.botijasoftware.utils.ColorRGBA;
-import com.botijasoftware.utils.GLMatrix;
 import com.botijasoftware.utils.Model;
-import com.botijasoftware.utils.Quaternion;
 import com.botijasoftware.utils.ResourceManager;
 import com.botijasoftware.utils.ScreenManagerVR;
 import com.botijasoftware.utils.Screens.ScreenVR;

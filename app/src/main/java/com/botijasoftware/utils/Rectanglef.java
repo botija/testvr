@@ -1,6 +1,14 @@
 package com.botijasoftware.utils;
 
 public class Rectanglef {
+
+	public Rectanglef() {
+
+		X = 0.0f;
+		Y = 0.0f;
+		width = 0.0f;
+		height = 0.0f;
+	}
 	
 	public Rectanglef(float px, float py, float w, float h) {
 
@@ -102,12 +110,12 @@ public class Rectanglef {
 	}
 
     public Rectanglef clone() {
-        return new Rectanglef(X,Y,width,height);
+        return new Rectanglef(X, Y, width, height);
     }
 	
-	public float X = 0.0f; //top left
-	public float Y = 0.0f;  
-	public float width = 0.0f;
-	public float height = 0.0f;
+	public float X; //top left
+	public float Y;
+	public float width;
+	public float height;
 
 }
