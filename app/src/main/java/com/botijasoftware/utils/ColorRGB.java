@@ -2,7 +2,9 @@ package com.botijasoftware.utils;
 
 public class ColorRGB {
 	
-	public ColorRGB() {}
+	public ColorRGB() {
+        R = G = B = 0.0f;
+    }
 
 	public ColorRGB(float c) {
 		R = c;
@@ -15,6 +17,12 @@ public class ColorRGB {
 		G = g;
 		B = b;
 	}
+
+    public ColorRGB(ColorRGB c) {
+        R = c.R;
+        G = c.G;
+        B = c.B;
+    }
 
 	public void setValue(float c) {
 		R = c;
@@ -95,5 +103,6 @@ public class ColorRGB {
     public static final ColorRGB PURPLE = new ColorRGB(0.5f, 0.0f, 0.5f);
     public static final ColorRGB TEAL = new ColorRGB(0.0f, 0.5f, 0.5f);
     public static final ColorRGB NAVY = new ColorRGB(0.0f, 0.0f, 0.5f);
+	public static final ColorRGB CORNFLOWERBLUE = new ColorRGB(0.39f, 0.58f, 0.93f);
 	
 }

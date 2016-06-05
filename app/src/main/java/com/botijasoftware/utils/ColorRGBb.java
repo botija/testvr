@@ -2,7 +2,9 @@ package com.botijasoftware.utils;
 
 public class ColorRGBb {
 	
-	public ColorRGBb() {}
+	public ColorRGBb() {
+        R = G = B = 0;
+    }
 
 	public ColorRGBb(byte c) {
 		R = c;
@@ -15,6 +17,12 @@ public class ColorRGBb {
 		G = g;
 		B = b;
 	}
+
+    public ColorRGBb(ColorRGBb c) {
+        R = c.R;
+        G = c.G;
+        B = c.B;
+    }
 
 	public void setValue(byte c) {
 		R = c;
@@ -63,5 +71,6 @@ public class ColorRGBb {
 	public static final ColorRGBb PURPLE = new ColorRGBb((byte)128,(byte)0,(byte)128);
 	public static final ColorRGBb TEAL = new ColorRGBb((byte)0,(byte)128,(byte)128);
 	public static final ColorRGBb NAVY = new ColorRGBb((byte)0,(byte)0,(byte)128);
-	
+	public static final ColorRGBb CORNFLOWERBLUE = new ColorRGBb((byte)100,(byte)149,(byte)237);
+
 }

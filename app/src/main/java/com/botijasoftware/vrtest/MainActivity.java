@@ -10,7 +10,6 @@ public class MainActivity extends GameActivityVR {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mScreenManager.addScreen(new MainScreen(mScreenManager));
 
     }

@@ -2,7 +2,9 @@ package com.botijasoftware.utils;
 
 public class ColorHSV {
 
-    public ColorHSV() {}
+    public ColorHSV() {
+        H = S = V = 0.0f;
+    }
 
     public ColorHSV(float c) {
         H = c;
@@ -107,5 +109,6 @@ public class ColorHSV {
     public static final ColorHSV PURPLE = new ColorHSV(300.0f,1.0f,0.5f);
     public static final ColorHSV TEAL = new ColorHSV(180.0f, 1.0f,0.5f);
     public static final ColorHSV NAVY = new ColorHSV(240.0f,1.0f, 0.5f);
+    public static final ColorHSV CORNFLOWERBLUE = new ColorHSV(219.0f,0.58f, 0.93f);
 
 }
