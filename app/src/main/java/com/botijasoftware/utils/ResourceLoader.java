@@ -22,6 +22,7 @@ public class ResourceLoader extends  Thread {
 
     private final Semaphore semaphore = new Semaphore(1, true);
     private boolean isLoading = false;
+    private boolean running = true;
 
     public class TextureInfo {
         int textureName;
@@ -65,25 +66,28 @@ public class ResourceLoader extends  Thread {
 
         EGL14.eglMakeCurrent(display, localSurface, localSurface, textureContext);
 
-        try {
-            semaphore.acquire();
+        while (running) {
 
-            while (texturesToLoad.size() > 0) {
-                TextureInfo ti = texturesToLoad.remove(0);
-                resourcemanager.loadTexture(ti.textureName, ti.options);
+            try {
+                semaphore.acquire();
+
+                while (texturesToLoad.size() > 0) {
+                    TextureInfo ti = texturesToLoad.remove(0);
+                    resourcemanager.loadTexture(ti.textureName, ti.options);
+                }
+
+                while (modelsToLoad.size() > 0) {
+                    ModelInfo mi = modelsToLoad.remove(0);
+                    resourcemanager.loadModel(mi.modelName);
+                }
+
+                semaphore.release();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
-            while (modelsToLoad.size() > 0) {
-                ModelInfo mi = modelsToLoad.remove(0);
-                resourcemanager.loadModel(mi.modelName);
-            }
-
-            semaphore.release();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            sleep(); // delay loading texture to demonstrate threaded loading
         }
-
-        //sleep(); // delay loading texture to demonstrate threaded loading
 
     }
 
@@ -139,6 +143,10 @@ public class ResourceLoader extends  Thread {
 
         semaphore.release();
         return result;
+    }
+
+    public void EndThread() {
+        running = false;
     }
 
     private void sleep() {
