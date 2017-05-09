@@ -2,8 +2,11 @@ package com.botijasoftware.utils;
 
 import java.util.ArrayList;
 
+
+
 import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.egl.EGLContext;
+import javax.microedition.khronos.egl.EGLDisplay;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -13,12 +16,12 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.botijasoftware.utils.Screens.Screen;
-import com.botijasoftware.utils.Layout;
-import com.botijasoftware.utils.ResourceManager;
 import com.botijasoftware.utils.Screens.ScreenVR;
-import com.botijasoftware.utils.SoundSystem;
+import com.botijasoftware.vrtest.R;
 import com.google.vrtoolkit.cardboard.*;
 import com.google.vrtoolkit.cardboard.Viewport;
+
+import javax.microedition.khronos.egl.EGL10;
 
 
 public class ScreenManagerVR extends CardboardView implements CardboardView.StereoRenderer {
@@ -46,8 +49,28 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 	protected Activity mActivity;
     protected Screen main = null;
 
+
+
 	public ScreenManagerVR( Activity activity, ResourceManager resourceManager, SharedPreferences preferences) {
 		super(resourceManager.getContext());
+
+/*        setEGLContextFactory(new EGLContextFactory() {
+
+            @Override
+            public void destroyContext(EGL10 egl, EGLDisplay display, EGLContext context) {
+                egl.eglDestroyContext(display, context);
+            }
+
+            @Override
+            public EGLContext createContext(final EGL10 egl, final EGLDisplay display, final EGLConfig eglConfig) {
+
+                EGLContext renderContext = EGL14.eglCreateContext(display, eglConfig, EGL14.EGL_NO_CONTEXT, null);
+
+                mResourceLoader = new ResourceLoader(mResourceManager, (android.opengl.EGL14) egl, (android.opengl.EGLContext) renderContext, (android.opengl.EGLDisplay) display, eglConfig, getContext());
+
+                return renderContext;
+            }
+        });*/
 
         setEGLContextClientVersion(2);
 		setRestoreGLStateEnabled(false);
@@ -57,7 +80,7 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 		mResourceManager = resourceManager;
 		mLayout = new Layout(0,0);
 		mGlobalOptions = new GlobalOptions(preferences);
-		
+
 		mSoundSystem = new SoundSystem( mResourceManager.getAudioManager(), mResourceManager.getSoundPool() );
 		
 		Screens = new ArrayList<ScreenVR>();
@@ -81,7 +104,7 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 	}
 	
 
-	public void onSurfaceCreated(GL10 gl, EGLConfig config) 
+	public void onSurfaceCreated(EGL10 gl, EGLConfig config)
 	{
 		//GLES20.glHint(GLES20.GL_PERSPECTIVE_CORRECTION_HINT, GLES20.GL_FASTEST);
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -99,7 +122,7 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 		GLES20.glClearColor( 0.3921f, 0.5843f, 0.9294f, 1.0f ); //CornFlowerBlue
 		//GLES20.glClearColor( 0.0f, 0.0f, 0.0f, 1.0f ); // Black
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-		
+
 		lastUpdateTime = 0;
 		
 		Time = SystemClock.uptimeMillis();
@@ -107,7 +130,7 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 		
 	}
 
-	public void onSurfaceChanged(GL10 gl, int width, int height)
+	public void onSurfaceChanged(EGL10 gl, int width, int height)
 	{
 		setSize(width, height);
 		GLES20.glViewport(0, 0, width, height);
@@ -135,7 +158,7 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
 
 	}
 
-	public void onDrawFrame(GL10 gl) 
+	public void onDrawFrame(EGL10 gl)
 	{ 
 
         if (mActivity.isFinishing())
@@ -529,7 +552,8 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
         }
 	}
 
-	@Override
+
+    @Override
 	public void onSurfaceCreated(EGLConfig eglConfig) {
 
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);

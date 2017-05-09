@@ -3,9 +3,11 @@ package com.botijasoftware.vrtest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import com.botijasoftware.utils.GameActivity;
 import com.botijasoftware.utils.GameActivityVR;
 
-public class MainActivity extends GameActivityVR {
+public class MainActivity extends GameActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

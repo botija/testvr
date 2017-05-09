@@ -21,7 +21,7 @@ public class GameActivityVR extends CardboardActivity{
         
 		SharedPreferences mSharedPreferences = getPreferences(0);
 		mResourceManager = new ResourceManager( this );
-        
+
         mScreenManager = new ScreenManagerVR( this, mResourceManager, mSharedPreferences );
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -74,6 +74,5 @@ public class GameActivityVR extends CardboardActivity{
 	protected ScreenManagerVR mScreenManager;
 	protected ResourceManager mResourceManager;
 	protected SharedPreferences mSharedPreferences;
-
 
 }  

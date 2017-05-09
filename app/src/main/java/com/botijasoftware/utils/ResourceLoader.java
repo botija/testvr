@@ -11,10 +11,12 @@ import android.view.SurfaceView;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
+import javax.microedition.khronos.egl.EGL;
+
 public class ResourceLoader extends  Thread {
 
     private EGLContext textureContext;
-    private EGL14 egl;
+    private EGL egl;
     private EGLConfig eglConfig;
     private EGLDisplay display;
     private Context androidContext;
@@ -46,8 +48,8 @@ public class ResourceLoader extends  Thread {
     private ArrayList<ModelInfo> modelsToLoad = new ArrayList<>();
 
 
-    public ResourceLoader(ResourceManager resources, EGL14 egl, EGLContext renderContext, EGLDisplay display,
-                         EGLConfig eglConfig, Context androidContext) {
+    public ResourceLoader(ResourceManager resources, EGL egl, EGLContext renderContext, EGLDisplay display,
+                          EGLConfig eglConfig, Context androidContext) {
         this.resourcemanager = resources;
         this.egl = egl;
         this.display = display;
@@ -62,6 +64,9 @@ public class ResourceLoader extends  Thread {
                 EGL14.EGL_NO_TEXTURE, EGL14.EGL_TEXTURE_FORMAT, EGL14.EGL_NO_TEXTURE,
                 EGL14.EGL_NONE };
 
+        /*int iConfigs;
+        EGLConfig eglConfig;
+        EGL14.eglChooseConfig( display, pbufferAttribs, eglConfig, 1, iConfigs);*/
         EGLSurface localSurface = EGL14.eglCreatePbufferSurface(display, eglConfig, pbufferAttribs, 0);
 
         EGL14.eglMakeCurrent(display, localSurface, localSurface, textureContext);
@@ -120,7 +125,7 @@ public class ResourceLoader extends  Thread {
         boolean result = false;
         try {
             semaphore.acquire();
-            result = texturesToLoad.size() > 0;
+            result = texturesToLoad.isEmpty();
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -135,7 +140,22 @@ public class ResourceLoader extends  Thread {
         boolean result = false;
         try {
             semaphore.acquire();
-            result = modelsToLoad.size() > 0;
+            result = modelsToLoad.isEmpty();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        semaphore.release();
+        return result;
+    }
+
+    public boolean finishedLoading() {
+
+        boolean result = false;
+        try {
+            semaphore.acquire();
+            result = texturesToLoad.isEmpty() && modelsToLoad.isEmpty();
 
         } catch (InterruptedException e) {
             e.printStackTrace();

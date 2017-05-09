@@ -13,7 +13,7 @@ public class Camera {
 	private Viewport mViewport;
 	public float mFov = 75.0f;
 	public float mNearPlane = 1.0f;
-	public float mFarPlane = 200.0f;
+	public float mFarPlane = 2000.0f;
 	private int viewport[] = new int[4];
 	private float znear[] = new float[4];
 	private float zfar[] = new float[4];

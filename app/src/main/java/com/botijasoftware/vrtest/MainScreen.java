@@ -8,7 +8,9 @@ import com.botijasoftware.utils.ColorRGBA;
 import com.botijasoftware.utils.Mesh;
 import com.botijasoftware.utils.Model;
 import com.botijasoftware.utils.ResourceManager;
+import com.botijasoftware.utils.ScreenManager;
 import com.botijasoftware.utils.ScreenManagerVR;
+import com.botijasoftware.utils.Screens.Screen;
 import com.botijasoftware.utils.Screens.ScreenVR;
 import com.botijasoftware.utils.ShaderProgram;
 import com.botijasoftware.utils.Vector3;
@@ -20,12 +22,13 @@ import com.botijasoftware.utils.Viewport;
 import java.util.Random;
 
 
-public class MainScreen extends ScreenVR {
+public class MainScreen extends Screen {
 
     public ColorRGBA color = new ColorRGBA(ColorRGBA.CORNFLOWERBLUE);
     private Random random = new Random();
     Model model;
     ShaderProgram shader;
+    ResourceManager mResourceManager;
     int shaderid;
     int uvertex;
     int ucolor;
@@ -36,28 +39,19 @@ public class MainScreen extends ScreenVR {
     Camera camera;
 
     float angle = 0.0f;
+    boolean resourcesloaded = false;
+    boolean resourcesloading = false;
 
 
-    public MainScreen(ScreenManagerVR screenManager) {
+    public MainScreen(ScreenManager screenManager) {
         super(screenManager);
     }
 
     public void LoadContent(ResourceManager resources) {
-        model = resources.loadModel(R.raw.monkey);
-        shader = new ShaderProgram(R.raw.basic_vs, R.raw.basic_ps);
-        shader.LoadContent(resources);
+        mResourceManager = resources;
 
-        shaderid = shader.getProgramID();
-        uvertex = GLES20.glGetAttribLocation(shaderid, "aVertexPosition");
-        ucolor = GLES20.glGetAttribLocation(shaderid, "aVertexColor");
-        utextcoord = GLES20.glGetAttribLocation(shaderid, "aVertexTextureCoord");
-        mMVMatrixUniformLocation = GLES20.glGetUniformLocation(shaderid, "uMVMatrix");
-        mPMatrixUniformLocation = GLES20.glGetUniformLocation(shaderid, "uPMatrix");
 
-        texture0 = GLES20.glGetUniformLocation(shaderid, "texture0");
 
-        Viewport vw = new Viewport(0,0,1000,1000);
-        camera = new Camera(vw, new Vector3(0,0, -100), Vector3.FORWARD, Vector3.UP);
     }
 
     public void Update(float time) {
@@ -73,15 +67,21 @@ public class MainScreen extends ScreenVR {
 
     }
 
-    public void onDrawEye(Eye eye) {
+    public void Draw() {
 
-        GLES20.glClearColor(color.R, color.G, color.B, color.A);
-        GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+    if (!resourcesloaded) {
+        model = mResourceManager.loadModel(R.raw.monkey);
+        shader = new ShaderProgram(R.raw.shader_vs, R.raw.shader_ps);
+        shader.LoadContent(mResourceManager);
 
-        //camera.setLookAt(new Vector3(-100, -100, -100));
-        camera.setLookAt( new Vector3(eye.getEyeView()[0],eye.getEyeView()[1], eye.getEyeView()[2]));
+        shaderid = shader.getProgramID();
+        uvertex = GLES20.glGetAttribLocation(shaderid, "aVertexPosition");
+        ucolor = GLES20.glGetAttribLocation(shaderid, "aVertexColor");
+        utextcoord = GLES20.glGetAttribLocation(shaderid, "aVertexTextureCoord");
+        mMVMatrixUniformLocation = GLES20.glGetUniformLocation(shaderid, "uMVMatrix");
+        mPMatrixUniformLocation = GLES20.glGetUniformLocation(shaderid, "uPMatrix");
 
-        camera.set();
+        texture0 = GLES20.glGetUniformLocation(shaderid, "texture0");
 
         Renderer.BindAttribute(Renderer.ATTRIBUTE_VERTEX, uvertex);
         Renderer.BindAttribute(Renderer.ATTRIBUTE_COLOR, ucolor);
@@ -94,15 +94,77 @@ public class MainScreen extends ScreenVR {
         GLES20.glUniformMatrix4fv(mMVMatrixUniformLocation, 1, false, Renderer.modelview.matrix, 0);
         GLES20.glUniformMatrix4fv(mPMatrixUniformLocation, 1, false, Renderer.projection.matrix, 0);
 
-        //Renderer.modelview.loadIdentity();
-        //angle += 1.0f;
-        //Renderer.modelview.rotate(angle, 0.5f, 0.5f, 0.5f);
-        //Renderer.modelview.scale(100, 100, 100);
+        Viewport vw = new Viewport(0, 0, 500, 500);
+        //camera = new Camera(vw, new Vector3(0,0, 3), new Vector3(0, 1, 0), Vector3.UP);
+        camera = new Camera(vw, new Vector3(0, 0, 10), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+        vw.enable();
+        camera.setPerspective(500,500);
+        Renderer.modelview.loadIdentity();
+        // camera.setOrtho( width, height);
+        //mCamera.setOrtho(gl, width, height);
+        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+        GLES20.glDisable(GLES20.GL_CULL_FACE);
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_ALPHA, GLES20.GL_ONE_MINUS_DST_ALPHA);
+        GLES20.glDepthMask(false);
+        //shader.enable();
+        resourcesloaded = true;
+    }
 
+    //public void onDrawEye(Eye eye) {
+
+        /*if (!resourcesloaded && !resourcesloading) {
+            resourcesloading = true;
+            model = mResourceManager.loadModel(R.raw.monkey);
+            shader = new ShaderProgram(R.raw.shader_vs, R.raw.shader_ps);
+            shader.LoadContent(mResourceManager);
+
+            shaderid = shader.getProgramID();
+            uvertex = GLES20.glGetAttribLocation(shaderid, "aVertexPosition");
+            ucolor = GLES20.glGetAttribLocation(shaderid, "aVertexColor");
+            utextcoord = GLES20.glGetAttribLocation(shaderid, "aVertexTextureCoord");
+            mMVMatrixUniformLocation = GLES20.glGetUniformLocation(shaderid, "uMVMatrix");
+            mPMatrixUniformLocation = GLES20.glGetUniformLocation(shaderid, "uPMatrix");
+
+            texture0 = GLES20.glGetUniformLocation(shaderid, "texture0");
+
+            Viewport vw = new Viewport(0,0,1000,1000);
+            camera = new Camera(vw, new Vector3(0, 0, 100), new Vector3(0, 0, 0), Vector3.UP);
+
+            resourcesloaded = true;
+        }
+        if (!resourcesloaded) return;*/
+
+        GLES20.glClearColor(color.R, color.G, color.B, color.A);
+        GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+
+
+        //camera.setLookAt( new Vector3(eye.getEyeView()[0],eye.getEyeView()[1], eye.getEyeView()[2]));
+        float x = (float)Math.sin(angle) * 10;
+        float z = (float)Math.cos(angle) * 10;
+        angle += Math.PI * 0.01f;
+        if (angle > Math.PI * 2.0f)
+            angle -= Math.PI * 2.0f;
+
+        camera.setLookAt(new Vector3(x, 0, z));
+
+        //camera.set();
+
+
+
+        /*Renderer.modelview.loadIdentity();
+        angle += 1.0f;
+        Renderer.modelview.rotate(angle, 0.5f, 0.5f, 0.5f);
+        Renderer.modelview.scale(10, 10, 10);*/
+
+        //Renderer.modelview.scale(100, 100, 100);
+        Renderer.modelview.loadIdentity();
+        camera.set();
         for (int i = 0; i< model.mMesh.size(); i++) {
 
             Mesh m = model.mMesh.get(i);
-            GLES20.glBindTexture(texture0, m.mTexture.getID());
+            //GLES20.glBindTexture(texture0, m.mTexture.getID());
+            Renderer.BindTexture(Renderer.TEXTURE0, m.mTexture.getID());
             m.mVertexBuffer.Draw(m.mIndexBuffer);
         }
     }
