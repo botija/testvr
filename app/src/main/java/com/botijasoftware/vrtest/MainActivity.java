@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.botijasoftware.utils.GameActivity;
 import com.botijasoftware.utils.GameActivityVR;
 
-public class MainActivity extends GameActivity {
+public class MainActivity extends GameActivityVR {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

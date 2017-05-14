@@ -9,6 +9,5 @@ varying vec4 color;
 void main() {  
 	st = aVertexTextureCoord;
 	color = aVertexColor;
-	gl_Position = uMVPMatrix * vec4(aVertexPosition, 1.0);
-	//gl_Position = ftransform();
+	gl_Position = uMVPMatrix * vec4(aVertexPosition, 1.0);	
 }

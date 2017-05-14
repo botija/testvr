@@ -24,11 +24,11 @@ import com.botijasoftware.utils.Viewport;
 import java.util.Random;
 
 
-public class MainScreen extends Screen {
+public class MainScreen extends ScreenVR {
 
     public ColorRGBA color = new ColorRGBA(ColorRGBA.CORNFLOWERBLUE);
     private Random random = new Random();
-    Model model;
+    Model model, model2;
     ShaderProgram shader;
     ResourceManager mResourceManager;
     int shaderid;
@@ -49,7 +49,7 @@ public class MainScreen extends Screen {
     boolean resourcesloading = false;
 
 
-    public MainScreen(ScreenManager screenManager) {
+    public MainScreen(ScreenManagerVR screenManager) {
         super(screenManager);
     }
 
@@ -73,10 +73,12 @@ public class MainScreen extends Screen {
 
     }
 
-    public void Draw() {
+    //public void Draw() {
+    public void onDrawEye(Eye eye) {
 
     if (!resourcesloaded) {
-        model = mResourceManager.loadModel(R.raw.teapot);
+        model = mResourceManager.loadModel(R.raw.monkey);
+        model2 = mResourceManager.loadModel(R.raw.teapot);
         shader = new ShaderProgram(R.raw.shader_vs, R.raw.shader_ps);
         shader.LoadContent(mResourceManager);
 
@@ -100,11 +102,11 @@ public class MainScreen extends Screen {
 
         GLES20.glUniformMatrix4fv(mMVPMatrixUniformLocation, 1, false, modelview_projection_matrix.matrix, 0);
 
-        Viewport vw = new Viewport(0, 0, 1920, 1080);
+        Viewport vw = new Viewport(0, 0, width, height);
         //camera = new Camera(vw, new Vector3(0,0, 3), new Vector3(0, 1, 0), Vector3.UP);
         camera = new Camera(vw, new Vector3(0, 0, 10), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
         vw.enable();
-        camera.setPerspective(1920, 1080);
+        camera.setPerspective(width, height);
         Renderer.modelview.loadIdentity();
         // camera.setOrtho( width, height);
         //mCamera.setOrtho(gl, width, height);
@@ -113,14 +115,18 @@ public class MainScreen extends Screen {
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_ALPHA, GLES20.GL_ONE_MINUS_DST_ALPHA);
         //GLES20.glDepthMask(false);
-        float ratio = (float) 1920 / 1080;
+        float ratio = (float)width / (float)height;
         //Matrix.setIdentityM(projection_matrix.matrix, 0);
-        Matrix.frustumM(projection_matrix.matrix,0, -ratio, ratio, -1, 1, 1, 1000);
+        Matrix.frustumM(projection_matrix.matrix, 0, -ratio, ratio, -1, 1, 1, 200);
         //shader.enable();
         resourcesloaded = true;
     }
 
-    //public void onDrawEye(Eye eye) {
+        shader.Use();
+
+        GLES20.glUniformMatrix4fv(mMVPMatrixUniformLocation, 1, false, modelview_projection_matrix.matrix, 0);
+
+        //public void onDrawEye(Eye eye) {
 
         /*if (!resourcesloaded && !resourcesloading) {
             resourcesloading = true;
@@ -146,24 +152,39 @@ public class MainScreen extends Screen {
 
         GLES20.glClearColor(color.R, color.G, color.B, color.A);
         GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        GLES20.glDisable(GLES20.GL_CULL_FACE);
 
 
         //camera.setLookAt( new Vector3(eye.getEyeView()[0],eye.getEyeView()[1], eye.getEyeView()[2]));
         float x = (float)Math.sin(angle) * 10;
         float z = (float)Math.cos(angle) * 10;
-        angle += Math.PI * 0.01f;
-        if (angle > Math.PI * 2.0f)
-            angle -= Math.PI * 2.0f;
+        angle += 0.5f;
+        if (angle > 360.0f)
+            angle -= 360.0f;
 
         //camera.setLookAt(new Vector3(x, 0, z));
 
         //camera.set();
         //modelview_matrix.setLookAt(0, 0, 10, x, 0, z, 0, 1, 0);
         //Matrix.setIdentityM(modelview_matrix.matrix, 0);
-        Matrix.setLookAtM(modelview_matrix.matrix, 0, 0.0f, 0.0f, -10, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        //Matrix.setLookAtM(modelview_matrix.matrix, 0, 0.0f, 0.0f, -6.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        Matrix.setLookAtM(modelview_matrix.matrix, 0, -eye.getEyeView()[0], eye.getEyeView()[1], eye.getEyeView()[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
         Matrix.setIdentityM(model_matrix.matrix, 0);
-        Matrix.setRotateEulerM( model_matrix.matrix, 0, x, 1.0f, z);
+
+        //Matrix.setRotateEulerM( model_matrix.matrix, 0, angle, 1, angle);
+        //Matrix.setRotateEulerM( model_matrix.matrix, 0, 0, angle, 0); //bug on android implementation
+        //Matrix.setRotateEulerM( model_matrix.matrix, 0, 0, 0, angle);
+        GLMatrix trans = new GLMatrix();
+        Matrix.setIdentityM(trans.matrix, 0);
+        GLMatrix rot = new GLMatrix();
+        Matrix.setIdentityM(rot.matrix, 0);
+        Matrix.translateM( trans.matrix, 0, 0.0f, 0.0f, 5.0f);
+        Matrix.setRotateM( rot.matrix, 0, angle, 1, 1, 1);
+
+        Matrix.multiplyMM(model_matrix.matrix, 0, trans.matrix, 0, rot.matrix,0);
+
         GLMatrix tmp = new GLMatrix();
         Matrix.multiplyMM(tmp.matrix, 0, modelview_matrix.matrix, 0, model_matrix.matrix,0);
         Matrix.multiplyMM(modelview_projection_matrix.matrix, 0, projection_matrix.matrix, 0, tmp.matrix,0);
@@ -183,10 +204,34 @@ public class MainScreen extends Screen {
             Renderer.BindTexture(Renderer.TEXTURE0, m.mTexture.getID());
             m.mVertexBuffer.Draw(m.mIndexBuffer);
         }
+
+        //model 2
+        Matrix.setIdentityM(model_matrix.matrix, 0);
+        Matrix.setLookAtM(modelview_matrix.matrix, 0, -eye.getEyeView()[0], eye.getEyeView()[1], eye.getEyeView()[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        Matrix.setIdentityM(trans.matrix, 0);
+        Matrix.setIdentityM(rot.matrix, 0);
+        Matrix.translateM( trans.matrix, 0, 100.0f, -20.0f, 40.0f);
+        Matrix.setRotateM( rot.matrix, 0, angle, 0, 0, 1);
+
+        Matrix.multiplyMM(model_matrix.matrix, 0, trans.matrix, 0, rot.matrix,0);
+
+        Matrix.multiplyMM(tmp.matrix, 0, modelview_matrix.matrix, 0, model_matrix.matrix,0);
+        Matrix.multiplyMM(modelview_projection_matrix.matrix, 0, projection_matrix.matrix, 0, tmp.matrix,0);
+        GLES20.glUniformMatrix4fv(mMVPMatrixUniformLocation, 1, false, modelview_projection_matrix.matrix, 0);
+
+        for (int i = 0; i< model2.mMesh.size(); i++) {
+
+            Mesh m = model2.mMesh.get(i);
+            Renderer.BindTexture(Renderer.TEXTURE0, m.mTexture.getID());
+            m.mVertexBuffer.Draw(m.mIndexBuffer);
+        }
+        //end model 2 render
+
+
     }
 
     public void onCardboardTrigger() {
-        color.setValue(random.nextFloat(), random.nextFloat(), random.nextFloat(), 1.0f);
+        //color.setValue(random.nextFloat(), random.nextFloat(), random.nextFloat(), 1.0f);
     }
 
 
