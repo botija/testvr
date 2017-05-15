@@ -22,24 +22,18 @@ public class Scene {
 			
 		}
 
-        public Vector3 mPosition;
-		public Vector3 mScale;
-		public Quaternion mRotation;
+
 	}
 	
 	public Scene(int sceneid) {
 	
 		mSceneID = sceneid;
-		matrix = new float[16];
-		mModels = new ArrayList<Model>();
-		mTransform = new ArrayList<Transform>();
+
 	}
 	
 	public int mSceneID;
-	public ArrayList<Model> mModels;
 	public ArrayList<Transform> mTransform;
 	public Camera mCamera;
-	public Light mLight;
 	public MaterialManager mMaterialManager;
 	private float[] matrix;
 
