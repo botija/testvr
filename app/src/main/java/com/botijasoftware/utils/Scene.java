@@ -1,11 +1,9 @@
 package com.botijasoftware.utils;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,16 +13,10 @@ import com.botijasoftware.utils.materials.MaterialManager;
 import com.botijasoftware.utils.renderer.Renderer;
 
 
+
 public class Scene {
 
-	class Transform {
-		public Transform() {
-			
-		}
 
-
-	}
-	
 	public Scene(int sceneid) {
 	
 		mSceneID = sceneid;
@@ -32,10 +24,10 @@ public class Scene {
 	}
 	
 	public int mSceneID;
-	public ArrayList<Transform> mTransform;
+    public SceneNode root;
 	public Camera mCamera;
 	public MaterialManager mMaterialManager;
-	private float[] matrix;
+	private float[] matrix = new float[16];
 
 	
 	public void LoadContent(ResourceManager resources) {
@@ -81,18 +73,18 @@ public class Scene {
                         float sz = Float.valueOf(scale.getAttribute("z").trim());
                         
                         Element entity = (Element) node.getElementsByTagName("entity").item(0);
-                        //String name = entity.getAttribute("name").trim();
+                        String name = entity.getAttribute("name").trim();
                         String file = entity.getAttribute("meshFile").trim();
                      
                         Model m = new Model(file);
                         m.LoadContent(resources);
-                        mModels.add(m);
+                        /*mModels.add(m);
                         Transform t = new Transform();
                         t.mPosition = new Vector3(x, y, z);
                         t.mRotation = new Quaternion(qx, qy, qz, -qw);
                         //t.mRotation = t.mRotation.mul(new Quaternion(0,.707f,0,.707f)).invert();
                         t.mScale = new Vector3(sx, sy, sz);
-                        mTransform.add(t);
+                        mTransform.add(t);*/
                     }
                     
                 }
@@ -102,16 +94,21 @@ public class Scene {
         }
         catch (Exception e) {
             //System.out.println("XML Pasing Excpetion = " + e);
-        	mModels.clear();
-        	mTransform.clear();
+        	//mModels.clear();
+        	//mTransform.clear();
         }
 
 		
 	}
+
+    SceneNode findNode(String name) {
+
+        return root.findNode(name);
+    }
 	
 	
 	public void Draw() {
-		for (int i = 0; i < mModels.size(); i++) {
+		/*for (int i = 0; i < mModels.size(); i++) {
 			Transform t = mTransform.get(i);
             Renderer.pushModelViewMatrix();//  GLES20.glPushMatrix();
 			
@@ -130,7 +127,7 @@ public class Scene {
 					
 			mModels.get(i).Draw();
 			Renderer.popModelViewMatrix();  //GLES20.glPopMatrix();
-		}
+		}*/
 	}
 }
 
