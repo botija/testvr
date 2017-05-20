@@ -17,9 +17,9 @@ import com.botijasoftware.utils.Screens.ScreenVR;
 import com.botijasoftware.utils.ShaderProgram;
 import com.botijasoftware.utils.Vector3;
 import com.botijasoftware.utils.renderer.Renderer;
-import com.google.vrtoolkit.cardboard.Eye;
-import com.google.vrtoolkit.cardboard.HeadTransform;
 import com.botijasoftware.utils.Viewport;
+import com.google.vr.sdk.base.Eye;
+import com.google.vr.sdk.base.HeadTransform;
 
 import java.util.Random;
 
@@ -69,11 +69,13 @@ public class MainScreen extends ScreenVR {
         }
     }
 
+    @Override
     public void onNewFrame(HeadTransform headTransform) {
 
     }
 
     //public void Draw() {
+    @Override
     public void onDrawEye(Eye eye) {
 
     if (!resourcesloaded) {

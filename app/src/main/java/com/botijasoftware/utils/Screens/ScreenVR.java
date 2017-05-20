@@ -5,13 +5,13 @@ import javax.microedition.khronos.egl.EGLConfig;
 import android.opengl.GLES20;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-
 import com.botijasoftware.utils.ResourceManager;
 import com.botijasoftware.utils.ScreenManagerVR;
 import com.botijasoftware.utils.Timer;
-import com.google.vrtoolkit.cardboard.Eye;
-import com.google.vrtoolkit.cardboard.HeadTransform;
-import com.google.vrtoolkit.cardboard.Viewport;
+import com.google.vr.sdk.base.Eye;
+import com.google.vr.sdk.base.HeadTransform;
+import com.google.vr.sdk.base.Viewport;
+
 
 public class ScreenVR {
 

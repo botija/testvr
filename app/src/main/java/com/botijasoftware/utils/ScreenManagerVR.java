@@ -17,14 +17,12 @@ import android.view.MotionEvent;
 
 import com.botijasoftware.utils.Screens.Screen;
 import com.botijasoftware.utils.Screens.ScreenVR;
-import com.botijasoftware.vrtest.R;
-import com.google.vrtoolkit.cardboard.*;
-import com.google.vrtoolkit.cardboard.Viewport;
-
+import com.google.vr.sdk.base.*;
+import com.google.vr.sdk.base.Viewport;
 import javax.microedition.khronos.egl.EGL10;
 
 
-public class ScreenManagerVR extends CardboardView implements CardboardView.StereoRenderer {
+public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 
 	protected ArrayList<ScreenVR> Screens;
 	protected ArrayList<ScreenVR> ScreensToUpdate;
@@ -73,7 +71,15 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
         });*/
 
         setEGLContextClientVersion(2);
-		setRestoreGLStateEnabled(false);
+		//setRestoreGLStateEnabled(false);
+		//setTransitionViewEnabled(true);
+		enableCardboardTriggerEmulation();
+		/*if (setAsyncReprojectionEnabled(true)) {
+			// Async reprojection decouples the app framerate from the display framerate,
+			// allowing immersive interaction even at the throttled clockrates set by
+			// sustained performance mode.
+			AndroidCompat.setSustainedPerformanceMode(activity, true);
+		}*/
 		setRenderer(this);
 
 		mActivity = activity;
@@ -543,7 +549,8 @@ public class ScreenManagerVR extends CardboardView implements CardboardView.Ster
         }
 	}
 
-	@Override
+
+    @Override
 	public void onSurfaceChanged(int width, int height) {
 		setSize(width, height);
 		GLES20.glViewport(0, 0, width, height);

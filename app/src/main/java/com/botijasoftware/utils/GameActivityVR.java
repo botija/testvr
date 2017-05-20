@@ -5,12 +5,11 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.botijasoftware.utils.ResourceManager;
-import com.google.vrtoolkit.cardboard.CardboardActivity;
+import com.google.vr.sdk.base.GvrActivity;
 
 
-public class GameActivityVR extends CardboardActivity{
+
+public class GameActivityVR extends GvrActivity {
     /** Called when the activity is first created. */
     @Override  
     public void onCreate(Bundle savedInstanceState) {  
