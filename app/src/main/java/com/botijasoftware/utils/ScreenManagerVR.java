@@ -72,14 +72,14 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 
         setEGLContextClientVersion(2);
 		//setRestoreGLStateEnabled(false);
-		//setTransitionViewEnabled(true);
+		setTransitionViewEnabled(true);
 		enableCardboardTriggerEmulation();
-		/*if (setAsyncReprojectionEnabled(true)) {
+		if (setAsyncReprojectionEnabled(true)) {
 			// Async reprojection decouples the app framerate from the display framerate,
 			// allowing immersive interaction even at the throttled clockrates set by
 			// sustained performance mode.
 			AndroidCompat.setSustainedPerformanceMode(activity, true);
-		}*/
+		}
 		setRenderer(this);
 
 		mActivity = activity;

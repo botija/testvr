@@ -9,6 +9,10 @@ public class Transform {
 	public Quaternion rotation;
 	public Vector3 scale;
 	protected GLMatrix matrix = new GLMatrix();
+    protected static GLMatrix translationmatrix = new GLMatrix();
+    protected static GLMatrix rotationmatrix = new GLMatrix();
+    protected static GLMatrix scalematrix = new GLMatrix();
+    protected static GLMatrix scratchmatrix = new GLMatrix();
 	
 	
 	public Transform(Vector3 translation, Quaternion rotation, Vector3 scale) {
@@ -40,11 +44,11 @@ public class Transform {
 	}
 	
 	private void generateMatrix() {
-		Matrix.setIdentityM(Renderer.scratch0.matrix, 0);
-		Matrix.translateM(Renderer.scratch0.matrix, 0, translation.X, translation.Y, translation.Z);
-		rotation.getMatrix(Renderer.scratch1.matrix);		
-		Matrix.multiplyMM(matrix.matrix, 0, Renderer.scratch1.matrix, 0, Renderer.scratch0.matrix, 0);
-		Matrix.scaleM(matrix.matrix, 0, scale.X, scale.Y, scale.Z);
+        Matrix.translateM( translationmatrix.matrix, 0, translation.X, translation.Y, translation.Z);
+        rotation.getMatrix( rotationmatrix.matrix );
+        Matrix.scaleM(scalematrix.matrix, 0, scale.X, scale.Y, scale.Z);
+        Matrix.multiplyMM(scalematrix.matrix, 0, scalematrix.matrix, 0, rotationmatrix.matrix, 0);
+        Matrix.multiplyMM(matrix.matrix, 0, scratchmatrix.matrix, 0, translationmatrix.matrix, 0);
 	}
 	
 }
