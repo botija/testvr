@@ -104,4 +104,8 @@ public class SceneNode implements Renderable{
 
         return null;
     }
+
+    public Transform getTransform() {
+        return transform;
+    }
 }

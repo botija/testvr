@@ -43,12 +43,18 @@ public class Transform {
 		this.scale.setValue(transform.scale);
 	}
 	
-	private void generateMatrix() {
+	public GLMatrix generateMatrix() {
         Matrix.translateM( translationmatrix.matrix, 0, translation.X, translation.Y, translation.Z);
         rotation.getMatrix( rotationmatrix.matrix );
         Matrix.scaleM(scalematrix.matrix, 0, scale.X, scale.Y, scale.Z);
         Matrix.multiplyMM(scalematrix.matrix, 0, scalematrix.matrix, 0, rotationmatrix.matrix, 0);
         Matrix.multiplyMM(matrix.matrix, 0, scratchmatrix.matrix, 0, translationmatrix.matrix, 0);
+
+        return matrix;
+	}
+
+	public GLMatrix getTransformMatrix() {
+		return matrix;
 	}
 	
 }

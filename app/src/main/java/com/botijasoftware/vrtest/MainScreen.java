@@ -10,11 +10,13 @@ import com.botijasoftware.utils.GLMatrix;
 import com.botijasoftware.utils.Mesh;
 import com.botijasoftware.utils.Model;
 import com.botijasoftware.utils.ResourceManager;
+import com.botijasoftware.utils.SceneNode;
 import com.botijasoftware.utils.ScreenManager;
 import com.botijasoftware.utils.ScreenManagerVR;
 import com.botijasoftware.utils.Screens.Screen;
 import com.botijasoftware.utils.Screens.ScreenVR;
 import com.botijasoftware.utils.ShaderProgram;
+import com.botijasoftware.utils.Transform;
 import com.botijasoftware.utils.Vector3;
 import com.botijasoftware.utils.renderer.Renderer;
 import com.botijasoftware.utils.Viewport;
@@ -47,6 +49,7 @@ public class MainScreen extends ScreenVR {
     float angle = 0.0f;
     boolean resourcesloaded = false;
     boolean resourcesloading = false;
+    SceneNode node;
 
 
     public MainScreen(ScreenManagerVR screenManager) {
@@ -81,6 +84,12 @@ public class MainScreen extends ScreenVR {
     if (!resourcesloaded) {
         model = mResourceManager.loadModel(R.raw.monkey);
         model2 = mResourceManager.loadModel(R.raw.teapot);
+
+        node = new SceneNode();
+        node.setPosition(100.0f, -20.0f, 40.0f);
+        node.setRotation(0.0f,0.0f,0.0f);
+        node.setScale(1.0f, 1.0f, 1.0f);
+
         shader = new ShaderProgram(R.raw.shader_vs, R.raw.shader_ps);
         shader.LoadContent(mResourceManager);
 
@@ -208,16 +217,19 @@ public class MainScreen extends ScreenVR {
         }
 
         //model 2
-        Matrix.setIdentityM(model_matrix.matrix, 0);
         Matrix.setLookAtM(modelview_matrix.matrix, 0, -eye.getEyeView()[0], eye.getEyeView()[1], eye.getEyeView()[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        /*Matrix.setIdentityM(model_matrix.matrix, 0);
         Matrix.setIdentityM(trans.matrix, 0);
         Matrix.setIdentityM(rot.matrix, 0);
         Matrix.translateM( trans.matrix, 0, 100.0f, -20.0f, 40.0f);
-        Matrix.setRotateM( rot.matrix, 0, angle, 0, 0, 1);
+        Matrix.setRotateM( rot.matrix, 0, angle, 0, 0, 1);*/
 
-        Matrix.multiplyMM(model_matrix.matrix, 0, trans.matrix, 0, rot.matrix,0);
+        Transform transform = node.getTransform();
+        transform.generateMatrix();
+        Matrix.multiplyMM(transform.getTransformMatrix().matrix, 0, modelview_matrix.matrix, 0, model_matrix.matrix,0);
+        //Matrix.multiplyMM(model_matrix.matrix, 0, trans.matrix, 0, rot.matrix,0);
 
-        Matrix.multiplyMM(tmp.matrix, 0, modelview_matrix.matrix, 0, model_matrix.matrix,0);
+        //Matrix.multiplyMM(tmp.matrix, 0, modelview_matrix.matrix, 0, model_matrix.matrix,0);
         Matrix.multiplyMM(modelview_projection_matrix.matrix, 0, projection_matrix.matrix, 0, tmp.matrix,0);
         GLES20.glUniformMatrix4fv(mMVPMatrixUniformLocation, 1, false, modelview_projection_matrix.matrix, 0);
 
