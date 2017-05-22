@@ -44,10 +44,12 @@ public class Transform {
 	}
 	
 	public GLMatrix generateMatrix() {
+		Matrix.setIdentityM(translationmatrix.matrix, 0);
         Matrix.translateM( translationmatrix.matrix, 0, translation.X, translation.Y, translation.Z);
         rotation.getMatrix( rotationmatrix.matrix );
+		Matrix.setIdentityM(scalematrix.matrix, 0);
         Matrix.scaleM(scalematrix.matrix, 0, scale.X, scale.Y, scale.Z);
-        Matrix.multiplyMM(scalematrix.matrix, 0, scalematrix.matrix, 0, rotationmatrix.matrix, 0);
+        Matrix.multiplyMM(scratchmatrix.matrix, 0, scalematrix.matrix, 0, rotationmatrix.matrix, 0);
         Matrix.multiplyMM(matrix.matrix, 0, scratchmatrix.matrix, 0, translationmatrix.matrix, 0);
 
         return matrix;
