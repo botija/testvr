@@ -10,7 +10,7 @@ public class SceneNode implements Renderable{
     private SceneNode parent = null;
     private Model model;
     private String name;
-    private Transform transform;
+    private Transform transform = new Transform();
 
     @Override
     public void Update(float time) {

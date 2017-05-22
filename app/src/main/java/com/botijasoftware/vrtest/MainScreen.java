@@ -225,8 +225,10 @@ public class MainScreen extends ScreenVR {
         Matrix.setRotateM( rot.matrix, 0, angle, 0, 0, 1);*/
 
         Transform transform = node.getTransform();
+        transform.rotation.rotate( new Vector3(0, 0, 1) , (float)Math.toRadians(angle));
+        transform.scale.setValue( 2.0f, 2.0f, 2.0f);
         transform.generateMatrix();
-        Matrix.multiplyMM(transform.getTransformMatrix().matrix, 0, modelview_matrix.matrix, 0, model_matrix.matrix,0);
+        Matrix.multiplyMM(tmp.matrix, 0, modelview_matrix.matrix, 0, transform.getTransformMatrix().matrix,0);
         //Matrix.multiplyMM(model_matrix.matrix, 0, trans.matrix, 0, rot.matrix,0);
 
         //Matrix.multiplyMM(tmp.matrix, 0, modelview_matrix.matrix, 0, model_matrix.matrix,0);
