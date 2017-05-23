@@ -10,6 +10,7 @@ import com.botijasoftware.utils.GLMatrix;
 import com.botijasoftware.utils.Mesh;
 import com.botijasoftware.utils.Model;
 import com.botijasoftware.utils.ResourceManager;
+import com.botijasoftware.utils.Scene;
 import com.botijasoftware.utils.SceneNode;
 import com.botijasoftware.utils.ScreenManager;
 import com.botijasoftware.utils.ScreenManagerVR;
@@ -45,6 +46,7 @@ public class MainScreen extends ScreenVR {
     GLMatrix projection_matrix =  new GLMatrix();
     GLMatrix modelview_projection_matrix =  new GLMatrix();
     GLMatrix model_matrix =  new GLMatrix();
+    Scene mainScene;
 
     float angle = 0.0f;
     boolean resourcesloaded = false;
@@ -85,10 +87,22 @@ public class MainScreen extends ScreenVR {
         model = mResourceManager.loadModel(R.raw.monkey);
         model2 = mResourceManager.loadModel(R.raw.teapot);
 
-        node = new SceneNode();
-        node.setPosition(100.0f, -20.0f, 40.0f);
+
+        mainScene = new Scene(0);
+
+        node = new SceneNode("Monkey", model);
+        node.setPosition(0.0f, 0.0f, 5.0f);
         node.setRotation(0.0f,0.0f,0.0f);
         node.setScale(1.0f, 1.0f, 1.0f);
+
+        mainScene.getRoot().addNode(node);
+
+        node = new SceneNode("Teapot", model2);
+        node.setPosition(100.0f, -20.0f, 40.0f);
+        node.setRotation(0.0f,0.0f,0.0f);
+        node.setScale(2.0f, 2.0f, 2.0f);
+
+        mainScene.getRoot().addNode(node);
 
         shader = new ShaderProgram(R.raw.shader_vs, R.raw.shader_ps);
         shader.LoadContent(mResourceManager);
@@ -119,8 +133,7 @@ public class MainScreen extends ScreenVR {
         vw.enable();
         camera.setPerspective(width, height);
         Renderer.modelview.loadIdentity();
-        // camera.setOrtho( width, height);
-        //mCamera.setOrtho(gl, width, height);
+
         //GLES20.glDisable(GLES20.GL_DEPTH_TEST);
         //GLES20.glDisable(GLES20.GL_CULL_FACE);
         GLES20.glEnable(GLES20.GL_BLEND);
@@ -174,74 +187,27 @@ public class MainScreen extends ScreenVR {
         if (angle > 360.0f)
             angle -= 360.0f;
 
-        //camera.setLookAt(new Vector3(x, 0, z));
-
-        //camera.set();
-        //modelview_matrix.setLookAt(0, 0, 10, x, 0, z, 0, 1, 0);
-        //Matrix.setIdentityM(modelview_matrix.matrix, 0);
-        //Matrix.setLookAtM(modelview_matrix.matrix, 0, 0.0f, 0.0f, -6.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        GLMatrix tmpmatrix = new GLMatrix();
         Matrix.setLookAtM(modelview_matrix.matrix, 0, -eye.getEyeView()[0], eye.getEyeView()[1], eye.getEyeView()[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
-        Matrix.setIdentityM(model_matrix.matrix, 0);
+        for (SceneNode n: mainScene.getRoot().getChildren()) {
 
-        //Matrix.setRotateEulerM( model_matrix.matrix, 0, angle, 1, angle);
-        //Matrix.setRotateEulerM( model_matrix.matrix, 0, 0, angle, 0); //bug on android implementation
-        //Matrix.setRotateEulerM( model_matrix.matrix, 0, 0, 0, angle);
-        GLMatrix trans = new GLMatrix();
-        Matrix.setIdentityM(trans.matrix, 0);
-        GLMatrix rot = new GLMatrix();
-        Matrix.setIdentityM(rot.matrix, 0);
-        Matrix.translateM( trans.matrix, 0, 0.0f, 0.0f, 5.0f);
-        Matrix.setRotateM( rot.matrix, 0, angle, 1, 1, 1);
+            Transform transform = n.getTransform();
+            transform.rotation.rotate(new Vector3(0, 0, 1), (float) Math.toRadians(angle));
+            transform.generateMatrix();
+            Matrix.multiplyMM(tmpmatrix.matrix, 0, modelview_matrix.matrix, 0, transform.getTransformMatrix().matrix, 0);
+            Matrix.multiplyMM(modelview_projection_matrix.matrix, 0, projection_matrix.matrix, 0, tmpmatrix.matrix, 0);
 
-        Matrix.multiplyMM(model_matrix.matrix, 0, trans.matrix, 0, rot.matrix,0);
+            GLES20.glUniformMatrix4fv(mMVPMatrixUniformLocation, 1, false, modelview_projection_matrix.matrix, 0);
 
-        GLMatrix tmp = new GLMatrix();
-        Matrix.multiplyMM(tmp.matrix, 0, modelview_matrix.matrix, 0, model_matrix.matrix,0);
-        Matrix.multiplyMM(modelview_projection_matrix.matrix, 0, projection_matrix.matrix, 0, tmp.matrix,0);
-        GLES20.glUniformMatrix4fv(mMVPMatrixUniformLocation, 1, false, modelview_projection_matrix.matrix, 0);
-        /*Renderer.modelview.loadIdentity();
-        angle += 1.0f;
-        Renderer.modelview.rotate(angle, 0.5f, 0.5f, 0.5f);
-        Renderer.modelview.scale(10, 10, 10);*/
+            Model mdl = n.getModel();
+            for (int i = 0; i < mdl.mMesh.size(); i++) {
 
-        //Renderer.modelview.scale(100, 100, 100);
-        //Renderer.modelview.loadIdentity();
-        //camera.set();
-        for (int i = 0; i< model.mMesh.size(); i++) {
-
-            Mesh m = model.mMesh.get(i);
-            //GLES20.glBindTexture(texture0, m.mTexture.getID());
-            Renderer.BindTexture(Renderer.TEXTURE0, m.mTexture.getID());
-            m.mVertexBuffer.Draw(m.mIndexBuffer);
+                Mesh m = mdl.mMesh.get(i);
+                Renderer.BindTexture(Renderer.TEXTURE0, m.mTexture.getID());
+                m.mVertexBuffer.Draw(m.mIndexBuffer);
+            }
         }
-
-        //model 2
-        Matrix.setLookAtM(modelview_matrix.matrix, 0, -eye.getEyeView()[0], eye.getEyeView()[1], eye.getEyeView()[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        /*Matrix.setIdentityM(model_matrix.matrix, 0);
-        Matrix.setIdentityM(trans.matrix, 0);
-        Matrix.setIdentityM(rot.matrix, 0);
-        Matrix.translateM( trans.matrix, 0, 100.0f, -20.0f, 40.0f);
-        Matrix.setRotateM( rot.matrix, 0, angle, 0, 0, 1);*/
-
-        Transform transform = node.getTransform();
-        transform.rotation.rotate( new Vector3(0, 0, 1) , (float)Math.toRadians(angle));
-        transform.scale.setValue( 2.0f, 2.0f, 2.0f);
-        transform.generateMatrix();
-        Matrix.multiplyMM(tmp.matrix, 0, modelview_matrix.matrix, 0, transform.getTransformMatrix().matrix,0);
-        //Matrix.multiplyMM(model_matrix.matrix, 0, trans.matrix, 0, rot.matrix,0);
-
-        //Matrix.multiplyMM(tmp.matrix, 0, modelview_matrix.matrix, 0, model_matrix.matrix,0);
-        Matrix.multiplyMM(modelview_projection_matrix.matrix, 0, projection_matrix.matrix, 0, tmp.matrix,0);
-        GLES20.glUniformMatrix4fv(mMVPMatrixUniformLocation, 1, false, modelview_projection_matrix.matrix, 0);
-
-        for (int i = 0; i< model2.mMesh.size(); i++) {
-
-            Mesh m = model2.mMesh.get(i);
-            Renderer.BindTexture(Renderer.TEXTURE0, m.mTexture.getID());
-            m.mVertexBuffer.Draw(m.mIndexBuffer);
-        }
-        //end model 2 render
 
 
     }

@@ -12,6 +12,11 @@ public class SceneNode implements Renderable{
     private String name;
     private Transform transform = new Transform();
 
+    public SceneNode(String name, Model model) {
+        this.name = name;
+        this.model = model;
+    }
+
     @Override
     public void Update(float time) {
 
@@ -107,5 +112,13 @@ public class SceneNode implements Renderable{
 
     public Transform getTransform() {
         return transform;
+    }
+
+    public ArrayList<SceneNode> getChildren() {
+        return children;
+    }
+
+    public Model getModel() {
+        return model;
     }
 }

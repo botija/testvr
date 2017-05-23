@@ -20,6 +20,7 @@ public class Scene {
 	public Scene(int sceneid) {
 	
 		mSceneID = sceneid;
+		root = new SceneNode("root", null);
 
 	}
 	
@@ -101,9 +102,13 @@ public class Scene {
 		
 	}
 
-    SceneNode findNode(String name) {
+    public SceneNode findNode(String name) {
 
         return root.findNode(name);
+    }
+
+    public SceneNode getRoot() {
+	    return root;
     }
 	
 	
