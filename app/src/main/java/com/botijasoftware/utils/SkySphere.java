@@ -6,10 +6,10 @@ import android.opengl.GLES20;
 public class SkySphere implements Renderable {
 
 	private Vector3 position;
-	private VertexBuffer mVertexBuffer;
-	private IndexBuffer mIndexBuffer;
+	public VertexBuffer mVertexBuffer;
+	public IndexBuffer mIndexBuffer;
 	private float scale;
-	private Texture mTexture;
+	public Texture mTexture;
 	private final static short indexdata[] = { 0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6,
 			7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15, 16, 17, 18, 16, 18,
 			19, 20, 21, 22, 20, 22, 23, 24, 25, 26, 24, 26, 27, 28, 29, 30, 28,

@@ -88,18 +88,18 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 		mGlobalOptions = new GlobalOptions(preferences);
 
 		mSoundSystem = new SoundSystem( mResourceManager.getAudioManager(), mResourceManager.getSoundPool() );
-		
+
 		Screens = new ArrayList<ScreenVR>();
 		ScreensToUpdate = new ArrayList<ScreenVR>();
 		ScreensToBackup = new ArrayList<ScreenVR>();
         ScreensOnFocus = new ArrayList<ScreenVR>();
-			
+
 	}
 
 	public void setStartScreen(ScreenVR startscreen) {
 		mStartScreen = startscreen;
 	}
-	
+
 
 	public void Run() {
 		//addScreen( new LoadingScreen(this, new MainScreen( this ) ) );
@@ -108,7 +108,7 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 			isRunning = true;
 		}
 	}
-	
+
 
 	public void onSurfaceCreated(EGL10 gl, EGLConfig config)
 	{
@@ -130,10 +130,10 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
 		lastUpdateTime = 0;
-		
+
 		Time = SystemClock.uptimeMillis();
-		oldTime = 0L; 
-		
+		oldTime = 0L;
+
 	}
 
 	public void onSurfaceChanged(EGL10 gl, int width, int height)
@@ -146,26 +146,26 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 		//GLU.gluPerspective(gl, 75.0f, (float)width/(float)height, 1.0f, 500.0f);
 		//GLES20.glMatrixMode(GLES20.GL_MODELVIEW);
 		//GLES20.glLoadIdentity();
-		
+
 
 		//GLES20.glColor4x(0x10000, 0x10000, 0x10000, 0x10000);
-		
+
 		int size = Screens.size();
 		for (int i = 0; i < size; i++) {
 			ScreenVR scr = Screens.get(i);
 			scr.onSurfaceChanged(width, height);
 		}
-		
+
 		if (!isRunning) {
 			Run();
 		}
-		
+
 		lastUpdateTime = 0;
 
 	}
 
 	public void onDrawFrame(EGL10 gl)
-	{ 
+	{
 
         if (mActivity.isFinishing())
             return;
@@ -174,34 +174,34 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 		if (oldTime == 0L)
 			oldTime = Time;
 		Update((Time - oldTime) / 1000.0f); //Convert elapsed milliseconds to seconds
-		
+
 		if (hasFinished()) {
 			//Thread.currentThread().destroy();
 			mActivity.finish();
 			return;
-			//this.finish();	
+			//this.finish();
 		}
-				
+
 		oldTime = Time;
-		
+
 		if (glNeedsReload) {
 			Clear();
 			mResourceManager.reloadAllTextures();
             mResourceManager.reloadAllShaders();
-			
+
 			int size = Screens.size();
 			for (int i = 0; i < size; i++) {
 				ScreenVR scr = Screens.get(i);
 				scr.reloadContent();
 			}
-			
+
 			glNeedsReload = false;
 		}
-		
-		
+
+
 		long ms = SystemClock.uptimeMillis();
 		long t = lastUpdateTime + minFrameTime - ms;
-		
+
 		if (t > 1) {
 			try {
 
@@ -212,11 +212,11 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 				//e.printStackTrace();
 			}
 		}
-		
+
 			ms = SystemClock.uptimeMillis();
 			float tframe = (ms - lastUpdateTime)/1000.0f;
 			mFPS = 1.0f/tframe;
-			
+
 			lastUpdateTime = ms;
 			Clear();
 
@@ -230,21 +230,21 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
                     scr.Draw();
                 }
             }
-		
+
 			GLES20.glFlush();
 			GLES20.glFinish();
 		//}
 	}
 
 	public void onStop() {
-	
+
 		int size = Screens.size();
 		for (int i = 0; i < size; i++) {
 			ScreenVR scr = Screens.get(i);
 			scr.onStop();
 		}
 	}
-	
+
 	public void onPause() {
 
 		super.onPause();
@@ -255,7 +255,7 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 		}
 		oldTime = 0L;
 	}
-	
+
 	public void onDestroy() {
 
 		int size = Screens.size();
@@ -267,7 +267,7 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 		mResourceManager.unloadAllContent();
 		oldTime = 0L;
 	}
-	
+
 	public void onResume() {
 
         if(shouldExecuteOnResume){
@@ -284,7 +284,7 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
             shouldExecuteOnResume = true;
         }
 	}
-	
+
 	public void addScreenOnTop(ScreenVR newScreen) {
 		newScreen.LoadContent(mResourceManager);
 		Screens.add(0,newScreen);
@@ -302,19 +302,19 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 		Screens.remove(screen);
 		System.gc();
 	}
-	
+
 	public int Count() {
 		return Screens.size();
 	}
-	
+
 	public ScreenVR backupScreen(ScreenVR screen) {
 
 		ScreensToBackup.add(screen);
 		return screen;
 	}
-	
+
 	public ScreenVR recoverScreen(ScreenVR screen) {
-	
+
 		if (screen != null && ScreensToBackup.contains(screen)) {
             ScreensToBackup.remove(screen);
             Screens.add(screen);
@@ -322,11 +322,11 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 		}
 		return null;
 	}
-	
+
 	public boolean hasFinished() {
 		return (Screens.isEmpty());
 	}
-	
+
 	public void Update(float time) {
 
         if (main != null) {
@@ -346,9 +346,9 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 
             checkFocus();
         }
-				
+
 	}
-	
+
 	public void Clear() {
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 	}
@@ -358,21 +358,21 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 		mHeight = height;
 		mLayout.setSize(width,height);
 	}
-	
-	
+
+
 	public Layout getLayout() {
 		return mLayout;
 	}
-	
+
 	public float getFPS() {
 		return mFPS;
-	}	
-	
+	}
+
 	@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
 		int size = Screens.size();
-		for (int i = 0; i < size; i++) {			
+		for (int i = 0; i < size; i++) {
 			if (Screens.get(i).onKeyDown(keyCode, event))
 				return true;
 		}
@@ -400,23 +400,23 @@ public class ScreenManagerVR extends GvrView implements GvrView.StereoRenderer {
 		}
 		return false;
 	}
-	
+
 	@Override
 	 public boolean onTouchEvent(final MotionEvent event) {
 
 		int size = Screens.size();
-		for (int i = 0; i < size; i++) {			
+		for (int i = 0; i < size; i++) {
 			if (Screens.get(i).onTouchEvent( event))
 				return true;
 		}
 		return false;
 	}
-	
-	
+
+
 	public boolean onBackPressed() {
-		
+
 		int size = Screens.size();
-		for (int i = 0; i < size; i++) {			
+		for (int i = 0; i < size; i++) {
 			if (Screens.get(i).onBackPressed())
 				return true;
 		}

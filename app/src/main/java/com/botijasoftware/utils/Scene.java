@@ -27,6 +27,7 @@ public class Scene {
 	public int mSceneID;
     public SceneNode root;
 	public Camera mCamera;
+	public SkySphere sky;
 	public MaterialManager mMaterialManager;
 	private float[] matrix = new float[16];
 

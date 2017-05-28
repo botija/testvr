@@ -9,6 +9,7 @@ import com.botijasoftware.utils.ColorRGBA;
 import com.botijasoftware.utils.GLMatrix;
 import com.botijasoftware.utils.Mesh;
 import com.botijasoftware.utils.Model;
+import com.botijasoftware.utils.Quaternion;
 import com.botijasoftware.utils.ResourceManager;
 import com.botijasoftware.utils.Scene;
 import com.botijasoftware.utils.SceneNode;
@@ -17,6 +18,8 @@ import com.botijasoftware.utils.ScreenManagerVR;
 import com.botijasoftware.utils.Screens.Screen;
 import com.botijasoftware.utils.Screens.ScreenVR;
 import com.botijasoftware.utils.ShaderProgram;
+import com.botijasoftware.utils.SkySphere;
+import com.botijasoftware.utils.Texture;
 import com.botijasoftware.utils.Transform;
 import com.botijasoftware.utils.Vector3;
 import com.botijasoftware.utils.renderer.Renderer;
@@ -47,6 +50,9 @@ public class MainScreen extends ScreenVR {
     GLMatrix modelview_projection_matrix =  new GLMatrix();
     GLMatrix model_matrix =  new GLMatrix();
     Scene mainScene;
+    SkySphere sky;
+
+    private GLMatrix headViewMatrix = new GLMatrix();
 
     float angle = 0.0f;
     boolean resourcesloaded = false;
@@ -77,6 +83,7 @@ public class MainScreen extends ScreenVR {
     @Override
     public void onNewFrame(HeadTransform headTransform) {
 
+        headTransform.getHeadView(headViewMatrix.matrix, 0);
     }
 
     //public void Draw() {
@@ -87,6 +94,8 @@ public class MainScreen extends ScreenVR {
         model = mResourceManager.loadModel(R.raw.monkey);
         model2 = mResourceManager.loadModel(R.raw.teapot);
 
+        Texture skyTexture = mResourceManager.loadTexture(R.drawable.bergsjostolen);
+        sky = new SkySphere(new Vector3(0,0,0), 200.0f, skyTexture);
 
         mainScene = new Scene(0);
 
@@ -188,7 +197,25 @@ public class MainScreen extends ScreenVR {
             angle -= 360.0f;
 
         GLMatrix tmpmatrix = new GLMatrix();
-        Matrix.setLookAtM(modelview_matrix.matrix, 0, -eye.getEyeView()[0], eye.getEyeView()[1], eye.getEyeView()[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        GLMatrix tmpmatrix2 = new GLMatrix();
+
+        Matrix.setLookAtM(tmpmatrix.matrix, 0, -eye.getEyeView()[0], eye.getEyeView()[1], eye.getEyeView()[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        Matrix.multiplyMM(modelview_matrix.matrix, 0, headViewMatrix.matrix, 0, tmpmatrix.matrix, 0);
+
+        //Render skysphere
+        Transform skyTransform = new Transform();
+        skyTransform.translation.setValue(0.0f, 0.0f, 0.0f);
+        skyTransform.scale.setValue( 200.0f);
+        skyTransform.generateMatrix();
+
+        Matrix.multiplyMM(tmpmatrix.matrix, 0, modelview_matrix.matrix, 0, skyTransform.getTransformMatrix().matrix, 0);
+        Matrix.multiplyMM(modelview_projection_matrix.matrix, 0, projection_matrix.matrix, 0, tmpmatrix.matrix, 0);
+
+        GLES20.glUniformMatrix4fv(mMVPMatrixUniformLocation, 1, false, modelview_projection_matrix.matrix, 0);
+
+        Renderer.BindTexture(Renderer.TEXTURE0, sky.mTexture.getID());
+        //sky.Draw();
+        sky.mVertexBuffer.Draw(sky.mIndexBuffer);
 
         for (SceneNode n: mainScene.getRoot().getChildren()) {
 
