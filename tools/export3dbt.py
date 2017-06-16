@@ -50,8 +50,9 @@ class Submesh:
 	
   def export(self, out):
     uv_act = self.mesh.uv_layers.active
-    uv_layer = uv_act.data if uv_act is not None else EmptyUV()
-    color_data = self.mesh.vertex_colors[0].data
+    uv_layer = uv_act.data if (uv_act is not None) else EmptyUV()
+    #color_data = self.mesh.vertex_colors[0].data
+    color_data = self.mesh.vertex_colors[0].data if (self.mesh.vertex_colors[0].data is not None and len(self.mesh.vertex_colors[0].data)>0) else EmptyColor()
     verts = self.mesh.vertices
 
     #name and texture
@@ -95,19 +96,20 @@ class Submesh:
     for face in self.mesh.polygons:
         for li in face.loop_indices:			
 			
-            #writefloat(out, float(uv_layer[li].uv.u))
-            #writefloat(out, float(uv_layer[li].uv.v))
-            writefloat(out, float(0.0))			
+            writefloat(out, float(uv_layer[li].uv[0]))
+            writefloat(out, float(uv_layer[li].uv[1]))
+            #writefloat(out, float(0.0))			
+            #writefloat(out, float(0.0))						
 			
     for face in self.mesh.polygons:
         for li in face.loop_indices:			
 			
-            #writechar(out, bytes((color_data[li].color.r*255,)))
-            #writechar(out, bytes((color_data[li].color.g*255,)))
-            #writechar(out, bytes((color_data[li].color.b*255,)))
-            writechar(out, bytes((255,)))
-            writechar(out, bytes((255,)))
-            writechar(out, bytes((255,)))
+            writechar(out, bytes((int(color_data[li].color.r*255),)))
+            writechar(out, bytes((int(color_data[li].color.g*255),)))
+            writechar(out, bytes((int(color_data[li].color.b*255),)))
+            #writechar(out, bytes((255,)))
+            #writechar(out, bytes((255,)))
+            #writechar(out, bytes((255,)))
 			
 
     for face in self.mesh.polygons:
