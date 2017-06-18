@@ -20,6 +20,7 @@ import bpy
 
 def writechar(file, c):
   #file.write("%c" % ord(c))
+  #file.write('>B', c )
   file.write( c )
 
 def writefloat(file, f):
@@ -52,7 +53,13 @@ class Submesh:
     uv_act = self.mesh.uv_layers.active
     uv_layer = uv_act.data if (uv_act is not None) else EmptyUV()
     #color_data = self.mesh.vertex_colors[0].data
-    color_data = self.mesh.vertex_colors[0].data if (self.mesh.vertex_colors[0].data is not None and len(self.mesh.vertex_colors[0].data)>0) else EmptyColor()
+	
+    use_color = True
+    if ( (len(self.mesh.vertex_colors) > 0) and self.mesh.vertex_colors[0].data is not None and len(self.mesh.vertex_colors[0].data)>0):
+      color_data = self.mesh.vertex_colors.active.data
+    else:
+      use_color = False
+	   
     verts = self.mesh.vertices
 
     #name and texture
@@ -73,7 +80,12 @@ class Submesh:
     writeint(out,len(self.mesh.polygons)*3)  #vertex
     writeint(out,len(self.mesh.polygons)*3)  #normals
     writeint(out,len(self.mesh.polygons)*3)  #uv
-    writeint(out,len(self.mesh.polygons)*3)  #color
+    if (use_color):
+      writeint(out,len(self.mesh.polygons)*3)  #color
+    else:
+      writeint(out, 0)  #color
+	  
+    writeint(out,len(self.mesh.polygons)*3)  #indexes
 	
     loop_vert = {l.index: l.vertex_index for l in self.mesh.loops}
     for face in self.mesh.polygons:
@@ -100,13 +112,14 @@ class Submesh:
             writefloat(out, float(uv_layer[li].uv[1]))
             #writefloat(out, float(0.0))			
             #writefloat(out, float(0.0))						
+	
+    if (use_color):	
+      for face in self.mesh.polygons:
+          for li in face.loop_indices:			
 			
-    for face in self.mesh.polygons:
-        for li in face.loop_indices:			
-			
-            writechar(out, bytes((int(color_data[li].color.r*255),)))
-            writechar(out, bytes((int(color_data[li].color.g*255),)))
-            writechar(out, bytes((int(color_data[li].color.b*255),)))
+            writechar(out, bytes((int(color_data[li].color[0]*255),)))
+            writechar(out, bytes((int(color_data[li].color[1]*255),)))
+            writechar(out, bytes((int(color_data[li].color[2]*255),)))
             #writechar(out, bytes((255,)))
             #writechar(out, bytes((255,)))
             #writechar(out, bytes((255,)))
@@ -145,6 +158,6 @@ def write_obj(filepath):
 	  
 
 if __name__ == "__main__":
-    write_obj("kk.3dbt")	
+    write_obj("model.3dbt")	
     print("Model exported.")	
 #Blender.Window.FileSelector(write_obj, "Export")

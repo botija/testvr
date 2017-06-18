@@ -97,7 +97,7 @@ public class Model {
 				int nindex = osr.readInt();
 			
 				String packageName = resources.getContext().getApplicationContext().getPackageName();
-				int drawableid = resources.getContext().getResources().getIdentifier(texturename, "drawable", packageName);
+				int drawableid = resources.getContext().getResources().getIdentifier(texturename.toLowerCase(), "drawable", packageName);
 				if (drawableid == 0)
 					return false;
 			
@@ -167,10 +167,10 @@ public class Model {
 				if (ncolor>0) {
 					byte ctmp[] = new byte[ncolor*4];
 					for (int i = 0; i < ncolor*4; i+=4) {
-						ctmp[i] = (byte)osr.readUnsignedByte();
-						ctmp[i+1] = (byte)osr.readUnsignedByte();
-						ctmp[i+2] = (byte)osr.readUnsignedByte();
-						ctmp[i+3] = mAlpha;
+						ctmp[i] = (byte) ((byte)osr.readByte() & 0xff);
+						ctmp[i+1] = (byte) ((byte)osr.readByte() & 0xff);
+						ctmp[i+2] = (byte) ((byte)osr.readByte() & 0xff);
+						ctmp[i+3] = (byte) (mAlpha & 0xff);
             	
 					}
 					vb.getBuffer(2).put(ctmp);

@@ -92,7 +92,7 @@ public class MainScreen extends ScreenVR {
 
     if (!resourcesloaded) {
         model = mResourceManager.loadModel(R.raw.monkey);
-        model2 = mResourceManager.loadModel(R.raw.teapot);
+        model2 = mResourceManager.loadModel(R.raw.model2);
 
         Texture skyTexture = mResourceManager.loadTexture(R.drawable.bergsjostolen);
         sky = new SkySphere(new Vector3(0,0,0), 200.0f, skyTexture);
