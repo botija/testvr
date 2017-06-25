@@ -32,8 +32,8 @@ public class Joystick {
 
     private float trigger_right = 0.0f;
     private float trigger_left = 0.0f;
-    private float thumb_left_x = 0.0f;
-    private float thumb_left_y = 0.0f;
+    public float thumb_left_x = 0.0f;
+    public float thumb_left_y = 0.0f;
     private float thumb_right_x = 0.0f;
     private float thumb_right_y = 0.0f;
 

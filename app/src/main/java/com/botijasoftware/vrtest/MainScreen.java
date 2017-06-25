@@ -2,11 +2,15 @@ package com.botijasoftware.vrtest;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 import com.botijasoftware.utils.Camera;
 import com.botijasoftware.utils.ColorHSV;
 import com.botijasoftware.utils.ColorRGBA;
 import com.botijasoftware.utils.GLMatrix;
+import com.botijasoftware.utils.Joystick;
 import com.botijasoftware.utils.Mesh;
 import com.botijasoftware.utils.Model;
 import com.botijasoftware.utils.Quaternion;
@@ -18,7 +22,6 @@ import com.botijasoftware.utils.ScreenManagerVR;
 import com.botijasoftware.utils.Screens.Screen;
 import com.botijasoftware.utils.Screens.ScreenVR;
 import com.botijasoftware.utils.ShaderProgram;
-import com.botijasoftware.utils.SkySphere;
 import com.botijasoftware.utils.Texture;
 import com.botijasoftware.utils.Transform;
 import com.botijasoftware.utils.Vector3;
@@ -27,6 +30,7 @@ import com.botijasoftware.utils.Viewport;
 import com.google.vr.sdk.base.Eye;
 import com.google.vr.sdk.base.HeadTransform;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -50,7 +54,8 @@ public class MainScreen extends ScreenVR {
     GLMatrix modelview_projection_matrix =  new GLMatrix();
     GLMatrix model_matrix =  new GLMatrix();
     Scene mainScene;
-    SkySphere sky;
+    Model skysphere;
+    Vector3 cameraposition = new Vector3(0, 0, 0);
 
     private GLMatrix headViewMatrix = new GLMatrix();
 
@@ -58,6 +63,8 @@ public class MainScreen extends ScreenVR {
     boolean resourcesloaded = false;
     boolean resourcesloading = false;
     SceneNode node;
+    Joystick joystick = null;
+    Vector3 headposition = new Vector3(0,0,0);
 
 
     public MainScreen(ScreenManagerVR screenManager) {
@@ -67,13 +74,19 @@ public class MainScreen extends ScreenVR {
     public void LoadContent(ResourceManager resources) {
         mResourceManager = resources;
 
+        ArrayList<Integer> joyids = Joystick.getGameControllerIds();
 
-
+        if (joyids.size() > 0) {
+            joystick = new Joystick(joyids.get(0));
+        }
     }
 
     public void Update(float time) {
         if (state == ScreenState.ACTIVE) {
 
+            headposition.X += joystick.thumb_left_x * 10.0f;
+            headposition.Y += joystick.thumb_left_y * 10.0f;
+            Log.d("VRTest", "X=" + headposition.X + " Y="+headposition.Y);
         }
         else if (state == ScreenState.ENDED) {
             mScreenManager.removeScreen(this);
@@ -84,6 +97,20 @@ public class MainScreen extends ScreenVR {
     public void onNewFrame(HeadTransform headTransform) {
 
         headTransform.getHeadView(headViewMatrix.matrix, 0);
+
+        float forward[] = new float[4];
+        float[] POS_MATRIX_MULTIPLY_VEC = {0, 0, 0, 1.0f};
+        Matrix.multiplyMV(forward, 0, headViewMatrix.matrix, 0 , POS_MATRIX_MULTIPLY_VEC, 0);
+
+
+        if (joystick != null) {
+            headposition.X += 0.2f * joystick.thumb_left_y;
+            //headposition.Y += 0.2f * joystick.thumb_left_y;
+            //headposition.Z += 0.2f * joystick.thumb_left_y;
+
+        }
+
+        Log.d("VRTest", "X=" + headposition.X + " Y="+headposition.Y);
     }
 
     //public void Draw() {
@@ -94,8 +121,7 @@ public class MainScreen extends ScreenVR {
         model = mResourceManager.loadModel(R.raw.monkey);
         model2 = mResourceManager.loadModel(R.raw.model2);
 
-        Texture skyTexture = mResourceManager.loadTexture(R.drawable.bergsjostolen);
-        sky = new SkySphere(new Vector3(0,0,0), 200.0f, skyTexture);
+        skysphere = mResourceManager.loadModel(R.raw.skysphere);
 
         mainScene = new Scene(0);
 
@@ -186,7 +212,7 @@ public class MainScreen extends ScreenVR {
         GLES20.glClearColor(color.R, color.G, color.B, color.A);
         GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glDisable(GLES20.GL_CULL_FACE);
+        //GLES20.glDisable(GLES20.GL_CULL_FACE);
 
 
         //camera.setLookAt( new Vector3(eye.getEyeView()[0],eye.getEyeView()[1], eye.getEyeView()[2]));
@@ -199,13 +225,13 @@ public class MainScreen extends ScreenVR {
         GLMatrix tmpmatrix = new GLMatrix();
         GLMatrix tmpmatrix2 = new GLMatrix();
 
-        Matrix.setLookAtM(tmpmatrix.matrix, 0, -eye.getEyeView()[0], eye.getEyeView()[1], eye.getEyeView()[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        Matrix.setLookAtM(tmpmatrix.matrix, 0, -eye.getEyeView()[0] + headposition.X, eye.getEyeView()[1]  + headposition.Y , eye.getEyeView()[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
         Matrix.multiplyMM(modelview_matrix.matrix, 0, headViewMatrix.matrix, 0, tmpmatrix.matrix, 0);
 
         //Render skysphere
         Transform skyTransform = new Transform();
         skyTransform.translation.setValue(0.0f, 0.0f, 0.0f);
-        skyTransform.scale.setValue( 200.0f);
+        //skyTransform.scale.setValue( 200.0f);
         skyTransform.generateMatrix();
 
         Matrix.multiplyMM(tmpmatrix.matrix, 0, modelview_matrix.matrix, 0, skyTransform.getTransformMatrix().matrix, 0);
@@ -213,9 +239,9 @@ public class MainScreen extends ScreenVR {
 
         GLES20.glUniformMatrix4fv(mMVPMatrixUniformLocation, 1, false, modelview_projection_matrix.matrix, 0);
 
-        Renderer.BindTexture(Renderer.TEXTURE0, sky.mTexture.getID());
-        //sky.Draw();
-        sky.mVertexBuffer.Draw(sky.mIndexBuffer);
+        Mesh skym = skysphere.mMesh.get(0);
+        Renderer.BindTexture(Renderer.TEXTURE0, skym.mTexture.getID());
+        skym.mVertexBuffer.Draw(skym.mIndexBuffer);
 
         for (SceneNode n: mainScene.getRoot().getChildren()) {
 
@@ -239,8 +265,45 @@ public class MainScreen extends ScreenVR {
 
     }
 
+    @Override
     public void onCardboardTrigger() {
         //color.setValue(random.nextFloat(), random.nextFloat(), random.nextFloat(), 1.0f);
+        Log.d ("TestVR","OnCardboardTriegger()");
+    }
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        Log.d ("TestVR","onGenericMotionEvent()");
+        if (joystick != null)
+            return joystick.onGenericMotionEvent(event);
+        else
+            return false;
+    }
+
+    @Override
+    public boolean onTouchEvent(final MotionEvent event) {
+        Log.d ("TestVR","onTouchEvent()");
+        return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        Log.d ("TestVR","onKeyDown()");
+        if (joystick != null)
+            return joystick.onKeyDown(keyCode, event);
+        else
+            return false;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        Log.d ("TestVR","onKeyUp()");
+        if (joystick != null)
+            return joystick.onKeyUp(keyCode, event);
+        else
+            return false;
     }
 
 
