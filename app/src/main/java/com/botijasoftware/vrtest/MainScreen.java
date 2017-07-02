@@ -110,7 +110,7 @@ public class MainScreen extends ScreenVR {
 
         }
 
-        Log.d("VRTest", "X=" + headposition.X + " Y="+headposition.Y);
+        //Log.d("VRTest", "X=" + headposition.X + " Y="+headposition.Y);
     }
 
     //public void Draw() {
@@ -118,8 +118,8 @@ public class MainScreen extends ScreenVR {
     public void onDrawEye(Eye eye) {
 
     if (!resourcesloaded) {
-        model = mResourceManager.loadModel(R.raw.monkey);
-        model2 = mResourceManager.loadModel(R.raw.model2);
+        model = mResourceManager.loadModel(R.raw.cementery);
+        model2 = mResourceManager.loadModel(R.raw.monkey);
 
         skysphere = mResourceManager.loadModel(R.raw.skysphere);
 
@@ -137,7 +137,7 @@ public class MainScreen extends ScreenVR {
         node.setRotation(0.0f,0.0f,0.0f);
         node.setScale(2.0f, 2.0f, 2.0f);
 
-        mainScene.getRoot().addNode(node);
+        //mainScene.getRoot().addNode(node);
 
         shader = new ShaderProgram(R.raw.shader_vs, R.raw.shader_ps);
         shader.LoadContent(mResourceManager);
@@ -246,7 +246,9 @@ public class MainScreen extends ScreenVR {
         for (SceneNode n: mainScene.getRoot().getChildren()) {
 
             Transform transform = n.getTransform();
-            transform.rotation.rotate(new Vector3(0, 0, 1), (float) Math.toRadians(angle));
+            //transform.rotation.rotate(new Vector3(0, 0, 1), (float) Math.toRadians(angle));
+            transform.translation.setValue(0, -2, -20);
+            transform.rotation.rotate(new Vector3(0,1,0), (float) Math.toRadians(90));
             transform.generateMatrix();
             Matrix.multiplyMM(tmpmatrix.matrix, 0, modelview_matrix.matrix, 0, transform.getTransformMatrix().matrix, 0);
             Matrix.multiplyMM(modelview_projection_matrix.matrix, 0, projection_matrix.matrix, 0, tmpmatrix.matrix, 0);
