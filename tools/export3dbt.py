@@ -94,32 +94,33 @@ class Submesh:
             #print("Position:", *verts[loop_vert[li]].co)
             #print("UV:", *uv_layer[li].uv)
             #print("Color:", *color_data[li].color)
-            writefloat(out, float(verts[loop_vert[li]].co.x))
-            writefloat(out, float(verts[loop_vert[li]].co.y))
-            writefloat(out, float(verts[loop_vert[li]].co.z))
+            co = verts[loop_vert[li]].co
+            writefloat(out, float(co.x))
+            writefloat(out, float(co.y))
+            writefloat(out, float(co.z))
 			
     for face in self.mesh.polygons:
         for li in face.loop_indices:			
+            normal = verts[loop_vert[li]].normal
+            writefloat(out, float(normal.x))
+            writefloat(out, float(normal.y))
+            writefloat(out, float(normal.z))
 			
-            writefloat(out, float(verts[loop_vert[li]].normal.x))
-            writefloat(out, float(verts[loop_vert[li]].normal.y))
-            writefloat(out, float(verts[loop_vert[li]].normal.z))
+
 			
     for face in self.mesh.polygons:
-        for li in face.loop_indices:			
-			
-            writefloat(out, float(uv_layer[li].uv[0]))
-            writefloat(out, float(uv_layer[li].uv[1]))
-            #writefloat(out, float(0.0))			
-            #writefloat(out, float(0.0))						
+        for li in face.loop_indices:
+            uv = uv_layer[li].uv
+            writefloat(out, float(uv.x))
+            writefloat(out, float(uv.y))
 	
     if (use_color):	
       for face in self.mesh.polygons:
           for li in face.loop_indices:			
-			
-            writechar(out, bytes((int(color_data[li].color[0]*255),)))
-            writechar(out, bytes((int(color_data[li].color[1]*255),)))
-            writechar(out, bytes((int(color_data[li].color[2]*255),)))
+            color = color_data[li].color
+            writechar(out, bytes((int(color[0]*255),)))
+            writechar(out, bytes((int(color[1]*255),)))
+            writechar(out, bytes((int(color[2]*255),)))
             #writechar(out, bytes((255,)))
             #writechar(out, bytes((255,)))
             #writechar(out, bytes((255,)))
