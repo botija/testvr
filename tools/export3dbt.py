@@ -146,6 +146,8 @@ class Mesh:
     writechar(self.out, b'\x00') #version major, minor
     writechar(self.out, b'\x01')
 	
+    bpy.ops.object.mode_set(mode = 'OBJECT')
+	
     writeshort(self.out, len(bpy.data.meshes))   #number of meshes
     for m in bpy.data.meshes:
         submesh = Submesh(m.name)
@@ -161,4 +163,5 @@ def write_obj(filepath):
 if __name__ == "__main__":
     write_obj("model.3dbt")	
     print("Model exported.")	
+    bpy.ops.wm.quit_blender()
 #Blender.Window.FileSelector(write_obj, "Export")
