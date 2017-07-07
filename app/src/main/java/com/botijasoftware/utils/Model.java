@@ -101,7 +101,7 @@ public class Model {
 				if (drawableid == 0)
 					return false;
 			
-				Texture texture = resources.loadTexture(drawableid, TextureOptions.linear_repeat);
+				Texture texture = resources.loadTexture(drawableid, TextureOptions.trilinear_repeat);
 			
 			
 				if (nvertex > 0 && nvertex < 65536 && nindex > 0 && nindex < 65536) {
@@ -160,6 +160,7 @@ public class Model {
 					tmp[i] = osr.readFloat();
 					tmp[i+1] = osr.readFloat();
 				}
+
 				vb.getBuffer(1).put(tmp);
 				//vb.loadTextCoordData(tmpArray, nuv*2);
 			
