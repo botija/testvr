@@ -105,7 +105,7 @@ class Submesh:
             writefloat(out, float(normal.x))
             writefloat(out, float(normal.y))
             writefloat(out, float(normal.z))
-			
+            #print("Normal:", normal.x, normal.y, normal.z)			
 
 			
     for face in self.mesh.polygons:
@@ -113,6 +113,7 @@ class Submesh:
             uv = uv_layer[li].uv
             writefloat(out, float(uv.x))
             writefloat(out, float(uv.y))
+            #print("UV:", uv.x, uv.y)
 	
     if (use_color):	
       for face in self.mesh.polygons:
@@ -121,13 +122,14 @@ class Submesh:
             writechar(out, bytes((int(color[0]*255),)))
             writechar(out, bytes((int(color[1]*255),)))
             writechar(out, bytes((int(color[2]*255),)))
+            #print("Color:", color)
             #writechar(out, bytes((255,)))
             #writechar(out, bytes((255,)))
             #writechar(out, bytes((255,)))
 			
 
     for face in self.mesh.polygons:
-        for li in face.loop_indices:		
+        for li in face.loop_indices:
             writeshort(out, li)		
 			
 
