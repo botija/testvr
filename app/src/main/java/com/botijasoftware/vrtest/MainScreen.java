@@ -249,7 +249,7 @@ public class MainScreen extends ScreenVR {
             Transform transform = n.getTransform();
             //transform.rotation.rotate(new Vector3(0, 1, 0), (float) Math.toRadians(angle));
             //transform.translation.setValue(0, -2, -20);
-            transform.rotation.rotate(new Vector3(0,1,0), (float) Math.toRadians(90));
+            //transform.rotation.rotate(new Vector3(0,1,0), (float) Math.toRadians(90));
             transform.generateMatrix();
             Matrix.multiplyMM(tmpmatrix.matrix, 0, modelview_matrix.matrix, 0, transform.getTransformMatrix().matrix, 0);
             Matrix.multiplyMM(modelview_projection_matrix.matrix, 0, projection_matrix.matrix, 0, tmpmatrix.matrix, 0);
