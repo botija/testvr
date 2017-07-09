@@ -17,6 +17,7 @@ bl_info = {
 
 import bpy
 
+FLIP_AXIS_Y = True
 
 def writechar(file, c):
   #file.write("%c" % ord(c))
@@ -95,16 +96,27 @@ class Submesh:
             #print("UV:", *uv_layer[li].uv)
             #print("Color:", *color_data[li].color)
             co = verts[loop_vert[li]].co
-            writefloat(out, float(co.x))
-            writefloat(out, float(co.y))
-            writefloat(out, float(co.z))
+			
+            if (FLIP_AXIS_Y):
+                writefloat(out, float(co.x))
+                writefloat(out, float(co.z))
+                writefloat(out, float(co.y))
+            else:
+                writefloat(out, float(co.x))
+                writefloat(out, float(co.y))
+                writefloat(out, float(co.z))
 			
     for face in self.mesh.polygons:
         for li in face.loop_indices:			
             normal = verts[loop_vert[li]].normal
-            writefloat(out, float(normal.x))
-            writefloat(out, float(normal.y))
-            writefloat(out, float(normal.z))
+            if (FLIP_AXIS_Y):
+                writefloat(out, float(normal.x))
+                writefloat(out, float(normal.z))
+                writefloat(out, float(normal.y))
+            else:			
+                writefloat(out, float(normal.x))
+                writefloat(out, float(normal.y))
+                writefloat(out, float(normal.z))
             #print("Normal:", normal.x, normal.y, normal.z)			
 
 			
