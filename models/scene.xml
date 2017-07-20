@@ -1,0 +1,18 @@
+<scene name="">
+  <camera>
+    <node></node>
+  </camera>
+  <lights>
+    <light>
+	  <node></node>
+	</light>
+  </lights>
+  <nodes>
+    <node>
+      <translation x=0 y=0 z=0 />
+      <rotation x=0 y=0 z=0 w=0 />
+      <scale x=0 y=0 z=0 />
+      <node></node>
+    </node>
+  </nodes>
+</scene>
