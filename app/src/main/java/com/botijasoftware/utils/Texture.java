@@ -1,33 +1,33 @@
 package com.botijasoftware.utils;
 
 public class Texture {
-	
+
 	public Texture(int id, int w, int h) {
 		mID = id;
 		width = w;
 		height = h;
 		textCoords = new TextureCoords();
 	}
-	
+
 	public Texture(int id, int w, int h, TextureCoords tc) {
 		mID = id;
 		width = w;
 		height = h;
-		textCoords = tc;		
+		textCoords = tc;
 	}
-	
+
 	public int getID() {
 		return mID;
 	}
-	
+
 	public int getWidth() {
 		return width;
 	}
-	
+
 	public int getHeight() {
 		return height;
 	}
-	
+
 	public TextureCoords getTextureCoords() {
 		return textCoords;
 	}
@@ -59,7 +59,7 @@ public class Texture {
     public int getReferenceCount() {
         return refcount;
     }
-		
+
 	protected int mID;
 	protected int width;
 	protected int height;
