@@ -158,7 +158,7 @@ class SpriteBatch @JvmOverloads constructor(nsprites: Int = MAXSPRITES) : Render
     private fun drawVB() {
         //GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexture.getID() );
         //Renderer.BindTexture(Renderer.TEXTURE0, mTexture.getID());
-        Renderer.BindTexture(Renderer.TEXTURE0, mTexture!!.id)
+        Renderer.BindTexture(Renderer.TEXTURE0, mTexture.id)
 
         Renderer.pushModelViewMatrix()
         Renderer.modelview.loadIdentity()

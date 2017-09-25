@@ -130,7 +130,18 @@ class MainScreen(screenManager: ScreenManagerVR) : ScreenVR(screenManager) {
             node.setRotation(0.0f, 0.0f, 0.0f)
             node.setScale(2.0f, 2.0f, 2.0f)
 
-            //mainScene.getRoot().addNode(node);
+            //mainScene.root.addNode(node);
+
+            //var nd:SceneNode
+            for (i in 0..100) {
+                var nd = SceneNode("model"+i, model2)
+                nd.setPosition(Math.random().toFloat() * 100.0f - 50.0f, Math.random().toFloat() * 50.0f, Math.random().toFloat() * 100.0f - 50.0f)
+                nd.setRotation(0.0f, 0.0f, 0.0f)
+                nd.setScale(2.0f, 2.0f, 2.0f)
+                mainScene.root.addNode(nd)
+            }
+
+
 
             shader = ShaderProgram(R.raw.shader_vs, R.raw.shader_ps)
             shader.LoadContent(mResourceManager)

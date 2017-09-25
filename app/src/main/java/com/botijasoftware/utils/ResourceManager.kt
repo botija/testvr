@@ -350,7 +350,7 @@ class ResourceManager(val context: Context) {
         val textureid = ByteBuffer.allocateDirect(4 * size).order(ByteOrder.nativeOrder()).asIntBuffer()
 
         for (i in 0..size - 1) {
-            val t = tex[i] as Texture
+            val t = tex[i]
             textureid.put(i, t.id)
         }
         GLES20.glDeleteTextures(size, textureid)

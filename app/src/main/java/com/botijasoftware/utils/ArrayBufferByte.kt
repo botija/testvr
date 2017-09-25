@@ -4,14 +4,9 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 class ArrayBufferByte(vbdefinition: VertexBufferDefinition, maxelements: Int) : ArrayBuffer(vbdefinition, maxelements) {
-    override val buffer: ByteBuffer
-
-    init {
-
-        buffer = ByteBuffer.allocateDirect(
-                vbdefinition.dataSize * vbdefinition.mSize * maxelements)
-                .order(ByteOrder.nativeOrder())
-    }
+    override val buffer: ByteBuffer = ByteBuffer.allocateDirect(
+            vbdefinition.dataSize * vbdefinition.mSize * maxelements)
+            .order(ByteOrder.nativeOrder())
 
     override fun put(index: Int, value: Byte) {
         buffer.put(index, value)
