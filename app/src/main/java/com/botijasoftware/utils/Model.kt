@@ -103,7 +103,7 @@ class Model {
                 val texture = resources.loadTexture(drawableid, TextureOptions.trilinear_repeat)
 
 
-                if (nvertex > 0 && nvertex < 65536 && nindex > 0 && nindex < 65536) {
+                if (nvertex in 1..65535 && nindex  in 1..65535) {
                     val vbd = VertexBufferDeclaration()
                     vbd.add(VertexBufferDefinition(VertexBufferDefinition.FLOAT, VertexBufferDefinition.DEF_VERTEX, 3, VertexBufferDefinition.ACCESS_DYNAMIC))
                     vbd.add(VertexBufferDefinition(VertexBufferDefinition.FLOAT, VertexBufferDefinition.DEF_TEXTURE_COORD, 2, VertexBufferDefinition.ACCESS_DYNAMIC))
