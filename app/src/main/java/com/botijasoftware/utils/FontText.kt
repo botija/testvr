@@ -43,7 +43,7 @@ class FontText(private val mFont: Font) {
         if (color != null)
             tmpSprite.setColor(color)
 
-        var ascii = 0
+        var ascii: Int
 
         for (i in 0..textLen - 1) {
 

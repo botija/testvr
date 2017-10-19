@@ -101,9 +101,9 @@ class Camera(private var mViewport: Viewport, var eye: Vector3, private var mLoo
     }
 
     fun unproject(x: Float, y: Float, z: Float): Vector3 {
-        var x = x
-        var y = y
-        var z = z
+        var nx = x
+        var ny = y
+        var nz = z
 
         GLU.gluUnProject(x, y, 0f, mvMatrix.matrix, 0, pMatrix.matrix, 0,
                 viewport, 0, znear, 0)
@@ -124,11 +124,11 @@ class Camera(private var mViewport: Viewport, var eye: Vector3, private var mLoo
 
         val t = (znear[2] - z) / (znear[2] - zfar[2])
 
-        x = znear[0] + (zfar[0] - znear[0]) * t
-        y = znear[1] + (zfar[1] - znear[1]) * t
-        z = znear[2] + (zfar[2] - znear[2]) * t
+        nx = znear[0] + (zfar[0] - znear[0]) * t
+        ny = znear[1] + (zfar[1] - znear[1]) * t
+        nz = znear[2] + (zfar[2] - znear[2]) * t
 
-        return Vector3(x, y, z)
+        return Vector3(nx, ny, nz)
     }
 
     fun getUnprojectRay(x: Float, y: Float): Ray {

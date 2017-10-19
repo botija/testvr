@@ -66,20 +66,22 @@ class LRSAnimation @JvmOverloads constructor(private val mLoop: Boolean = false)
         fun interpolate(start: LRSAnimationFrame, interpolated: LRSAnimationFrame?, time: Float) {
             val ratio = time / mTime
             val one_minus_ratio = 1.0f - ratio
+            if (interpolated != null) {
 
-            interpolated.mTrans.X = mTrans.X * one_minus_ratio + start.mTrans.X * ratio
-            interpolated.mTrans.X = mTrans.Y * one_minus_ratio + start.mTrans.Y * ratio
-            interpolated.mTrans.X = mTrans.Z * one_minus_ratio + start.mTrans.Z * ratio
+                interpolated.mTrans.X = mTrans.X * one_minus_ratio + start.mTrans.X * ratio
+                interpolated.mTrans.X = mTrans.Y * one_minus_ratio + start.mTrans.Y * ratio
+                interpolated.mTrans.X = mTrans.Z * one_minus_ratio + start.mTrans.Z * ratio
 
-            interpolated.mScale.X = mScale.X * one_minus_ratio + start.mScale.X * ratio
-            interpolated.mScale.X = mScale.Y * one_minus_ratio + start.mScale.Y * ratio
-            interpolated.mScale.X = mScale.Z * one_minus_ratio + start.mScale.Z * ratio
+                interpolated.mScale.X = mScale.X * one_minus_ratio + start.mScale.X * ratio
+                interpolated.mScale.X = mScale.Y * one_minus_ratio + start.mScale.Y * ratio
+                interpolated.mScale.X = mScale.Z * one_minus_ratio + start.mScale.Z * ratio
 
-            interpolated.mRotCenter.X = mRotCenter.X * one_minus_ratio + start.mRotCenter.X * ratio
-            interpolated.mRotCenter.X = mRotCenter.Y * one_minus_ratio + start.mRotCenter.Y * ratio
-            interpolated.mRotCenter.X = mRotCenter.Z * one_minus_ratio + start.mRotCenter.Z * ratio
+                interpolated.mRotCenter.X = mRotCenter.X * one_minus_ratio + start.mRotCenter.X * ratio
+                interpolated.mRotCenter.X = mRotCenter.Y * one_minus_ratio + start.mRotCenter.Y * ratio
+                interpolated.mRotCenter.X = mRotCenter.Z * one_minus_ratio + start.mRotCenter.Z * ratio
 
-            interpolated.mRotation = start.mRotation.slerp(mRotation, ratio)
+                interpolated.mRotation = start.mRotation.slerp(mRotation, ratio)
+            }
 
 
         }

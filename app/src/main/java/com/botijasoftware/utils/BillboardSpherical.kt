@@ -4,9 +4,9 @@ import com.botijasoftware.utils.renderer.Renderer
 
 class BillboardSpherical : Billboard {
 
-    constructor(texture: Texture, position: Vector3, size: Vector2) : super(texture, position, size, false) {}
+    constructor(texture: Texture, position: Vector3, size: Vector2) : super(texture, position, size, false)
 
-    constructor(texture: Texture, position: Vector3, size: Vector2, flip: Boolean) : super(texture, position, size, flip) {}
+    constructor(texture: Texture, position: Vector3, size: Vector2, flip: Boolean) : super(texture, position, size, flip)
 
     override fun Update(time: Float) {
         // TODO Auto-generated method stub

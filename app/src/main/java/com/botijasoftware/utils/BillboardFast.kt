@@ -4,9 +4,9 @@ import com.botijasoftware.utils.renderer.Renderer
 
 class BillboardFast : Billboard {
 
-    constructor(texture: Texture, position: Vector3, size: Vector2) : super(texture, position, size, false) {}
+    constructor(texture: Texture, position: Vector3, size: Vector2) : super(texture, position, size, false)
 
-    constructor(texture: Texture, position: Vector3, size: Vector2, flip: Boolean) : super(texture, position, size, flip) {}
+    constructor(texture: Texture, position: Vector3, size: Vector2, flip: Boolean) : super(texture, position, size, flip)
 
     override fun Transform() {
 

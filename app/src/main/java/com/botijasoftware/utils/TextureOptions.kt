@@ -5,7 +5,7 @@ import android.opengl.GLES20
 class TextureOptions {
 
 
-    constructor(min: Int, max: Int, s: Int, t: Int) : this(true, min, max, s, t) {}
+    constructor(min: Int, max: Int, s: Int, t: Int) : this(true, min, max, s, t)
 
     constructor(usemipmap: Boolean, min: Int, max: Int, s: Int, t: Int) {
         mipmap = usemipmap

@@ -108,7 +108,7 @@ open class Billboard @JvmOverloads constructor(var mTexture: Texture, var positi
     fun setTexture(texture: Texture, flip: Boolean) {
 
         this.flip = flip
-        setTexture(mTexture)
+        setTexture(texture)
     }
 
     fun setSize(x: Float, y: Float) {

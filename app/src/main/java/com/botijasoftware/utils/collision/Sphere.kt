@@ -32,6 +32,7 @@ class Sphere {
     fun setPosition(x: Float, y: Float, z: Float) {
         X = x
         Y = y
+        Z = z
     }
 
     fun setPosition(v: Vector3) {

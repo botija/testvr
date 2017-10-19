@@ -2,9 +2,7 @@ package com.botijasoftware.utils
 
 class TextureCoords {
 
-    constructor() {
-
-    }
+    constructor()
 
     constructor(S0: Float, T0: Float, S1: Float, T1: Float) {
         s0 = S0

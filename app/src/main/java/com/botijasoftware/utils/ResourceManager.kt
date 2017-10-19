@@ -171,32 +171,32 @@ class ResourceManager(val context: Context) {
     }
 
     fun loadTextureFromBitmap(bmp: Bitmap, options: TextureOptions): Texture {
-        var bmp = bmp
+        var nbmp = bmp
 
         GLES20.glGenTextures(1, glTextureID, 0)
         val id = glTextureID[0]
 
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, id)
 
-        val width = bmp.width
-        val height = bmp.height
+        val width = nbmp.width
+        val height = nbmp.height
 
         options.apply()
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0)
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, nbmp, 0)
 
         if (options.mipmap) {
 
-            var bmp2 = Bitmap.createScaledBitmap(bmp, width shr 1, height shr 1, true)
+            var bmp2 = Bitmap.createScaledBitmap(nbmp, width shr 1, height shr 1, true)
             //bmp.recycle();
-            bmp = bmp2
+            nbmp = bmp2
 
             // Generate, and load up all of the mipmaps:
             var level = 1
-            var h = bmp.height
-            var w = bmp.width
+            var h = nbmp.height
+            var w = nbmp.width
             while (true) {
                 // Push the bitmap onto the GPU:
-                GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, level, bmp, 0)
+                GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, level, nbmp, 0)
 
                 // We need to stop when the texture is 1x1:
                 if (h == 1 && w == 1) break
@@ -207,9 +207,9 @@ class ResourceManager(val context: Context) {
                 if (w < 1) w = 1
                 if (h < 1) h = 1
 
-                bmp2 = Bitmap.createScaledBitmap(bmp, w, h, true)
-                bmp.recycle()
-                bmp = bmp2
+                bmp2 = Bitmap.createScaledBitmap(nbmp, w, h, true)
+                nbmp.recycle()
+                nbmp = bmp2
                 level++
             }
             bmp.recycle()
@@ -299,13 +299,13 @@ class ResourceManager(val context: Context) {
         val id = context.resources.getIdentifier(filename, "drawable", context.packageName)
         if (id == 0)
             return null
-        val `is` = context.resources.openRawResource(id)
-        var bmp: Bitmap? = null
+        val inputstream = context.resources.openRawResource(id)
+        var bmp: Bitmap?
         try {
-            bmp = BitmapFactory.decodeStream(`is`)
+            bmp = BitmapFactory.decodeStream(inputstream)
         } finally {
             try {
-                `is`.close()
+                inputstream.close()
             } catch (e: IOException) {
                 e.printStackTrace()
             }

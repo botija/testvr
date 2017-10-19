@@ -20,15 +20,15 @@ open class Sprite(var mRectangle: Rectanglef, texture: Texture, var scalex: Floa
 
     }
 
-    @JvmOverloads constructor(rectangle: Rectanglef, texture: Texture, scale: Float, rotation: Float = 0.0f, color: ColorRGBAb = ColorRGBAb(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()), flip: Boolean = false) : this(rectangle, texture, scale, scale, rotation, color, flip) {}
+    @JvmOverloads constructor(rectangle: Rectanglef, texture: Texture, scale: Float, rotation: Float = 0.0f, color: ColorRGBAb = ColorRGBAb(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()), flip: Boolean = false) : this(rectangle, texture, scale, scale, rotation, color, flip)
 
-    constructor(rectangle: Rectanglef, texture: Texture) : this(rectangle, texture, 1.0f, 0.0f, ColorRGBAb(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()), false) {}
+    constructor(rectangle: Rectanglef, texture: Texture) : this(rectangle, texture, 1.0f, 0.0f, ColorRGBAb(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()), false)
 
-    constructor(rectangle: Rectanglef, texture: Texture, flip: Boolean) : this(rectangle, texture, 1.0f, 0.0f, ColorRGBAb(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()), flip) {}
+    constructor(rectangle: Rectanglef, texture: Texture, flip: Boolean) : this(rectangle, texture, 1.0f, 0.0f, ColorRGBAb(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()), flip)
 
-    constructor(rectangle: Rectanglef, texture: Texture, color: ColorRGBAb) : this(rectangle, texture, 1.0f, 0.0f, color, false) {}
+    constructor(rectangle: Rectanglef, texture: Texture, color: ColorRGBAb) : this(rectangle, texture, 1.0f, 0.0f, color, false)
 
-    constructor(rectangle: Rectanglef, texture: Texture, scale: Float, rotation: Float, flip: Boolean) : this(rectangle, texture, scale, rotation, ColorRGBAb(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()), flip) {}
+    constructor(rectangle: Rectanglef, texture: Texture, scale: Float, rotation: Float, flip: Boolean) : this(rectangle, texture, scale, rotation, ColorRGBAb(255.toByte(), 255.toByte(), 255.toByte(), 255.toByte()), flip)
 
     fun setTexture(texture: Texture, flip: Boolean) {
 
