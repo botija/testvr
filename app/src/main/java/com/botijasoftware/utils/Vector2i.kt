@@ -3,13 +3,13 @@ package com.botijasoftware.utils
 class Vector2i {
 
     constructor() {
+        X = 0
         Y = 0
-        X = Y
     }
 
-    constructor(`val`: Int) {
-        X = `val`
-        Y = `val`
+    constructor(value: Int) {
+        X = value
+        Y = value
     }
 
     constructor(valx: Int, valy: Int) {
@@ -17,9 +17,9 @@ class Vector2i {
         Y = valy
     }
 
-    fun setValue(`val`: Int) {
-        X = `val`
-        Y = `val`
+    fun setValue(value: Int) {
+        X = value
+        Y = value
     }
 
     fun setValue(valx: Int, valy: Int) {
@@ -51,9 +51,9 @@ class Vector2i {
         return this
     }
 
-    fun add(`val`: Int): Vector2i {
-        X += `val`
-        Y += `val`
+    fun add(value: Int): Vector2i {
+        X += value
+        Y += value
         return this
     }
 
@@ -63,9 +63,9 @@ class Vector2i {
         return this
     }
 
-    fun sub(`val`: Int): Vector2i {
-        X -= `val`
-        Y -= `val`
+    fun sub(value: Int): Vector2i {
+        X -= value
+        Y -= value
         return this
     }
 
@@ -75,23 +75,23 @@ class Vector2i {
         return this
     }
 
-    fun mul(`val`: Int): Vector2i {
-        X *= `val`
-        Y *= `val`
+    fun mul(value: Int): Vector2i {
+        X *= value
+        Y *= value
         return this
     }
 
     operator fun div(v: Vector2i): Vector2i {
-        if (v.X.toFloat() != 0.0f && v.Y.toFloat() != 0.0f) {
+        if (v.X != 0 && v.Y != 0) {
             X /= v.X
             Y /= v.Y
         }
         return this
     }
 
-    operator fun div(`val`: Int): Vector2i {
-        if (`val`.toFloat() != 0.0f) {
-            val inv = 1.0f / `val`
+    operator fun div(value: Int): Vector2i {
+        if (value != 0) {
+            val inv = 1.0f / value
             X = (X * inv).toInt()
             Y = (Y * inv).toInt()
         }
@@ -109,8 +109,8 @@ class Vector2i {
     val isZero: Boolean
         get() = X == 0 && Y == 0
 
-    fun equals(`val`: Int): Boolean {
-        return X == `val` && Y == `val`
+    fun equals(value: Int): Boolean {
+        return X == value && Y == value
     }
 
     fun equals(v: Vector2i): Boolean {

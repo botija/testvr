@@ -31,14 +31,6 @@ class BillboardGroup @JvmOverloads constructor(private val camera: Camera, sort:
 
     }
 
-    override fun scale(x: Float, y: Float) {
-
-    }
-
-    override fun move(x: Float, y: Float) {
-
-    }
-
 
     override fun Draw() {
 

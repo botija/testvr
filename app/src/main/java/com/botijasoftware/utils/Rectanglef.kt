@@ -107,9 +107,9 @@ class Rectanglef {
         return Rectanglef(X, Y, width, height)
     }
 
-    var X: Float = 0.toFloat() //top left
-    var Y: Float = 0.toFloat()
-    var width: Float = 0.toFloat()
-    var height: Float = 0.toFloat()
+    var X: Float = 0.0f //top left
+    var Y: Float = 00f
+    var width: Float = 0.0f
+    var height: Float = 0.0f
 
 }

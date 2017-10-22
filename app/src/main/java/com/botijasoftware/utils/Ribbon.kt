@@ -80,14 +80,6 @@ class Ribbon(private val maxSegments: Int, private val texture: Texture) : Rende
         Renderer.ibManager.freeIB(mIndexBuffer!!)
     }
 
-    override fun scale(x: Float, y: Float) {
-
-    }
-
-    override fun move(x: Float, y: Float) {
-
-    }
-
 
     private fun recalcVertexBuffer() {
 

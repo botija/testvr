@@ -101,9 +101,9 @@ class Camera(private var mViewport: Viewport, var eye: Vector3, private var mLoo
     }
 
     fun unproject(x: Float, y: Float, z: Float): Vector3 {
-        var nx = x
-        var ny = y
-        var nz = z
+        var nx: Float
+        var ny: Float
+        var nz: Float
 
         GLU.gluUnProject(x, y, 0f, mvMatrix.matrix, 0, pMatrix.matrix, 0,
                 viewport, 0, znear, 0)

@@ -28,14 +28,6 @@ class SceneNode(private val name: String, val model: Model?) : Renderable {
         }
     }
 
-    override fun scale(x: Float, y: Float) {
-
-    }
-
-    override fun move(x: Float, y: Float) {
-
-    }
-
     fun setScale(x: Float, y: Float, z: Float) {
         transform.scale.setValue(x, y, z)
     }

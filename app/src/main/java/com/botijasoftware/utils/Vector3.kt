@@ -8,10 +8,10 @@ class Vector3 {
         X = Y
     }
 
-    constructor(`val`: Float) {
-        X = `val`
-        Y = `val`
-        Z = `val`
+    constructor(value: Float) {
+        X = value
+        Y = value
+        Z = value
     }
 
     constructor(valx: Float, valy: Float, valz: Float) {
@@ -20,10 +20,10 @@ class Vector3 {
         Z = valz
     }
 
-    fun setValue(`val`: Float) {
-        X = `val`
-        Y = `val`
-        Z = `val`
+    fun setValue(value: Float) {
+        X = value
+        Y = value
+        Z = value
     }
 
     fun setValue(valx: Float, valy: Float, valz: Float) {
@@ -59,10 +59,10 @@ class Vector3 {
         return this
     }
 
-    fun add(`val`: Float): Vector3 {
-        X += `val`
-        Y += `val`
-        Z += `val`
+    fun add(value: Float): Vector3 {
+        X += value
+        Y += value
+        Z += value
         return this
     }
 
@@ -73,10 +73,10 @@ class Vector3 {
         return this
     }
 
-    fun sub(`val`: Float): Vector3 {
-        X -= `val`
-        Y -= `val`
-        Z -= `val`
+    fun sub(value: Float): Vector3 {
+        X -= value
+        Y -= value
+        Z -= value
         return this
     }
 
@@ -87,10 +87,10 @@ class Vector3 {
         return this
     }
 
-    fun mul(`val`: Float): Vector3 {
-        X *= `val`
-        Y *= `val`
-        Z *= `val`
+    fun mul(value: Float): Vector3 {
+        X *= value
+        Y *= value
+        Z *= value
         return this
     }
 
@@ -103,9 +103,9 @@ class Vector3 {
         return this
     }
 
-    operator fun div(`val`: Float): Vector3 {
-        if (`val` != 0.0f) {
-            val inv = 1.0f / `val`
+    operator fun div(value: Float): Vector3 {
+        if (value != 0.0f) {
+            val inv = 1.0f / value
             X *= inv
             Y *= inv
             Z *= inv
@@ -188,9 +188,9 @@ class Vector3 {
         return this
     }
 
-    var X: Float = 0.toFloat()
-    var Y: Float = 0.toFloat()
-    var Z: Float = 0.toFloat()
+    var X: Float = 0.0f
+    var Y: Float = 0.0f
+    var Z: Float = 0.0f
 
     companion object {
 

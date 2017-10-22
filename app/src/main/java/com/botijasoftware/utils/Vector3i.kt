@@ -8,10 +8,10 @@ class Vector3i {
         X = Y
     }
 
-    constructor(`val`: Int) {
-        X = `val`
-        Y = `val`
-        Z = `val`
+    constructor(value: Int) {
+        X = value
+        Y = value
+        Z = value
     }
 
     constructor(valx: Int, valy: Int, valz: Int) {
@@ -20,10 +20,10 @@ class Vector3i {
         Z = valz
     }
 
-    fun setValue(`val`: Int) {
-        X = `val`
-        Y = `val`
-        Z = `val`
+    fun setValue(value: Int) {
+        X = value
+        Y = value
+        Z = value
     }
 
     fun setValue(valx: Int, valy: Int, valz: Int) {
@@ -59,10 +59,10 @@ class Vector3i {
         return this
     }
 
-    fun add(`val`: Int): Vector3i {
-        X += `val`
-        Y += `val`
-        Z += `val`
+    fun add(value: Int): Vector3i {
+        X += value
+        Y += value
+        Z += value
         return this
     }
 
@@ -73,10 +73,10 @@ class Vector3i {
         return this
     }
 
-    fun sub(`val`: Int): Vector3i {
-        X -= `val`
-        Y -= `val`
-        Z -= `val`
+    fun sub(value: Int): Vector3i {
+        X -= value
+        Y -= value
+        Z -= value
         return this
     }
 
@@ -87,15 +87,15 @@ class Vector3i {
         return this
     }
 
-    fun mul(`val`: Int): Vector3i {
-        X *= `val`
-        Y *= `val`
-        Z *= `val`
+    fun mul(value: Int): Vector3i {
+        X *= value
+        Y *= value
+        Z *= value
         return this
     }
 
     operator fun div(v: Vector3i): Vector3i {
-        if (v.X.toFloat() != 0.0f && v.Y.toFloat() != 0.0f && v.Z.toFloat() != 0.0f) {
+        if (v.X != 0 && v.Y != 0 && v.Z != 0) {
             X /= X / v.X
             Y /= Y / v.X
             Z /= Z / v.X
@@ -103,9 +103,9 @@ class Vector3i {
         return this
     }
 
-    operator fun div(`val`: Int): Vector3i {
-        if (`val`.toFloat() != 0.0f) {
-            val inv = 1.0f / `val`
+    operator fun div(value: Int): Vector3i {
+        if (value != 0) {
+            val inv = 1.0f / value
             X = (X * inv).toInt()
             Y = (Y * inv).toInt()
             Z = (Z * inv).toInt()
@@ -124,8 +124,8 @@ class Vector3i {
     val isZero: Boolean
         get() = X == 0 && Y == 0 && Z == 0
 
-    fun equals(`val`: Int): Boolean {
-        return X == `val` && Y == `val` && Z == `val`
+    fun equals(value: Int): Boolean {
+        return X == value && Y == value && Z == value
     }
 
     fun equals(v: Vector3i): Boolean {
@@ -145,12 +145,12 @@ class Vector3i {
     }
 
     fun cross(v: Vector3i): Vector3i {
-        val nx = (Y * v.Z - Z * v.Y).toFloat()
-        val ny = (Z * v.X - X * v.Z).toFloat()
-        val nz = (X * v.Y - Y * v.X).toFloat()
-        X = nx.toInt()
-        Y = ny.toInt()
-        Z = nz.toInt()
+        val nx = (Y * v.Z - Z * v.Y)
+        val ny = (Z * v.X - X * v.Z)
+        val nz = (X * v.Y - Y * v.X)
+        X = nx
+        Y = ny
+        Z = nz
         return this
     }
 

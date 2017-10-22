@@ -6,87 +6,57 @@ import android.opengl.GLES10
 
 class Light(private val mLightID: Int) {
 
-    private val mPosition: FloatArray
-    private val mAmbient: FloatArray
-    private val mDifuse: FloatArray
-    private val mSpecular: FloatArray
+    private val mPosition: Vector3 = Vector3(0.0f)
+    private val mDirection: Vector3 = Vector3(0.0f)
+    private val mAmbient: ColorRGBA = ColorRGBA(0.0f, 0.0f, 0.0f, 1.0f)
+    private val mDifuse: ColorRGBA = ColorRGBA(0.0f, 0.0f, 0.0f, 1.0f)
+    private val mSpecular: ColorRGBA = ColorRGBA(0.0f, 0.0f, 0.0f, 1.0f)
     private var mLinearAttenuation: Float = 0.0f
     private var mConstantAttenuation: Float = 0.0f
     private var mQuadricAttenuation: Float = 0.0f
+    private var mEnabled: Boolean = true
 
-    init {
-        mPosition = FloatArray(4)
-        mAmbient = FloatArray(4)
-        mDifuse = FloatArray(4)
-        mSpecular = FloatArray(4)
+
+    fun enable() {
+        mEnabled = true
     }
 
-    fun enable(gl: GL10) {
-        GLES10.glEnable(mLightID)
+    fun disable() {
+        mEnabled = false
     }
 
-    fun disable(gl: GL10) {
-        GLES10.glDisable(mLightID)
+    fun setAmbient(color: ColorRGBA ) {
+        mAmbient.setValue(color.R, color.G, color.B, color.A)
     }
 
-    fun setAmbient(gl: GL10, r: Float, g: Float, b: Float, a: Float) {
-        mAmbient[0] = r
-        mAmbient[1] = g
-        mAmbient[2] = b
-        mAmbient[3] = a
+    fun setSpecular(color: ColorRGBA ) {
+        mSpecular.setValue(color.R, color.G, color.B, color.A)
 
-        GLES10.glLightfv(mLightID, GLES10.GL_AMBIENT, mAmbient, 0)
     }
 
-    fun setSpecular(gl: GL10, r: Float, g: Float, b: Float, a: Float) {
-        mSpecular[0] = r
-        mSpecular[1] = g
-        mSpecular[2] = b
-        mSpecular[3] = a
+    fun setDifuse(color: ColorRGBA ) {
+        mDifuse.setValue(color.R, color.G, color.B, color.A)
 
-        GLES10.glLightfv(mLightID, GLES10.GL_SPECULAR, mSpecular, 0)
     }
 
-    fun setDifuse(gl: GL10, r: Float, g: Float, b: Float, a: Float) {
-        mDifuse[0] = r
-        mDifuse[1] = g
-        mDifuse[2] = b
-        mDifuse[3] = a
-
-        GLES10.glLightfv(mLightID, GLES10.GL_DIFFUSE, mDifuse, 0)
+    fun setPosition(position: Vector3) {
+        mPosition.setValue(position)
     }
 
-    fun setPosition(gl: GL10, x: Float, y: Float, z: Float) {
-        mPosition[0] = x
-        mPosition[1] = y
-        mPosition[2] = z
-        mPosition[3] = 0.0f
-
-        GLES10.glLightfv(mLightID, GLES10.GL_POSITION, mPosition, 0)
+    fun setDirection(direction: Vector3) {
+        mDirection.setValue(direction)
     }
 
-    fun setDirection(gl: GL10, x: Float, y: Float, z: Float) {
-        mPosition[0] = x
-        mPosition[1] = y
-        mPosition[2] = z
-        mPosition[3] = 1.0f
-
-        GLES10.glLightfv(mLightID, GLES10.GL_POSITION, mPosition, 0)
-    }
-
-    fun setLConstantAttenuation(gl: GL10, attenuation: Float) {
+    fun setLConstantAttenuation(attenuation: Float) {
         mConstantAttenuation = attenuation
-        GLES10.glLightf(mLightID, GLES10.GL_CONSTANT_ATTENUATION, mConstantAttenuation)
     }
 
-    fun setLinearAttenuation(gl: GL10, attenuation: Float) {
+    fun setLinearAttenuation(attenuation: Float) {
         mLinearAttenuation = attenuation
-        GLES10.glLightf(mLightID, GLES10.GL_LINEAR_ATTENUATION, mLinearAttenuation)
     }
 
-    fun setQuadraticAttenuation(gl: GL10, attenuation: Float) {
+    fun setQuadraticAttenuation(attenuation: Float) {
         mQuadricAttenuation = attenuation
-        GLES10.glLightf(mLightID, GLES10.GL_QUADRATIC_ATTENUATION, mQuadricAttenuation)
     }
 
 }

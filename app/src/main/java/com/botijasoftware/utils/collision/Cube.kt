@@ -69,17 +69,17 @@ class Cube {
     }
 
     fun setCenter(x: Float, y: Float, z: Float) {
-        X = x - width / 2
-        Y = y + height / 2
-        Z = z + depth / 2
+        X = x - width / 2.0f
+        Y = y + height / 2.0f
+        Z = z + depth / 2.0f
     }
 
     var center: Vector3
         get() = Vector3(X + width / 2.0f, Y - height / 2.0f, Z - depth / 2.0f)
         set(v) {
-            X = v.X - width / 2
-            Y = v.Y + height / 2
-            Z = v.Z + depth / 2
+            X = v.X - width / 2.0f
+            Y = v.Y + height / 2.0f
+            Z = v.Z + depth / 2.0f
         }
 
 

@@ -4,9 +4,9 @@ class ColorRGBAb {
 
     constructor() {
         A = 0
-        B = A
-        G = B
-        R = G
+        B = 0
+        G = 0
+        R = 0
     }
 
     constructor(c: Byte) {

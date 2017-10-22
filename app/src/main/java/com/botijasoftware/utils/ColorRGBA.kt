@@ -4,9 +4,9 @@ class ColorRGBA {
 
     constructor() {
         A = 0.0f
-        B = A
-        G = B
-        R = G
+        B = 0.0f
+        G = 0.0f
+        R = 0.0f
     }
 
     constructor(c: Float) {
@@ -58,10 +58,10 @@ class ColorRGBA {
         }
     }
 
-    var R: Float = 0.toFloat()
-    var G: Float = 0.toFloat()
-    var B: Float = 0.toFloat()
-    var A: Float = 0.toFloat()
+    var R: Float = 0.0f
+    var G: Float = 0.0f
+    var B: Float = 0.0f
+    var A: Float = 0.0f
 
     companion object {
 

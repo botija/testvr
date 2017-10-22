@@ -93,9 +93,6 @@ class SkyBox(private val position: Vector3, private val size: Float, texture: Te
 
     }
 
-    override fun move(x: Float, y: Float) {}
-
-    override fun scale(x: Float, y: Float) {}
 
     override fun freeContent(resources: ResourceManager) {
         // TODO Auto-generated method stub

@@ -229,9 +229,6 @@ class SpriteBatch @JvmOverloads constructor(nsprites: Int = MAXSPRITES) : Render
         Renderer.ibManager.freeIB(mIndexBuffer)
     }
 
-    override fun move(x: Float, y: Float) {}
-
-    override fun scale(x: Float, y: Float) {}
 
     @JvmOverloads fun DrawText(font: Font, text: String, x: Float, y: Float, color: ColorRGBAb? = null) {
         val fontsize = font.fontSize.toFloat()

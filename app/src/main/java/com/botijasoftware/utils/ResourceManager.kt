@@ -237,8 +237,8 @@ class ResourceManager(val context: Context) {
         //GLES20.glTexGeni(GLES20.GL_TEXTURE_GEN_STR, GLES20.GL_TEXTURE_GEN_MODE, GLES20.GL_REFLECTION_MAP);
         //GLES20.glEnable(GLES20.GL_TEXTURE_GEN_STR);
 
-        var width = 0
-        var height = 0
+        var width: Int
+        var height: Int
 
         var bmp = getBitmap(basename + "_px")
         if (bmp != null) {

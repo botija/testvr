@@ -4,8 +4,8 @@ class ColorHSV {
 
     constructor() {
         V = 0.0f
-        S = V
-        H = S
+        S = 0.0f
+        H = 0.0f
     }
 
     constructor(c: Float) {
@@ -93,9 +93,9 @@ class ColorHSV {
         return ColorRGBb((rgb.R * 255).toByte(), (rgb.B * 255).toByte(), (rgb.B * 255).toByte())
     }
 
-    var H: Float = 0.toFloat()
-    var S: Float = 0.toFloat()
-    var V: Float = 0.toFloat()
+    var H: Float = 0.0f
+    var S: Float = 0.0f
+    var V: Float = 0.0f
 
     companion object {
 

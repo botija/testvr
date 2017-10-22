@@ -3,9 +3,9 @@ package com.botijasoftware.utils
 class Quaternion {
     constructor() {
         W = 0.0f
-        Z = W
-        Y = Z
-        X = Y
+        Z = 0.0f
+        Y = 0.0f
+        X = 0.0f
     }
 
     constructor(_x: Float, _y: Float, _z: Float) {

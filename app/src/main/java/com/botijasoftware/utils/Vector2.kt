@@ -3,13 +3,13 @@ package com.botijasoftware.utils
 class Vector2 {
 
     constructor() {
+        X = 0.0f
         Y = 0.0f
-        X = Y
     }
 
-    constructor(`val`: Float) {
-        X = `val`
-        Y = `val`
+    constructor(value: Float) {
+        X = value
+        Y = value
     }
 
     constructor(valx: Float, valy: Float) {
@@ -17,9 +17,9 @@ class Vector2 {
         Y = valy
     }
 
-    fun setValue(`val`: Float) {
-        X = `val`
-        Y = `val`
+    fun setValue(value: Float) {
+        X = value
+        Y = value
     }
 
     fun setValue(valx: Float, valy: Float) {
@@ -51,9 +51,9 @@ class Vector2 {
         return this
     }
 
-    fun add(`val`: Float): Vector2 {
-        X += `val`
-        Y += `val`
+    fun add(value: Float): Vector2 {
+        X += value
+        Y += value
         return this
     }
 
@@ -63,9 +63,9 @@ class Vector2 {
         return this
     }
 
-    fun sub(`val`: Float): Vector2 {
-        X -= `val`
-        Y -= `val`
+    fun sub(value: Float): Vector2 {
+        X -= value
+        Y -= value
         return this
     }
 
@@ -75,9 +75,9 @@ class Vector2 {
         return this
     }
 
-    fun mul(`val`: Float): Vector2 {
-        X *= `val`
-        Y *= `val`
+    fun mul(value: Float): Vector2 {
+        X *= value
+        Y *= value
         return this
     }
 
@@ -89,9 +89,9 @@ class Vector2 {
         return this
     }
 
-    operator fun div(`val`: Float): Vector2 {
-        if (`val` != 0.0f) {
-            val inv = 1.0f / `val`
+    operator fun div(value: Float): Vector2 {
+        if (value != 0.0f) {
+            val inv = 1.0f / value
             X *= inv
             Y *= inv
         }
@@ -109,9 +109,9 @@ class Vector2 {
     val isZero: Boolean
         get() = X <= SIGMA && X >= -SIGMA && Y <= SIGMA && Y >= -SIGMA
 
-    fun equals(`val`: Float): Boolean {
-        val val_plus = `val` + SIGMA
-        val val_minus = `val` - SIGMA
+    fun equals(value: Float): Boolean {
+        val val_plus = value + SIGMA
+        val val_minus = value - SIGMA
         return X in val_minus..val_plus && Y <= val_plus && Y >= val_minus
     }
 
@@ -158,8 +158,8 @@ class Vector2 {
         return this
     }
 
-    var X: Float = 0.toFloat()
-    var Y: Float = 0.toFloat()
+    var X: Float = 0.0f
+    var Y: Float = 0.0f
 
     companion object {
 
