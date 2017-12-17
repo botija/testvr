@@ -14,8 +14,8 @@ class Particle {
     var rotationIncrease: Vector3
     var color: ColorRGBA
     var fadeRate: ColorRGBA
-    var ttl: Float = 0.toFloat()
-    var elapsedTime: Float = 0.toFloat()
+    var ttl: Float = 0.0f
+    var elapsedTime: Float = 0.0f
     var alive: Boolean = false
     var animation: ParticleAnimation
     var trailEmitter: ParticleEmitter? = null
